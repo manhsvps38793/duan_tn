@@ -1,0 +1,274 @@
+/* Reset và base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.6;
+}
+
+/* Container và layout */
+.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  gap: 40px;
+}
+
+.main-content {
+  flex: 3;
+  order: 1;
+}
+
+.sidebar {
+  flex: 1;
+  order: 2;
+}
+
+/* Section title */
+.section-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* News item */
+.news-item {
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.news-item img {
+  width: 250px;
+  height: 160px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 6px;
+  max-width: 100%;
+}
+
+.news-text {
+  flex: 1;
+  width: 100%;
+}
+.Search>form>.icon-search {
+  padding: 10px 10px 4px !important;
+}
+
+.news-text h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.read-more {
+  text-decoration: none;
+  font-size: 14px;
+  color: #444;
+}
+
+.read-more:hover {
+  color: #e67e22;
+}
+
+/* Sidebar */
+.sidebar h2 {
+  background-color: black;
+  color: #fff;
+  padding: 10px 15px;
+  margin-top: 0;
+  font-size: 18px;
+}
+
+/* Categories */
+.categories {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+.categories li {
+  position: relative;
+  padding: 10px 15px 10px 25px;
+  border-bottom: 1px solid #ccc;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+}
+
+.categories li::before {
+  content: "▶";
+  position: absolute;
+  left: 10px;
+  color: #555;
+  font-size: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.categories li:last-child {
+  border-bottom: none;
+}
+
+/* Recent posts */
+.recent-posts li {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.recent-posts img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.recent-posts p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.recent-posts span {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Latest images */
+.latest-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.img-box {
+  width: 60px;
+  height: 80px;
+  background: #999;
+}
+
+/* Tags */
+.tags span {
+  display: inline-block;
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin: 5px 5px 0 0;
+  font-size: 12px;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px;
+  }
+
+  .main-content,
+  .sidebar {
+    width: 100%;
+  }
+
+  .news-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .news-item img {
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .news-text h3 {
+    text-align: center;
+  }
+
+  .read-more {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .recent-posts li {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .recent-posts img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .recent-posts p {
+    font-size: 13px;
+  }
+
+  .recent-posts span {
+    font-size: 11px;
+  }
+
+  .categories li {
+    font-size: 14px;
+    padding: 8px 10px 8px 20px;
+  }
+
+  .categories li::before {
+    font-size: 8px;
+    left: 6px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 576px) {
+  .news-text h3 {
+    font-size: 16px;
+  }
+
+  .news-text p {
+    font-size: 14px;
+  }
+
+  .read-more {
+    font-size: 12px;
+  }
+
+  .sidebar h2 {
+    font-size: 16px;
+  }
+
+  .categories li {
+    font-size: 13px;
+  }
+
+  .recent-posts p {
+    font-size: 12px;
+  }
+
+  .tags span {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
