@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('voucher_id')->nullable()->constrained('vouchers')->onDelete('set null');
             $table->decimal('total_price', 12, 2);
-            $table->string('status'); // ví dụ: pending, shipped, delivered,...
-            $table->timestamp('canceled_at')->nullable();
+            $table->string('status');
             $table->timestamps();
             $table->softDeletes();
         });

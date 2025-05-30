@@ -17,10 +17,7 @@ return new class extends Migration
             $table->foreignId('size_id')->nullable()->constrained('sizes')->onDelete('set null');
             $table->foreignId('color_id')->nullable()->constrained('colors')->onDelete('set null');
             $table->integer('quantity')->default(0);
-            $table->string('sku')->unique()->nullable();
             $table->timestamps();
-
-            $table->unique(['product_id', 'size_id', 'color_id'], 'product_variant_unique');
         });
     }
 

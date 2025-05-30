@@ -16,10 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('voucher_id')->constrained('vouchers')->onDelete('cascade');
             $table->boolean('is_used')->default(false);
-            $table->timestamp('assigned_at');
-            $table->timestamp('used_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->tinyInteger('rating')->unsigned();
             $table->text('comment');
-            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }
