@@ -1,80 +1,81 @@
-        .about_hero {
-            background-image: url('./img/team.png');
-            background-size: cover;
-            background-position: center;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
-        }
+.about_hero {
+background-image: url('./img/team.png');
+background-size: cover;
+background-position: center;
+height: 200px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+}
 
-        .about_hero h1 {
-            font-size: 3rem;
-        }
+.about_hero h1 {
+font-size: 3rem;
+}
 
-        .about_sec {
-            max-width: 1250px;
-            margin: auto;
-            padding: 40px 20px;
-            background: #fff;
-            position: relative;
-            z-index: 1;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+.about_sec {
+max-width: 1250px;
+margin: auto;
+padding: 40px 20px;
+background: #fff;
+position: relative;
+z-index: 1;
+line-height: 1.6;
+background-color: #f9f9f9;
+color: #333;
+}
 
-        .about_sec h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.about_sec h2 {
+text-align: center;
+margin-bottom: 20px;
+}
 
-        .about_grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: space-around;
-            margin-top: 40px;
-        }
+.about_grid {
+display: flex;
+flex-wrap: wrap;
+gap: 30px;
+justify-content: space-around;
+margin-top: 40px;
+}
 
-        .about_card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            flex: 1 1 300px;
-            max-width: 32%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+.about_card {
+background: #fff;
+border-radius: 8px;
+padding: 20px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+flex: 1 1 300px;
+max-width: 32%;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
 
-        }
+}
 
-        .about_card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.about_card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .about_card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-        }
+.about_card:hover {
+transform: translateY(-10px);
+box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
 
-        .about_card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
+.about_card img {
+max-width: 100%;
+height: auto;
+border-radius: 8px;
+margin-bottom: 15px;
+}
 
-        @media (max-width: 768px) {
-            .about_card {
-                max-width: 100%;
-                transform: none;
-            }
-            .about_hero h1 {
-                font-size: 2rem;
-            }
-        }
+@media (max-width: 768px) {
+.about_card {
+    max-width: 100%;
+    transform: none;
+}
+
+.about_hero h1 {
+    font-size: 2rem;
+}
+}
