@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col l-3 c-0">
                     <div class="pruductall-danhmuc">
-                        <h2>Danh mục</h2>
+                        {{-- <h2>Danh mục</h2>
                         <div class="product-category-filter">
                             <label><input type="checkbox" name="checkbox-cate" value="ao_thun"> Áo Thun</label>
                             <label><input type="checkbox" name="checkbox-cate" value="ao_polo"> Áo Polo</label>
@@ -14,7 +14,69 @@
                             <label><input type="checkbox" name="checkbox-cate" value="ao_khoac" checked> Áo khoác</label>
                             <label><input type="checkbox" name="checkbox-cate" value="quan"> Quần</label>
                             <label><input type="checkbox" name="checkbox-cate" value="phu_kien"> Phụ kiện</label>
+                        </div> --}}
+
+                        <div class="filter">
+                            <div class="total-product">
+                                <p>LỌC THEO: </p>
+                                <p>
+                                <p class="total">300</p>
+                                sản PHẨM
+                                </p>
+                            </div>
+                            <div class="size-product">
+                                <h3>SIZE</h3>
+                                <label>
+                                    <input type="radio" name="single-select" class="custom-radio">
+                                    S
+                                </label>
+                                <label>
+                                    <input type="radio" name="single-select" class="custom-radio">
+                                    M
+                                </label>
+                                <label>
+                                    <input type="radio" name="single-select" class="custom-radio">
+                                    L
+                                </label>
+                                <label>
+                                    <input type="radio" name="single-select" class="custom-radio">
+                                    XL
+                                </label>
+
+                            </div>
+                            <div class="color-product">
+                                <h3>MÀU SẮC</h3>
+                                <div class="color-box">
+                                    <div class="color" style="background-color: #000;"></div>
+                                    <p>Đen</p>
+                                </div>
+                                <div class="color-box">
+                                    <div class="color" style="background-color: blue;"></div>
+                                    <p>Blue</p>
+                                </div>
+                            </div>
+                            <div class="price-product">
+                                <h3>GIÁ</h3>
+                                <label>
+                                    <input type="radio" name="select-price" class="custom-radio-price">
+                                    234đ-234đ
+                                </label>
+                                <label>
+                                    <input type="radio" name="select-price" class="custom-radio-price">
+                                    345345đ-4353543đ
+                                </label>
+                                <label>
+                                    <input type="radio" name="select-price" class="custom-radio-price">
+                                    34543đ-34534534đ
+                                </label>
+                                <label>
+                                    <input type="radio" name="select-price" class="custom-radio-price">
+                                    X34534534đ-345345đ
+                                </label>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
                 <style>
@@ -32,7 +94,7 @@
                             height: auto !important;
                         }
 
-                        .product-filter-bar-mobile > .product-filter-item-mobile{
+                        .product-filter-bar-mobile>.product-filter-item-mobile {
                             list-style: none;
                             width: auto;
                             border: 1px solid black;
@@ -43,6 +105,7 @@
                             text-align: center;
                             cursor: pointer;
                         }
+
                         .product-filter-item-mobile.active {
                             background: #000;
                             color: #fff;
@@ -68,19 +131,20 @@
                             <section class="product-thun">
                                 <div class="grid wide container">
                                     <style>
-                                        .product-sort-mobile{
+                                        .product-sort-mobile {
                                             display: flex;
                                             align-items: center;
                                             justify-content: space-between;
                                         }
-                                        .product-sort-mobile>.sort-item{
+
+                                        .product-sort-mobile>.sort-item {
                                             width: auto;
                                             padding: 3px 7px;
                                         }
                                     </style>
                                     <div class="product-sort-mobile">
                                         <h2 class="product-name product-name-size">Tất cả sản phẩm</h2>
-                                        <select class="sort-item" name="" id="">
+                                        {{-- <select class="sort-item" name="" id="">
                                             <option value="">Mặc định</option>
                                             <option value="">Bán chạy nhất</option>
                                             <option value="">Giá: Tăng dần</option>
@@ -89,7 +153,36 @@
                                             <option value="">Tên: Z-A</option>
                                             <option value="">Mới nhất</option>
                                             <option value="">Cũ nhất</option>
-                                        </select>
+                                        </select> --}}
+
+
+                                        <div class="relative">
+                                            <div class="dropdown-container">
+                                                <div class="select-trigger" id="sortButton">
+                                                    <span class="select-label">Sắp xếp theo</span>
+                                                    <span class="select-value" id="selectedValue">Nổi bật</span>
+                                                    <i class="fas fa-chevron-down select-icon"></i>
+                                                </div>
+                                                <ul class="dropdown-menu" id="dropdownMenu">
+                                                    <li class="dropdown-item selected" data-value="Nổi bật">
+                                                        <span class="radio"></span> Nổi bật
+                                                    </li>
+                                                    <li class="dropdown-item" data-value="Bán chạy">
+                                                        <span class="radio"></span> Bán chạy
+                                                    </li>
+                                                    <li class="dropdown-item" data-value="Giá: Thấp đến Cao">
+                                                        <span class="radio"></span> Giá: Thấp đến Cao
+                                                    </li>
+                                                    <li class="dropdown-item" data-value="Giá: Cao đến Thấp">
+                                                        <span class="radio"></span> Giá: Cao đến Thấp
+                                                    </li>
+                                                    <li class="dropdown-item" data-value="Mới nhất">
+                                                        <span class="radio"></span> Mới nhất
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="row">
                                         <div class="col l-4 m-6 c-6 ">
@@ -869,68 +962,97 @@
 
 
     <script src="{{asset('main.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
-<script>
-    // timf kiem mobile
-    document.addEventListener("DOMContentLoaded", function () {
-        const searchButton = document.querySelector(".Search");
-        const searchInputMobile = document.querySelector(".search-input-mobile");
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+    <script>
+        // timf kiem mobile
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchButton = document.querySelector(".Search");
+            const searchInputMobile = document.querySelector(".search-input-mobile");
 
-        searchButton.addEventListener("click", function () {
-            searchInputMobile.classList.toggle("active");
-        });
-    });
-    // Hàm xử lý active cho từng nhóm
-    function setupActiveLinks(selector) {
-        const items = document.querySelectorAll(selector);
-
-        items.forEach(item => {
-            item.addEventListener('click', function (e) {
-                e.preventDefault(); // Ngăn chuyển trang
-
-                // Xóa active khỏi tất cả các thẻ a trong cùng nhóm ul
-                items.forEach(link => link.classList.remove('active'));
-
-                // Thêm class active vào thẻ được nhấn
-                this.classList.add('active');
+            searchButton.addEventListener("click", function () {
+                searchInputMobile.classList.toggle("active");
             });
         });
-    }
+        // Hàm xử lý active cho từng nhóm
+        function setupActiveLinks(selector) {
+            const items = document.querySelectorAll(selector);
 
-    // Gọi hàm cho từng nhóm menu
-    setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(1) li'); // Danh mục
-    setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(2) li'); // Sắp xếp
+            items.forEach(item => {
+                item.addEventListener('click', function (e) {
+                    e.preventDefault(); // Ngăn chuyển trang
 
+                    // Xóa active khỏi tất cả các thẻ a trong cùng nhóm ul
+                    items.forEach(link => link.classList.remove('active'));
 
-    // loc danh mujc mobile
-
-    $(document).ready(function () {
-        if ($(window).width() <= 576) {
-            $('.product-filter-bar-mobile').lightSlider({
-                item: 4,
-                slideMove: 1,
-                slideMargin: 10,
-                loop: false,
-                auto: false,
-                controls: false,
-                pager: false,
-                enableDrag: true,   // ✅ Bật kéo bằng tay
-                freeMove: true,     // ✅ Trượt tự do
-                swipeThreshold: 40, // ✅ Giảm độ nhạy cho mượt
-                speed: 400          // ✅ Tốc độ trượt
+                    // Thêm class active vào thẻ được nhấn
+                    this.classList.add('active');
+                });
             });
         }
-    });
 
-    //đổi màu khi nhấn lọc danh mụcmục
-    $(document).ready(function () {
-        $('.product-filter-item-mobile').click(function () {
-            $('.product-filter-item-mobile').removeClass('active');
+        // Gọi hàm cho từng nhóm menu
+        setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(1) li'); // Danh mục
+        setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(2) li'); // Sắp xếp
 
-            $(this).addClass('active');
+
+        // loc danh mujc mobile
+
+        $(document).ready(function () {
+            if ($(window).width() <= 576) {
+                $('.product-filter-bar-mobile').lightSlider({
+                    item: 4,
+                    slideMove: 1,
+                    slideMargin: 10,
+                    loop: false,
+                    auto: false,
+                    controls: false,
+                    pager: false,
+                    enableDrag: true,   // ✅ Bật kéo bằng tay
+                    freeMove: true,     // ✅ Trượt tự do
+                    swipeThreshold: 40, // ✅ Giảm độ nhạy cho mượt
+                    speed: 400          // ✅ Tốc độ trượt
+                });
+            }
         });
-    });
 
-</script>
+        //đổi màu khi nhấn lọc danh mụcmục
+        $(document).ready(function () {
+            $('.product-filter-item-mobile').click(function () {
+                $('.product-filter-item-mobile').removeClass('active');
+
+                $(this).addClass('active');
+            });
+        });
+
+
+        //lọc sản phẩm
+        const sortButton = document.getElementById('sortButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const selectedValue = document.getElementById('selectedValue');
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+        // Show/hide menu on button click
+        sortButton.addEventListener('click', () => {
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Handle item selection
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dropdownItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                selectedValue.textContent = item.dataset.value;
+                dropdownMenu.style.display = 'none';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!sortButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = 'none';
+            }
+        });
+
+    </script>
 @endsection
