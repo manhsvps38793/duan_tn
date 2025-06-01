@@ -1,89 +1,273 @@
 @extends('app')
 
 @section('body')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/tintuc.css') }}">
-    <div class="container">
-        <div class="main-content">
-            <h1 class="section-title">Tin tức thời trang</h1>
+<section id="featured" class="news-featured-section">
+        <div class="news-container">
+            <h2 class="news-section-title">Bài viết nổi bật</h2>
 
-            <div class="news-item">
-                <img src="img/h1.jpg" alt="news">
-                <div class="news-text">
-                    <h3>Xu Hướng Thời Trang Hè 2025: Mát Mẻ, Trẻ Trung & Phá Cách</h3>
-                    <span>May 2, 2025</span> <br>
-                    <p>Thời trang đến từ chúng tối là những gì tuyệt vời và hoàn hảo nhất. Chúng tôi muốn tới tay <br> khách
-                        hàng sành điệu và có gu thời trang hãy tiếp cận và tìm hiểu thêm các sản phẩm ...</p>
+            <div class="news-featured-grid">
+                <!-- Article 1 -->
+                <article class="news-article-card">
+                    <span class="news-article-badge">Mới nhất</span>
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Minh Anh</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>15/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
 
-                </div>
+                <!-- Article 2 -->
+                <article class="news-article-card">
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sustainable fashion">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Bền vững</span>
+                        <h3 class="news-article-title">Thời trang bền vững: Xu hướng hay trách nhiệm?</h3>
+                        <p class="news-article-excerpt">Những thương hiệu đang thay đổi ngành công nghiệp thời trang với các giải pháp thân thiện môi trường...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Thu Hà</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>12/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="news-article-card">
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Accessories trend">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Phụ kiện</span>
+                        <h3 class="news-article-title">Phụ kiện đình đám nhất mùa thu đông 2023</h3>
+                        <p class="news-article-excerpt">Từ túi xách mini đến giày boots cổ điển, đây là những phụ kiện không thể thiếu trong tủ đồ của bạn...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Ngọc Trinh</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>10/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
+        </div>
+    </section>
 
-            <div class="news-item">
-                <img src="img/h1.jpg" alt="news">
-                <div class="news-text">
-                    <h3>Top 5 Thương Hiệu Thời Trang Được Giới Trẻ Yêu Thích Nhất Hiện Nay</h3>
-                    <span>May 2, 2025</span><br>
-                    <p>Thời trang đến từ chúng tối là những gì tuyệt vời và hoàn hảo nhất. Chúng tôi muốn tới tay <br> khách
-                        hàng sành điệu và có gu thời trang hãy tiếp cận và tìm hiểu thêm các sản phẩm ...</p>
-                </div>
+    <!-- More Articles Section -->
+    <section class="news-more-articles-section">
+        <div class="news-container">
+            <h2 class="news-section-title">Bài viết mới nhất</h2>
+
+            <div class="news-articles-grid">
+                <!-- Article 4 -->
+                <article class="news-article-card">
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Men's fashion">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Thời trang nam</span>
+                        <h3 class="news-article-title">Cập nhật tủ đồ nam với 5 item không thể thiếu</h3>
+                        <p class="news-article-excerpt">Những món đồ cơ bản nhưng đầy tinh tế giúp phái mạnh luôn tự tin và phong cách...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Tuấn Anh</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>08/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="news-article-card">
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beauty trend">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Làm đẹp</span>
+                        <h3 class="news-article-title">Xu hướng làm đẹp từ Hàn Quốc đang gây sốt</h3>
+                        <p class="news-article-excerpt">Các bí quyết chăm sóc da và trang điểm được các sao Hàn ưa chuộng...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Minh Ngọc</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>05/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="news-article-card">
+                    <div class="news-article-image">
+                        <img src="https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Luxury brands">
+                    </div>
+                    <div class="news-article-content">
+                        <span class="news-article-category">Thương hiệu</span>
+                        <h3 class="news-article-title">Các thương hiệu xa xỉ đang thay đổi thế nào sau đại dịch?</h3>
+                        <p class="news-article-excerpt">Những chiến lược mới của các nhà mốt hàng đầu để thích nghi với thị trường...</p>
+                        <div class="news-article-meta">
+                            <div class="news-meta-item">
+                                <i class="far fa-user"></i>
+                                <span>Thanh Hương</span>
+                            </div>
+                            <div class="news-meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>02/10/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             </div>
+        </div>
+    </section>
 
-            <div class="news-item">
-                <img src="img/h1.jpg" alt="news">
-                <div class="news-text">
-                    <h3>Bí Quyết Mix Đồ Với Áo Sơ Mi Trắng Cho Mọi Phong Cách</h3>
-                    <span>May 2, 2025</span> <br>
-                    <p>Thời trang đến từ chúng tối là những gì tuyệt vời và hoàn hảo nhất. Chúng tôi muốn tới tay <br> khách
-                        hàng sành điệu và có gu thời trang hãy tiếp cận và tìm hiểu thêm các sản phẩm ...</p>
+    <!-- Trending Section -->
+    <section id="trending" class="news-trending-section">
+        <div class="news-container">
+            <h2 class="news-section-title">Đang thịnh hành</h2>
 
+            <div class="news-trending-container">
+                <div class="news-trending-main">
+                    <div class="news-trending-image">
+                        <img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Fashion week">
+                    </div>
+                    <div class="news-trending-content">
+                        <span class="news-trending-category">Tuần lễ thời trang</span>
+                        <h3 class="news-trending-title">Tổng hợp những bộ sưu tập ấn tượng nhất tại Paris Fashion Week 2023</h3>
+                        <p class="news-trending-excerpt">Những khoảnh khắc đáng nhớ và các thiết kế đột phá từ kinh đô thời trang thế giới.</p>
+                        <a href="#" class="news-btn news-btn-primary">Xem chi tiết</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="news-item">
-                <img src="img/h1.jpg" alt="news">
-                <div class="news-text">
-                    <h3>Cách Chọn Quần Áo Phù Hợp Với Dáng Người – Mẹo Nhỏ Nhưng Hiệu Quả</h3>
-                    <span>May 2, 2025</span> <br>
-                    <p>Thời trang đến từ chúng tối là những gì tuyệt vời và hoàn hảo nhất. Chúng tôi muốn tới tay <br> khách
-                        hàng sành điệu và có gu thời trang hãy tiếp cận và tìm hiểu thêm các sản phẩm ...</p>
-
+                <div class="news-trending-list">
+                    <div class="news-trend-item">
+                        <div class="news-trend-number">1</div>
+                        <div class="news-trend-info">
+                            <h4>Phong cách Y2K</h4>
+                            <p>Sự trở lại của thời trang những năm 2000</p>
+                        </div>
+                    </div>
+                    <div class="news-trend-item">
+                        <div class="news-trend-number">2</div>
+                        <div class="news-trend-info">
+                            <h4>Quần cargo</h4>
+                            <p>Xu hướng streetwear được ưa chuộng</p>
+                        </div>
+                    </div>
+                    <div class="news-trend-item">
+                        <div class="news-trend-number">3</div>
+                        <div class="news-trend-info">
+                            <h4>Màu sắc tươi sáng</h4>
+                            <p>Xu hướng màu sắc cho mùa hè 2023</p>
+                        </div>
+                    </div>
+                    <div class="news-trend-item">
+                        <div class="news-trend-number">4</div>
+                        <div class="news-trend-info">
+                            <h4>Phụ kiện cỡ lớn</h4>
+                            <p>Từ hoa tai đến vòng cổ oversize</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="sidebar">
-            <h2>CHUYÊN MỤC</h2>
-            <ul class="categories">
-                <li>Bộ sưu tập mới</li>
-                <li>Phong cách & Mix đồ</li>
-                <li>Khuyến mãi</li>
-                <li>Sự kiện thời trang</li>
-                <li>Tin tức thương hiệu</li>
-            </ul>
+    <!-- Stores Section -->
+    <section class="news-stores-section">
+        <div class="news-container">
+            <h2 class="news-section-title">Hệ thống cửa hàng</h2>
 
-            <h2>BÀI VIẾT MỚI</h2>
-            <ul class="recent-posts">
-                <li>
-                    <img src="img/h1.jpg" alt="thumb">
-                    <div>
-                        <p>Xu Hướng Thời Trang Hè 2025: Mát Mẻ, Trẻ Trung & Phá Cách</p>
-                        <span>May 10, 2025</span>
+            <div class="news-stores-container">
+                <!-- Store 1 -->
+                <div class="news-store-card">
+                    <div class="news-store-image">
+                        <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Hà Nội store">
                     </div>
-                </li>
-                <li>
-                    <img src="img/h1.jpg" alt="thumb">
-                    <div>
-                        <p>Top 5 Thương Hiệu Thời Trang Được Giới Trẻ Yêu Thích Nhất Hiện Nay</p>
-                        <span>May 2, 2025</span>
+                    <div class="news-store-content">
+                        <h3 class="news-store-title">Hà Nội - Tràng Tiền Plaza</h3>
+                        <p class="news-store-address">Tầng 3, Tràng Tiền Plaza, 24 Hai Bà Trưng, Hoàn Kiếm, Hà Nội</p>
+                        <div class="news-store-hours">
+                            <i class="far fa-clock"></i>
+                            <span>9:00 - 22:00 (Thứ 2 - Chủ nhật)</span>
+                        </div>
+                        <div class="news-store-contact">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>024 3826 8888</span>
+                        </div>
                     </div>
-                </li>
-                <li>
-                    <img src="img/h1.jpg" alt="thumb">
-                    <div>
-                        <p>Bí Quyết Mix Đồ Với Áo Sơ Mi Trắng Cho Mọi Phong Cách</p>
-                        <span>April 26, 2025</span>
+                </div>
+
+                <!-- Store 2 -->
+                <div class="news-store-card">
+                    <div class="news-store-image">
+                        <img src="https://images.unsplash.com/photo-1581539250439-c96689b516dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Hồ Chí Minh store">
                     </div>
-                </li>
-            </ul>
+                    <div class="news-store-content">
+                        <h3 class="news-store-title">TP.HCM - Vincom Đồng Khởi</h3>
+                        <p class="news-store-address">Tầng 2, Vincom Center, 72 Lê Thánh Tôn, Bến Nghé, Quận 1, TP.HCM</p>
+                        <div class="news-store-hours">
+                            <i class="far fa-clock"></i>
+                            <span>9:30 - 22:00 (Thứ 2 - Chủ nhật)</span>
+                        </div>
+                        <div class="news-store-contact">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>028 3822 9999</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Store 3 -->
+                <div class="news-store-card">
+                    <div class="news-store-image">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Đà Nẵng store">
+                    </div>
+                    <div class="news-store-content">
+                        <h3 class="news-store-title">Đà Nẵng - Vincom Đà Nẵng</h3>
+                        <p class="news-store-address">Tầng 3, Vincom Plaza, 910A Ngô Quyền, Sơn Trà, Đà Nẵng</p>
+                        <div class="news-store-hours">
+                            <i class="far fa-clock"></i>
+                            <span>9:00 - 21:30 (Thứ 2 - Chủ nhật)</span>
+                        </div>
+                        <div class="news-store-contact">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>0236 368 6868</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 @endsection
