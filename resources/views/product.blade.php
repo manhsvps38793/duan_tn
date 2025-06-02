@@ -5,126 +5,104 @@
         <div class="grid wide container">
             <div class="row">
                 <div class="col l-3 c-0">
-                    <div class="pruductall-danhmuc">
-                        {{-- <h2>Danh mục</h2>
-                        <div class="product-category-filter">
-                            <label><input type="checkbox" name="checkbox-cate" value="ao_thun"> Áo Thun</label>
-                            <label><input type="checkbox" name="checkbox-cate" value="ao_polo"> Áo Polo</label>
-                            <label><input type="checkbox" name="checkbox-cate" value="ao_so_mi" checked> Áo sơ mi</label>
-                            <label><input type="checkbox" name="checkbox-cate" value="ao_khoac" checked> Áo khoác</label>
-                            <label><input type="checkbox" name="checkbox-cate" value="quan"> Quần</label>
-                            <label><input type="checkbox" name="checkbox-cate" value="phu_kien"> Phụ kiện</label>
-                        </div> --}}
-
-                        <div class="filter">
+                    <div class="product-filter-container">
+                        <!-- Filter trên desktop -->
+                        <div class="product-filter-desktop pruductall-danhmuc">
                             <div class="total-product">
-                                <p>LỌC THEO: </p>
-                                <p>
-                                <p class="total">300</p>
-                                sản PHẨM
-                                </p>
+                                <p>Sản phẩm:</p>
+                                <p><span class="total">300</span> sản phẩm</p>
                             </div>
-                            <div class="size-product">
-                                <h3>SIZE</h3>
-                                <label>
-                                    <input type="radio" name="single-select" class="custom-radio">
-                                    S
-                                </label>
-                                <label>
-                                    <input type="radio" name="single-select" class="custom-radio">
-                                    M
-                                </label>
-                                <label>
-                                    <input type="radio" name="single-select" class="custom-radio">
-                                    L
-                                </label>
-                                <label>
-                                    <input type="radio" name="single-select" class="custom-radio">
-                                    XL
-                                </label>
 
-                            </div>
-                            <div class="color-product">
-                                <h3>MÀU SẮC</h3>
-                                <div class="color-box">
-                                    <div class="color" style="background-color: #000;"></div>
-                                    <p>Đen</p>
+                            <!-- Thêm phần lọc danh mục -->
+                            <div class="filter-section">
+                                <h3><i class="fas fa-list"></i> DANH MỤC</h3>
+                                <div class="category-options">
+                                    <div class="category-option">
+                                        <input type="checkbox" id="category1" class="custom-checkbox">
+                                        <label for="category1">Áo thun</label>
+                                    </div>
+                                    <div class="category-option">
+                                        <input type="checkbox" id="category2" class="custom-checkbox">
+                                        <label for="category2">Áo sơ mi</label>
+                                    </div>
+                                    <div class="category-option">
+                                        <input type="checkbox" id="category3" class="custom-checkbox">
+                                        <label for="category3">Quần jeans</label>
+                                    </div>
+                                    <div class="category-option">
+                                        <input type="checkbox" id="category4" class="custom-checkbox">
+                                        <label for="category4">Quần short</label>
+                                    </div>
+                                    <div class="category-option">
+                                        <input type="checkbox" id="category5" class="custom-checkbox">
+                                        <label for="category5">Đầm/Váy</label>
+                                    </div>
                                 </div>
-                                <div class="color-box">
-                                    <div class="color" style="background-color: blue;"></div>
-                                    <p>Blue</p>
+                            </div>
+
+                            <div class="filter-section">
+                                <h3><i class="fas fa-ruler"></i> SIZE</h3>
+                                <div class="filter-options">
+                                    <div class="filter-option">
+                                        <input type="radio" name="single-select" id="size-s" class="custom-radio">
+                                        <label for="size-s">S</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="radio" name="single-select" id="size-m" class="custom-radio">
+                                        <label for="size-m">M</label>
+                                    </div>
+                                    <div class="filter-option active">
+                                        <input type="radio" name="single-select" id="size-l" class="custom-radio" checked>
+                                        <label for="size-l">L</label>
+                                    </div>
+                                    <div class="filter-option">
+                                        <input type="radio" name="single-select" id="size-xl" class="custom-radio">
+                                        <label for="size-xl">XL</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="price-product">
-                                <h3>GIÁ</h3>
-                                <label>
-                                    <input type="radio" name="select-price" class="custom-radio-price">
-                                    234đ-234đ
-                                </label>
-                                <label>
-                                    <input type="radio" name="select-price" class="custom-radio-price">
-                                    345345đ-4353543đ
-                                </label>
-                                <label>
-                                    <input type="radio" name="select-price" class="custom-radio-price">
-                                    34543đ-34534534đ
-                                </label>
-                                <label>
-                                    <input type="radio" name="select-price" class="custom-radio-price">
-                                    X34534534đ-345345đ
-                                </label>
+
+                            <div class="filter-section">
+                                <h3><i class="fas fa-palette"></i> MÀU SẮC</h3>
+                                <div class="color-options">
+                                    <div class="color-option" style="background-color: #000;" title="Đen"></div>
+                                    <div class="color-option" style="background-color: #2980b9;" title="Xanh dương"></div>
+                                    <div class="color-option selected" style="background-color: #e74c3c;" title="Đỏ"></div>
+                                    <div class="color-option" style="background-color: #f1c40f;" title="Vàng"></div>
+                                    <div class="color-option" style="background-color: #2ecc71;" title="Xanh lá"></div>
+                                    <div class="color-option" style="background-color: #ffffff; border: 1px solid #ddd;"
+                                        title="Trắng"></div>
+                                </div>
                             </div>
+
+                            <div class="filter-section">
+                                <h3><i class="fas fa-tag"></i> GIÁ</h3>
+                                <div class="price-options">
+                                    <div class="price-option">
+                                        <input type="radio" name="select-price" id="price1" class="custom-radio-price">
+                                        <label for="price1">Dưới 200.000đ</label>
+                                    </div>
+                                    <div class="price-option">
+                                        <input type="radio" name="select-price" id="price2" class="custom-radio-price"
+                                            checked>
+                                        <label for="price2">200.000đ - 500.000đ</label>
+                                    </div>
+                                    <div class="price-option">
+                                        <input type="radio" name="select-price" id="price3" class="custom-radio-price">
+                                        <label for="price3">500.000đ - 1.000.000đ</label>
+                                    </div>
+                                    <div class="price-option">
+                                        <input type="radio" name="select-price" id="price4" class="custom-radio-price">
+                                        <label for="price4">Trên 1.000.000đ</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="filter-button">Áp dụng bộ lọc</button>
                         </div>
-
 
                     </div>
                 </div>
-                <style>
-                    /* ko được sửa xóa di chuyển css này because will it errol*/
-                    .product-filter-bar-mobile {
-                        display: none;
-                    }
-
-                    @media (max-width: 576px) {
-                        .lSSlideOuter .product-filter-bar-mobile {
-                            display: flex !important;
-                            justify-content: center;
-                            align-items: center;
-                            padding: 16px;
-                            height: auto !important;
-                        }
-
-                        .product-filter-bar-mobile>.product-filter-item-mobile {
-                            list-style: none;
-                            width: auto;
-                            border: 1px solid black;
-                            border-radius: 5px;
-                            padding: 7px 12px;
-                            margin-right: 10px;
-                            white-space: nowrap;
-                            text-align: center;
-                            cursor: pointer;
-                        }
-
-                        .product-filter-item-mobile.active {
-                            background: #000;
-                            color: #fff;
-                        }
-                    }
-                </style>
-                <!-- lọc danh mục mobile  -->
-                <ul class="product-filter-bar-mobile">
-                    <li class="product-filter-item-mobile">Tất cả</li>
-                    <li class="product-filter-item-mobile">Cho nam</li>
-                    <li class="product-filter-item-mobile">Cho nữ</li>
-                    <li class="product-filter-item-mobile">Áo thun</li>
-                    <li class="product-filter-item-mobile">Polo</li>
-                    <li class="product-filter-item-mobile">Sơ mi</li>
-                    <li class="product-filter-item-mobile">Quần</li>
-                    <li class="product-filter-item-mobile">Áo khoác</li>
-                    <li class="product-filter-item-mobile">Phụ kiện</li>
-                </ul>
-
                 <div class="col l-9">
                     <div class="product-box-sp">
                         <div id="box1" class="box-sanpham active-sanpham">
@@ -144,23 +122,11 @@
                                     </style>
                                     <div class="product-sort-mobile">
                                         <h2 class="product-name product-name-size">Tất cả sản phẩm</h2>
-                                        {{-- <select class="sort-item" name="" id="">
-                                            <option value="">Mặc định</option>
-                                            <option value="">Bán chạy nhất</option>
-                                            <option value="">Giá: Tăng dần</option>
-                                            <option value="">Giá: Giảm dần</option>
-                                            <option value="">Tên: A-Z</option>
-                                            <option value="">Tên: Z-A</option>
-                                            <option value="">Mới nhất</option>
-                                            <option value="">Cũ nhất</option>
-                                        </select> --}}
-
-
                                         <div class="relative">
                                             <div class="dropdown-container">
                                                 <div class="select-trigger" id="sortButton">
-                                                    <span class="select-label">Sắp xếp theo</span>
-                                                    <span class="select-value" id="selectedValue">Nổi bật</span>
+                                                    {{-- <span class="select-label">Sắp xếp theo</span> --}}
+                                                    <span class="select-value" id="selectedValue">Mặc định</span>
                                                     <i class="fas fa-chevron-down select-icon"></i>
                                                 </div>
                                                 <ul class="dropdown-menu" id="dropdownMenu">
@@ -181,6 +147,20 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!-- Filter trên mobile - dạng dropdown -->
+                                    <div class="product-filter-mobile">
+                                        <div class="mobile-filter-header">
+                                            <div class="mobile-filter-toggle">
+                                                <i class="fas fa-filter"></i> Bộ lọc
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="product-filter-count">0</div>
+                                        </div>
+
+                                        <div class="mobile-filter-content">
+                                            <!-- Nội dung filter sẽ được sao chép từ desktop -->
                                         </div>
 
                                     </div>
@@ -432,9 +412,9 @@
                                 </div>
                             </section>
                             <div class="chuyentrang">
-                                <button onclick="showBox(1)" class="active-sanpham" id="btn1-1">1</button>
-                                <button onclick="showBox(2)" id="btn1-2">2</button>
-                                <button onclick="showBox(3)" id="btn1-3">3</button>
+                                <button class="active-sanpham" id="btn1-1">1</button>
+                                <button id="btn1-2">2</button>
+                                <button id="btn1-3">3</button>
                             </div>
 
                         </div>
@@ -690,9 +670,9 @@
                                 </div>
                             </section>
                             <div class="chuyentrang">
-                                <button onclick="showBox(1)" id="btn2-1">1</button>
-                                <button onclick="showBox(2)" class="active-sanpham" id="btn2-2">2</button>
-                                <button onclick="showBox(3)" id="btn2-3">3</button>
+                                <button id="btn2-1">1</button>
+                                <button class="active-sanpham" id="btn2-2">2</button>
+                                <button id="btn2-3">3</button>
                             </div>
                         </div>
                         <div id="box3" class="box-sanpham">
@@ -947,9 +927,9 @@
                                 </div>
                             </section>
                             <div class="chuyentrang">
-                                <button onclick="showBox(1)" id="btn3-1">1</button>
-                                <button onclick="showBox(2)" id="btn3-2">2</button>
-                                <button onclick="showBox(3)" class="active-sanpham" id="btn3-3">3</button>
+                                <button id="btn3-1">1</button>
+                                <button id="btn3-2">2</button>
+                                <button class="active-sanpham" id="btn3-3">3</button>
                             </div>
                         </div>
                     </div>
@@ -965,68 +945,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
     <script>
-        // timf kiem mobile
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchButton = document.querySelector(".Search");
-            const searchInputMobile = document.querySelector(".search-input-mobile");
-
-            searchButton.addEventListener("click", function () {
-                searchInputMobile.classList.toggle("active");
-            });
-        });
-        // Hàm xử lý active cho từng nhóm
-        function setupActiveLinks(selector) {
-            const items = document.querySelectorAll(selector);
-
-            items.forEach(item => {
-                item.addEventListener('click', function (e) {
-                    e.preventDefault(); // Ngăn chuyển trang
-
-                    // Xóa active khỏi tất cả các thẻ a trong cùng nhóm ul
-                    items.forEach(link => link.classList.remove('active'));
-
-                    // Thêm class active vào thẻ được nhấn
-                    this.classList.add('active');
-                });
-            });
-        }
-
-        // Gọi hàm cho từng nhóm menu
-        setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(1) li'); // Danh mục
-        setupActiveLinks('.pruductall-danhmuc ul:nth-of-type(2) li'); // Sắp xếp
-
-
-        // loc danh mujc mobile
-
-        $(document).ready(function () {
-            if ($(window).width() <= 576) {
-                $('.product-filter-bar-mobile').lightSlider({
-                    item: 4,
-                    slideMove: 1,
-                    slideMargin: 10,
-                    loop: false,
-                    auto: false,
-                    controls: false,
-                    pager: false,
-                    enableDrag: true,   // ✅ Bật kéo bằng tay
-                    freeMove: true,     // ✅ Trượt tự do
-                    swipeThreshold: 40, // ✅ Giảm độ nhạy cho mượt
-                    speed: 400          // ✅ Tốc độ trượt
-                });
-            }
-        });
-
-        //đổi màu khi nhấn lọc danh mụcmục
-        $(document).ready(function () {
-            $('.product-filter-item-mobile').click(function () {
-                $('.product-filter-item-mobile').removeClass('active');
-
-                $(this).addClass('active');
-            });
-        });
-
-
-        //lọc sản phẩm
+        // lọc sản phẩm 
         const sortButton = document.getElementById('sortButton');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const selectedValue = document.getElementById('selectedValue');
@@ -1054,5 +973,152 @@
             }
         });
 
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy các phần tử DOM
+            const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
+            const mobileFilterContent = document.querySelector('.mobile-filter-content');
+            const desktopFilter = document.querySelector('.product-filter-desktop');
+            const filterCount = document.querySelector('.product-filter-count');
+
+            // Sao chép nội dung filter từ desktop sang mobile
+            if (desktopFilter && mobileFilterContent) {
+                mobileFilterContent.innerHTML = desktopFilter.innerHTML;
+            }
+
+            // Xử lý toggle mobile filter
+            if (mobileFilterToggle) {
+                mobileFilterToggle.addEventListener('click', function () {
+                    mobileFilterContent.classList.toggle('active');
+                    const icon = this.querySelector('.fa-chevron-down');
+                    icon.classList.toggle('fa-rotate-180');
+                });
+            }
+
+            // Biến lưu trữ các lựa chọn filter
+            let selectedFilters = {
+                categories: [],
+                sizes: [],
+                colors: [],
+                price: null
+            };
+
+            // Hàm cập nhật số lượng filter đã chọn
+            function updateFilterCount() {
+                let count = 0;
+
+                // Đếm danh mục
+                count += selectedFilters.categories.length;
+
+                // Đếm size
+                count += selectedFilters.sizes.length;
+
+                // Đếm màu
+                count += selectedFilters.colors.length;
+
+                // Đếm giá
+                if (selectedFilters.price) count += 1;
+
+                filterCount.textContent = count;
+                filterCount.style.display = count > 0 ? 'flex' : 'none';
+            }
+
+            // Xử lý lọc danh mục
+            const categoryCheckboxes = document.querySelectorAll('.category-options input[type="checkbox"]');
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    const category = this.nextElementSibling.textContent;
+
+                    if (this.checked) {
+                        if (!selectedFilters.categories.includes(category)) {
+                            selectedFilters.categories.push(category);
+                        }
+                    } else {
+                        selectedFilters.categories = selectedFilters.categories.filter(item => item !== category);
+                    }
+
+                    updateFilterCount();
+                });
+            });
+
+            // Xử lý lọc size (giữ nguyên từ trước)
+            const sizeOptions = document.querySelectorAll('.filter-options .filter-option');
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', function (e) {
+                    if (e.target.tagName === 'INPUT') return;
+
+                    sizeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+
+                    // Cập nhật selectedFilters
+                    selectedFilters.sizes = [this.querySelector('label').textContent];
+                    updateFilterCount();
+                });
+            });
+
+            // Xử lý lọc màu sắc (giữ nguyên từ trước)
+            const colorOptions = document.querySelectorAll('.color-options .color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    colorOptions.forEach(color => color.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Cập nhật selectedFilters
+                    selectedFilters.colors = [this.getAttribute('title')];
+                    updateFilterCount();
+                });
+            });
+
+            // Xử lý lọc giá (giữ nguyên từ trước)
+            const priceOptions = document.querySelectorAll('.price-options .price-option');
+            priceOptions.forEach(option => {
+                option.addEventListener('click', function (e) {
+                    if (e.target.tagName === 'INPUT') return;
+
+                    priceOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+
+                    // Cập nhật selectedFilters
+                    selectedFilters.price = this.querySelector('label').textContent;
+                    updateFilterCount();
+                });
+            });
+
+            // Xử lý nút áp dụng bộ lọc
+            const filterButtons = document.querySelectorAll('.filter-button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Thu gọn mobile filter nếu đang mở
+                    if (mobileFilterContent.classList.contains('active')) {
+                        mobileFilterContent.classList.remove('active');
+                        mobileFilterToggle.querySelector('.fa-chevron-down').classList.remove('fa-rotate-180');
+                    }
+
+                    // Gửi dữ liệu filter đi (có thể là AJAX hoặc filter client-side)
+                    console.log('Filters applied:', selectedFilters);
+
+                    // Hiển thị thông báo
+                    alert(`Đã áp dụng bộ lọc:
+                                    Danh mục: ${selectedFilters.categories.join(', ') || 'Tất cả'}
+                                    Size: ${selectedFilters.sizes.join(', ') || 'Tất cả'}
+                                    Màu: ${selectedFilters.colors.join(', ') || 'Tất cả'}
+                                    Giá: ${selectedFilters.price || 'Tất cả'}`);
+
+                    // Ở đây bạn có thể thêm code để thực sự lọc sản phẩm
+                    // filterProducts(selectedFilters);
+                });
+            });
+
+            // Khởi tạo filter count
+            updateFilterCount();
+        });
     </script>
 @endsection
