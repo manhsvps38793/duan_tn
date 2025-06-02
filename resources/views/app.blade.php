@@ -6,7 +6,6 @@
     <title></title>
     <link rel="stylesheet" href="{{ asset('/css/grid.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/info.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/thanhtoan.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/about.css') }}">
@@ -30,6 +29,12 @@
     </div>
 
     @include('footer')
+
+    <script src="{{asset('/js/slider.js')}}"></script>
+
+
+
+
     <script>
     document.addEventListener("DOMContentLoaded", function () {
         const searchButton = document.querySelector(".Search");

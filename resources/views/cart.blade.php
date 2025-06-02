@@ -1,43 +1,117 @@
 @extends('app')
 
 @section('body')
-  <div style="margin-top: 20px;"></div>
-    <div class="gh-container">
-        <div class="gh-header">Giỏ hàng của bạn</div>
-        <table class="gh-table">
-            <thead>
-                <tr>
-                    <th>Thông tin sản phẩm</th>
-                    <th>Đơn giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                        <tr>
-                            <td>
-                                <div class="gh-product-info">
-                                    <img src="img/aokhoac.webp" alt="Áo thun" class="gh-product-img">
-                                    <div class="gh-product-text">
-                                       Áo Thun Local Brand Unisex Seasonal Tshirt TS295<br>
-                                        Đỏ / M<br>
-                                        <a href="Xoa"><span class="gh-remove">Xóa</span></a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="gh-price">123đ</td>
-                            <td class="gh-sl"><p>2</p></td>
-                            <td class="gh-price">195.000đ</td>
-                        </tr>
-                    <tr>
-                        <td colspan="4">Giỏ hàng trống</td>
-                    </tr>
-            </tbody>
+<link rel="stylesheet" href="{{asset('/css/cart.css')}}">
+  <div class="gh-cart-root">
+<main class="gh-cart-container">
+        <div class="gh-cart-layout">
+            <div class="gh-cart-items-container">
+                <div class="gh-cart-items-header">
+                    <h2 class="gh-cart-items-title">Sản phẩm</h2>
+                    <span class="gh-cart-item-count">3 sản phẩm</span>
+                </div>
 
-        </table>
-        <div class="gh-checkout-container">
-            <a href="{{asset('/payment')}}" class="gh-checkout-btn">Thanh toán</a>
+                <div class="gh-cart-item">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Áo khoác" class="gh-cart-item-image">
+                    <div class="gh-cart-item-details">
+                        <h3 class="gh-cart-item-title">Áo Khoác Dạ Đen</h3>
+                        <div class="gh-cart-item-variant">
+                            <span class="gh-cart-item-color">Đen</span>
+                            <span class="gh-cart-item-size">Size L</span>
+                        </div>
+                        <button class="gh-cart-remove-item">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </button>
+                    </div>
+                    <div class="gh-cart-item-price">1.250.000đ</div>
+                    <div class="gh-cart-quantity-control">
+                        <button class="gh-cart-quantity-btn">-</button>
+                        <input type="number" value="1" min="1" class="gh-cart-quantity-input">
+                        <button class="gh-cart-quantity-btn">+</button>
+                    </div>
+                </div>
+
+                <div class="gh-cart-item">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Áo khoác" class="gh-cart-item-image">
+                    <div class="gh-cart-item-details">
+                        <h3 class="gh-cart-item-title">Áo Khoác Dạ Đen</h3>
+                        <div class="gh-cart-item-variant">
+                            <span class="gh-cart-item-color">Đen</span>
+                            <span class="gh-cart-item-size">Size L</span>
+                        </div>
+                        <button class="gh-cart-remove-item">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </button>
+                    </div>
+                    <div class="gh-cart-item-price">1.250.000đ</div>
+                    <div class="gh-cart-quantity-control">
+                        <button class="gh-cart-quantity-btn">-</button>
+                        <input type="number" value="1" min="1" class="gh-cart-quantity-input">
+                        <button class="gh-cart-quantity-btn">+</button>
+                    </div>
+                </div>
+
+                <div class="gh-cart-item">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="Áo khoác" class="gh-cart-item-image">
+                    <div class="gh-cart-item-details">
+                        <h3 class="gh-cart-item-title">Áo Khoác Dạ Đen</h3>
+                        <div class="gh-cart-item-variant">
+                            <span class="gh-cart-item-color">Đen</span>
+                            <span class="gh-cart-item-size">Size L</span>
+                        </div>
+                        <button class="gh-cart-remove-item">
+                            <i class="fas fa-trash-alt"></i> Xóa
+                        </button>
+                    </div>
+                    <div class="gh-cart-item-price">1.250.000đ</div>
+                    <div class="gh-cart-quantity-control">
+                        <button class="gh-cart-quantity-btn">-</button>
+                        <input type="number" value="1" min="1" class="gh-cart-quantity-input">
+                        <button class="gh-cart-quantity-btn">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gh-cart-summary">
+                <h3 class="gh-cart-summary-title">Tóm tắt đơn hàng</h3>
+
+                <div class="gh-cart-summary-row">
+                    <span class="gh-cart-summary-label">Tạm tính</span>
+                    <span class="gh-cart-summary-value">3.750.000đ</span>
+                </div>
+
+                <div class="gh-cart-summary-row">
+                    <span class="gh-cart-summary-label">Giảm giá</span>
+                    <span class="gh-cart-summary-value gh-cart-discount-value">-0đ</span>
+                </div>
+
+                <div class="gh-cart-summary-row">
+                    <span class="gh-cart-summary-label">Phí vận chuyển</span>
+                    <span class="gh-cart-summary-value">40.000đ</span>
+                </div>
+
+                <div class="gh-cart-voucher-box">
+                    <div class="gh-cart-voucher-title">Mã giảm giá</div>
+                    <div class="gh-cart-voucher-input">
+                        <input type="text" placeholder="Nhập mã..." class="gh-cart-voucher-input-field">
+                        <button class="gh-cart-apply-btn">Áp dụng</button>
+                    </div>
+                </div>
+
+                <div class="gh-cart-summary-row gh-cart-total-row">
+                    <span class="gh-cart-summary-label">Tổng cộng</span>
+                    <span class="gh-cart-summary-value">3.790.000đ</span>
+                </div>
+
+                <button class="gh-cart-checkout-btn">
+                    <i class="fas fa-lock"></i> Thanh toán an toàn
+                </button>
+
+                <a href="#" class="gh-cart-continue-shopping">
+                    <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
+                </a>
+            </div>
         </div>
+    </main>
     </div>
-<div style="margin: 0px 0 30px 0px;"></div>
 @endsection
