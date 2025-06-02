@@ -1,19 +1,54 @@
 @extends('app')
 
 @section('body')
-<style>
-</style>
-<section class="slider-container">
-        <div class="slide-show">
-            <div class="list-img">
-                <img src="{{asset('/img/slide1.jpg')}}" alt="Image 1">
-                <img src="{{asset('/img/slider_2.webp')}}" alt="Image 2">
-                <img src="{{asset('/img/slider_3.webp')}}" alt="Image 3">
-            </div>
-            <div class="btn-left btns"><i class="fa-solid fa-chevron-left"></i></div>
-            <div class="btn-right btns"><i class="fa-solid fa-chevron-right"></i></div>
+ <div class="index-slider-container" id="slider">
+    <div class="index-progress-bar"></div>
+    <div class="index-slider-track-container">
+      <div class="index-slider-track">
+        <div class="index-slide active" style="background-image: url('{{asset('/img/slide1.jpg')}}');">
+          <div class="index-slide-overlay"></div>
+          <div class="index-slide-content">
+            <span class="season-tag">New Collection</span>
+            <h1 class="index-slide-title">Elegant Simplicity</h1>
+            <p class="index-slide-description">Discover our minimalist collection where every piece tells a story of
+              refined elegance and timeless design.</p>
+            <a href="#" class="shop-btn">Explore</a>
+          </div>
         </div>
-    </section>
+        <div class="index-slide" style="background-image: url('{{asset('/img/slider_2.webp')}}');">
+          <div class="index-slide-overlay"></div>
+          <div class="index-slide-content">
+            <span class="season-tag">Summer 2023</span>
+            <h1 class="index-slide-title">Luxury Accessories</h1>
+            <p class="index-slide-description">Elevate your everyday with our curated selection of premium accessories
+              crafted for the modern individual.</p>
+            <a href="#" class="shop-btn">View Collection</a>
+          </div>
+        </div>
+        <div class="index-slide" style="background-image: url('{{asset('/img/slider_3.webp')}}');">
+          <div class="index-slide-overlay"></div>
+          <div class="index-slide-content">
+            <span class="season-tag">Men's Edition</span>
+            <h1 class="index-slide-title">Tailored Perfection</h1>
+            <p class="index-slide-description">Experience the perfect blend of comfort and sophistication with our
+              premium menswear collection.</p>
+            <a href="#" class="shop-btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="arrow-btn prev-btn">&#10094;</button>
+    <button class="arrow-btn next-btn">&#10095;</button>
+
+    <div class="index-slider-nav">
+      <button class="nav-dot active"></button>
+      <button class="nav-dot"></button>
+      <button class="nav-dot"></button>
+    </div>
+  </div>
+
+  {{-- kết thúc slider --}}
 
     <div class="introduce">
         <p class="tieude">Enjoy Your Youth!</p>
@@ -637,5 +672,4 @@
             </div>
         </div>
     </div>
-
 @endsection
