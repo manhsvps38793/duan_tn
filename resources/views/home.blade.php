@@ -272,7 +272,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <a href="/detail.html"><img src="/img/aothun.webp" alt=""></a>
+                                <a href="/detail.html"><img src="{{asset('/img/aothun.webp')}}" alt=""></a>
 
                             </div>
                             <div class="item-name">
@@ -292,7 +292,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -311,7 +311,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -330,7 +330,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -349,7 +349,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -368,7 +368,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -387,7 +387,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -406,7 +406,7 @@
                             <div class="item-img">
                                 <span class="item-giam">-44%</span>
                                 <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="/img/aothun.webp" alt="">
+                                <img src="{{asset('/img/aothun.webp')}}" alt="">
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
@@ -432,7 +432,7 @@
                     </div>
                     <div class="about-content">
                         <div class="about-img">
-                            <img class="about-image" src="{{asset('/img/slide1.jpg')}}" alt="">
+                            <img class="about-image" src="{{asset('/img/slider_2.webp')}}" alt="">
                         </div>
                         <div class="about-text">
                             <h2>Giới thiệu shop M A G</h2>
