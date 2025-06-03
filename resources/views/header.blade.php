@@ -89,8 +89,8 @@
                 </div>
             </form>
         </div>
-        <nav class="nav_pc_bottom">
-            <!-- load all danh muc -->
+         <!-- load all danh muc -->
+        {{-- <nav class="nav_pc_bottom">
             <ul>
                 <li><a href="{{asset('/product')}}">Áo thun</a></li>
                 <li><a href="{{asset('/product')}}">Sơ mi</a></li>
@@ -101,5 +101,5 @@
                 <li><a href="{{asset('/product')}}">Cho nam</a></li>
                 <li><a href="{{asset('/product')}}">Cho nữ</a></li>
             </ul>
-        </nav>
+        </nav> --}}
     </header>

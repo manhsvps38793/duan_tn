@@ -81,11 +81,13 @@
                     <div class="time-bottom">Giây</div>
                 </div>
             </div>
+            <div class="see-more-sale" style="position: absolute; display: flex; align-items: center;gap: 5px; right: 11%; margin-top: 189px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
         </div>
         <div class="product-sale-box">
             <div class="product-sale-banner">
                 <img src="{{asset('/img/Ảnh chụp màn hình 2025-05-24 230355.png')}}" alt="">
-
             </div>
             <ul class="row product-list-sale">
                 <li class="item" style="background-color: white; border-radius: 7px;">
@@ -189,7 +191,12 @@
                         <span><del>300.000đ</del></span>
                     </div>
                 </li>
-        </ul>
+            </ul>
+        </div>
+        <div class="pruduct-xemthem see-more-mobile" style="display: none; margin-left: 36%; margin-top: 10px;">
+             <div style=" display: flex; align-items: center;gap: 5px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
         </div>
      </section>
       <!-- load danh muc -->
@@ -248,285 +255,180 @@
     </div>
      </section>
     <!-- san pham pho bien -->
-    <section class="product-new product-popular" style="height: 500px;">
+    <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
-            <h2 class="section-title">Sản phẩm phổ biến</h2>
-            <p class="p-des" style="font-size: 23px; margin-top: 12px;">Đừng bỏ lỡ các sản phẩm hot trong tháng 8 !!!</p>
-            <a class="see-all-mobile" style="display: none" href="">Xem thêm</a>
-        </div>
-        <div class="list-tabs">
-            <ul>
-                <li class="tab-product-new">Sản phẩm mới</li>
-                <li class="tab-product-bestseller">Sản phẩm bán chạy</li>
-                <li class="tab-product-recommend">Sản phẩm gợi ý</li>
-            </ul>
-            <div>
-                <a class="see-all-pc" href="">Xem thêm</a>
+            <h2 class="section-title">Sản phẩm nổi bật</h2>
+            <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
-        {{-- ds sp mới --}}
-        <div class=" grid wide container list-product-new active" style="margin-top: 20px">
-            <ul class="product-list" >
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-41%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        {{-- ds sp bán chạychạy --}}
-        <div class="grid wide container list-product-bestseller" style="margin-top: 20px">
-            <ul class="product-list-bestseller">
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-42%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        {{-- ds sp gợi ý --}}
-        <div class="grid wide container list-product-recommend" style="margin-top: 20px">
-            <ul class="product-list-recommend">
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-43%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="item-img">
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </section>
 
+        {{-- ds sp mới --}}
+        <section class="product-thun">
+            <div class="grid wide container">
+                <div class="row">
+                    <div class="col l-3 m-6 c-6 ">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <a href="/detail.html"><img src="/img/aothun.webp" alt=""></a>
+
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col l-3 m-6 c-6 row-mobile">
+                        <div class="item">
+                            <div class="item-img">
+                                <span class="item-giam">-44%</span>
+                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <img src="/img/aothun.webp" alt="">
+                            </div>
+                            <div class="item-name">
+                                <h3><a href="">
+                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                </a></h3>
+                            </div>
+                            <div class="item-price">
+                                <span style="color: red;padding-right: 10px;">195.000đ</span>
+                                <span><del>300.000đ</del></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
     <section class="about-mag">
-        <div class="grid wide container" style="background-color: white; position: relative; z-index: 99;  ">
+        <div class="grid wide container">
             <div class="row">
                 <div class="col l-12 m-12 c-12">
-                    <div style="padding-top: 30px; padding-bottom: 30px; width: 100%; background-color: white">
-                        <h2 style="text-align: center; font-size: 35px;">Về chúng tôi</h2>
+                    <div>
+                        <h2 class="section-title-ab">Về chúng tôi</h2>
                     </div>
                     <div class="about-content">
                         <div class="about-img">
@@ -540,14 +442,15 @@
                             <button>Xem thêm</button>
                         </div>
                     </div>
+                </div>
             </div>
-    </div>
+        </div>
     </section>
-    <div class="grid wide container" style="background-color: white; position: relative; z-index: 99;  ">
+    <div class="grid wide container">
         <div class="row">
             <div class="col l-12 m-12 c-12">
-                <div style="padding-top: 30px; padding-bottom: 30px; width: 100%; background-color: white">
-                   <h2 style="text-align: center; font-size: 35px;">Đăng ký nhận ưu đãi</h2>
+                <div>
+                    <h2 class="section-title-ab" style="margin-top: 30px">Đăng ký nhận ưu đãi</h2>
                 </div>
                 <div class="about-us">
                     <div class="box-log">
@@ -564,14 +467,16 @@
     <div class="grid wide container post-container" style="background-color: white; position: relative; z-index: 99; top: 0px">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
             <h2 style="font-size: 35px; font-weight: normal; padding: 20px 0px;">Tin tức</h2>
-            <a href="tintuc.html">Xem tất cả</a>
+            <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
         </div>
 
         <div class="row">
             <div class="col l-4 m-6 c-12">
                 <div class="post-item">
                     <div class="post-img">
-                        <img src="img/aokhoac.webp" alt="">
+                        <img src="img/team.png" alt="">
                     </div>
                     <div class="post-time">
                         <p>13/11/2005</p>
@@ -582,7 +487,24 @@
                     <div class="post-content">
                         <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp>></button>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div class="col l-4 m-6 c-12">
+                <div class="post-item">
+                    <div class="post-img">
+                        <img src="img/tam_nhin.webp" alt="">
+                    </div>
+                    <div class="post-time">
+                        <p>13/11/2005</p>
+                    </div>
+                    <div class="post-name">
+                        <h2>Công bố ra mắt sản phẩm mới</h2>
+                    </div>
+                    <div class="post-content">
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                    </div>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -599,13 +521,14 @@
                     <div class="post-content">
                         <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp>></button>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
                 <div class="post-item">
                     <div class="post-img">
-                        <img src="img/aokhoac.webp" alt="">
+                        <img src="img/slide1.jpg" alt="">
                     </div>
                     <div class="post-time">
                         <p>13/11/2005</p>
@@ -616,24 +539,7 @@
                     <div class="post-content">
                         <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp>></button>
-                </div>
-            </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/aokhoac.webp" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp>></button>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -650,13 +556,13 @@
                     <div class="post-content">
                         <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp>></button>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
                 <div class="post-item">
                     <div class="post-img">
-                        <img src="img/aothun.webp" alt="">
+                        <img src="img/slider_3.webp" alt="">
                     </div>
                     <div class="post-time">
                         <p>13/11/2005</p>
@@ -667,7 +573,7 @@
                     <div class="post-content">
                         <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp>></button>
+                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>

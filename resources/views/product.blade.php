@@ -164,7 +164,7 @@
                                         </div>
 
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin-top: 20px">
                                         <div class="col l-4 m-6 c-6 ">
                                             <div class="item product-pading-size">
                                                 <div class="item-img">
@@ -945,7 +945,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
     <script>
-        // lọc sản phẩm 
+        // lọc sản phẩm
         const sortButton = document.getElementById('sortButton');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const selectedValue = document.getElementById('selectedValue');
