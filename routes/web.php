@@ -41,3 +41,6 @@ Route::get('news', function () {
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
 });
+Route::get('newdetail', function () {
+    return view('new_detail');
+});
