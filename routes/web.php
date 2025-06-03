@@ -38,3 +38,6 @@ Route::get('payment', function () {
 Route::get('news', function () {
     return view('news');
 });
+Route::get('info-ctdh', function () {
+    return view('info_ctdh');
+});

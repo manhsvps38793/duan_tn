@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Đơn Hàng #DH12345</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Modern monochrome color palette */
+        :root {
+            --ctdh-black: #1a1a1a;
+            --ctdh-dark-gray: #333333;
+            --ctdh-gray: #666666;
+            --ctdh-light-gray: #e0e0e0;
+            --ctdh-lighter-gray: #f5f5f5;
+            --ctdh-white: #ffffff;
+            --ctdh-border-radius: 8px;
+            --ctdh-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --ctdh-transition: all 0.3s ease;
+        }
+
+        /* Base styles */
+        .ctdh-body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--ctdh-lighter-gray);
+            color: var(--ctdh-black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .ctdh-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Order header */
+        .ctdh-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .ctdh-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .ctdh-back-btn {
+            background: var(--ctdh-white);
+            color: var(--ctdh-black);
+            border: 1px solid var(--ctdh-light-gray);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--ctdh-border-radius);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: var(--ctdh-transition);
+            text-decoration: none;
+        }
+
+        .ctdh-back-btn:hover {
+            background: var(--ctdh-lighter-gray);
+            border-color: var(--ctdh-gray);
+        }
+
+        /* Order summary */
+        .ctdh-summary {
+            background: var(--ctdh-white);
+            border-radius: var(--ctdh-border-radius);
+            box-shadow: var(--ctdh-box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .ctdh-summary-item {
+            margin-bottom: 1rem;
+        }
+
+        .ctdh-summary-label {
+            font-size: 0.875rem;
+            color: var(--ctdh-gray);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ctdh-summary-value {
+            font-size: 1rem;
+            color: var(--ctdh-black);
+            font-weight: 500;
+        }
+
+        .ctdh-status {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        .ctdh-status-delivered {
+            background-color: #e6f7ee;
+            color: #10b759;
+            border: 1px solid #a0e6c3;
+        }
+
+        .ctdh-status-shipping {
+            background-color: #e6f2ff;
+            color: #2d7ff9;
+            border: 1px solid #a0c6ff;
+        }
+
+        .ctdh-status-cancelled {
+            background-color: #ffebeb;
+            color: #ff5252;
+            border: 1px solid #ffb0b0;
+        }
+
+        /* Order details */
+        .ctdh-details {
+            background: var(--ctdh-white);
+            border-radius: var(--ctdh-border-radius);
+            box-shadow: var(--ctdh-box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 1.5rem 0;
+            color: var(--ctdh-black);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .ctdh-products {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ctdh-products th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: var(--ctdh-lighter-gray);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--ctdh-gray);
+            border-bottom: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-products td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--ctdh-light-gray);
+            vertical-align: top;
+        }
+
+        .ctdh-product {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .ctdh-product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--ctdh-border-radius);
+            object-fit: cover;
+            border: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-product-info {
+            flex: 1;
+        }
+
+        .ctdh-product-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--ctdh-black);
+        }
+
+        .ctdh-product-sku {
+            font-size: 0.875rem;
+            color: var(--ctdh-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .ctdh-product-price {
+            font-weight: 600;
+            color: var(--ctdh-black);
+        }
+
+        .ctdh-product-quantity {
+            text-align: center;
+        }
+
+        .ctdh-product-total {
+            text-align: right;
+            font-weight: 600;
+            color: var(--ctdh-black);
+        }
+
+        /* Order totals */
+        .ctdh-totals {
+            background: var(--ctdh-white);
+            border-radius: var(--ctdh-border-radius);
+            box-shadow: var(--ctdh-box-shadow);
+            padding: 2rem;
+            border: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-totals-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .ctdh-totals-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .ctdh-totals-table {
+            width: 100%;
+        }
+
+        .ctdh-totals-table tr:not(:last-child) td {
+            padding-bottom: 0.75rem;
+        }
+
+        .ctdh-totals-label {
+            text-align: left;
+            color: var(--ctdh-gray);
+            font-size: 0.9375rem;
+        }
+
+        .ctdh-totals-value {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .ctdh-totals-total {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: var(--ctdh-black);
+        }
+
+        /* Order actions */
+        .ctdh-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .ctdh-action-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--ctdh-border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--ctdh-transition);
+            font-size: 0.9375rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ctdh-action-print {
+            background: var(--ctdh-white);
+            color: var(--ctdh-black);
+            border: 1px solid var(--ctdh-light-gray);
+        }
+
+        .ctdh-action-print:hover {
+            background: var(--ctdh-lighter-gray);
+            border-color: var(--ctdh-gray);
+        }
+
+        .ctdh-action-help {
+            background: var(--ctdh-black);
+            color: var(--ctdh-white);
+        }
+
+        .ctdh-action-help:hover {
+            background: var(--ctdh-dark-gray);
+        }
+
+        /* Timeline */
+        .ctdh-timeline {
+            margin-top: 2rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ctdh-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--ctdh-light-gray);
+        }
+
+        .ctdh-timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .ctdh-timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .ctdh-timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background: var(--ctdh-gray);
+        }
+
+        .ctdh-timeline-item.active .ctdh-timeline-dot {
+            background: var(--ctdh-black);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .ctdh-timeline-date {
+            font-size: 0.875rem;
+            color: var(--ctdh-gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .ctdh-timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .ctdh-timeline-description {
+            font-size: 0.875rem;
+            color: var(--ctdh-gray);
+        }
+        .ctdh-mobile {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .ctdh-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .ctdh-summary,
+            .ctdh-details,
+            .ctdh-totals {
+                padding: 1.5rem;
+            }
+
+            .ctdh-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .ctdh-products thead {
+                display: none;
+            }
+
+            .ctdh-products tr {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid var(--ctdh-light-gray);
+            }
+
+            .ctdh-products td {
+                padding: 0.5rem 0;
+                display: flex;
+                gap: 40px;
+                border-bottom: none;
+            }
+
+            .ctdh-products td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--ctdh-gray);
+                margin-right: 1rem;
+                font-size: 0.875rem;
+            }
+
+            .ctdh-product {
+                width: 100%;
+            }
+
+            .ctdh-actions {
+                flex-direction: column;
+            }
+
+            .ctdh-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .ctdh-pc {
+                display:none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .ctdh-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ctdh-body">
+    <div class="ctdh-container">
+        <div class="ctdh-header">
+            <h1 class="ctdh-title">Đơn hàng #DH12345</h1>
+            <a href="profile.html" class="ctdh-back-btn">
+                <i class="fas fa-arrow-left"></i> Quay lại hồ sơ
+            </a>
+        </div>
+
+        <div class="ctdh-summary">
+            <div class="ctdh-summary-grid">
+                <div class="ctdh-summary-item">
+                    <div class="ctdh-summary-label"><i class="fas fa-calendar-alt"></i> Ngày đặt hàng</div>
+                    <div class="ctdh-summary-value">15/05/2023</div>
+                </div>
+                <div class="ctdh-summary-item">
+                    <div class="ctdh-summary-label"><i class="fas fa-truck"></i> Trạng thái</div>
+                    <div class="ctdh-summary-value">
+                        <span class="ctdh-status ctdh-status-delivered">Đã giao hàng</span>
+                    </div>
+                </div>
+                <div class="ctdh-summary-item">
+                    <div class="ctdh-summary-label"><i class="fas fa-credit-card"></i> Phương thức thanh toán</div>
+                    <div class="ctdh-summary-value">Chuyển khoản ngân hàng</div>
+                </div>
+                <div class="ctdh-summary-item">
+                    <div class="ctdh-summary-label"><i class="fas fa-receipt"></i> Tổng cộng</div>
+                    <div class="ctdh-summary-value">1,250,000₫</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ctdh-details">
+            <h2 class="ctdh-section-title"><i class="fas fa-box-open"></i> Chi tiết đơn hàng</h2>
+
+            <table class="ctdh-products">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="ctdh-product">
+                                <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Áo thun nam" class="ctdh-product-image">
+                                <div class="ctdh-product-info">
+                                    <div class="ctdh-product-name">Áo thun nam cổ tròn</div>
+                                    <div class="ctdh-product-sku">Mã: TSHIRT-001</div>
+                                    <div class="ctdh-product-price">350,000₫</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ctdh-product-price ctdh-pc">450,000₫</td>
+                        <td class="ctdh-product-quantity ctdh-pc">2</td>
+                        <td class="ctdh-product-total ctdh-pc">900,000₫</td>
+                        <td class="ctdh-mobile">
+                            <div class="ctdh-product-price">350,000₫</div>
+                            <div  class="ctdh-product-quantity">1</div>
+                            <div class="ctdh-product-total">350,000₫</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="ctdh-product">
+                                <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Áo thun nam" class="ctdh-product-image">
+                                <div class="ctdh-product-info">
+                                    <div class="ctdh-product-name">Áo thun nam cổ tròn</div>
+                                    <div class="ctdh-product-sku">Mã: TSHIRT-001</div>
+                                    <div class="ctdh-product-price">350,000₫</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="ctdh-product-price ctdh-pc">450,000₫</td>
+                        <td class="ctdh-product-quantity ctdh-pc">2</td>
+                        <td class="ctdh-product-total ctdh-pc">900,000₫</td>
+                        <td class="ctdh-mobile">
+                            <div class="ctdh-product-price">350,000₫</div>
+                            <div  class="ctdh-product-quantity">1</div>
+                            <div class="ctdh-product-total">350,000₫</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="ctdh-totals">
+            <div class="ctdh-totals-grid">
+                <div>
+                    <h2 class="ctdh-section-title"><i class="fas fa-truck"></i> Thông tin giao hàng</h2>
+                    <div class="ctdh-summary-item">
+                        <div class="ctdh-summary-label">Người nhận</div>
+                        <div class="ctdh-summary-value">Nguyễn Văn A</div>
+                    </div>
+                    <div class="ctdh-summary-item">
+                        <div class="ctdh-summary-label">Địa chỉ</div>
+                        <div class="ctdh-summary-value">123 Đường ABC, Phường XYZ, Quận 1, TP.Hồ Chí Minh</div>
+                    </div>
+                    <div class="ctdh-summary-item">
+                        <div class="ctdh-summary-label">Số điện thoại</div>
+                        <div class="ctdh-summary-value">0987 654 321</div>
+                    </div>
+                    <div class="ctdh-summary-item">
+                        <div class="ctdh-summary-label">Phương thức vận chuyển</div>
+                        <div class="ctdh-summary-value">Giao hàng tiêu chuẩn (3-5 ngày)</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="ctdh-section-title"><i class="fas fa-receipt"></i> Tổng thanh toán</h2>
+                    <table class="ctdh-totals-table">
+                        <tr>
+                            <td class="ctdh-totals-label">Tạm tính</td>
+                            <td class="ctdh-totals-value">1,250,000₫</td>
+                        </tr>
+                        <tr>
+                            <td class="ctdh-totals-label">Phí vận chuyển</td>
+                            <td class="ctdh-totals-value">0₫</td>
+                        </tr>
+                        <tr>
+                            <td class="ctdh-totals-label">Giảm giá</td>
+                            <td class="ctdh-totals-value">-0₫</td>
+                        </tr>
+                        <tr>
+                            <td class="ctdh-totals-label">Tổng cộng</td>
+                            <td class="ctdh-totals-value ctdh-totals-total">1,250,000₫</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="ctdh-timeline">
+                <h2 class="ctdh-section-title"><i class="fas fa-history"></i> Lịch sử đơn hàng</h2>
+
+                <div class="ctdh-timeline-item active">
+                    <div class="ctdh-timeline-dot"></div>
+                    <div class="ctdh-timeline-date">17/05/2023 - 10:30</div>
+                    <div class="ctdh-timeline-title">Đơn hàng đã giao thành công</div>
+                    <div class="ctdh-timeline-description">Đơn hàng đã được giao đến địa chỉ của bạn</div>
+                </div>
+
+                <div class="ctdh-timeline-item">
+                    <div class="ctdh-timeline-dot"></div>
+                    <div class="ctdh-timeline-date">16/05/2023 - 08:15</div>
+                    <div class="ctdh-timeline-title">Đang giao hàng</div>
+                    <div class="ctdh-timeline-description">Đơn hàng đang được vận chuyển bởi đối tác của chúng tôi</div>
+                </div>
+
+                <div class="ctdh-timeline-item">
+                    <div class="ctdh-timeline-dot"></div>
+                    <div class="ctdh-timeline-date">15/05/2023 - 16:45</div>
+                    <div class="ctdh-timeline-title">Đã đóng gói</div>
+                    <div class="ctdh-timeline-description">Đơn hàng đã được đóng gói và sẵn sàng để vận chuyển</div>
+                </div>
+
+                <div class="ctdh-timeline-item">
+                    <div class="ctdh-timeline-dot"></div>
+                    <div class="ctdh-timeline-date">15/05/2023 - 14:20</div>
+                    <div class="ctdh-timeline-title">Đã xác nhận thanh toán</div>
+                    <div class="ctdh-timeline-description">Thanh toán của bạn đã được xác nhận</div>
+                </div>
+
+                <div class="ctdh-timeline-item">
+                    <div class="ctdh-timeline-dot"></div>
+                    <div class="ctdh-timeline-date">15/05/2023 - 14:15</div>
+                    <div class="ctdh-timeline-title">Đơn hàng đã được đặt</div>
+                    <div class="ctdh-timeline-description">Đơn hàng của bạn đã được tiếp nhận</div>
+                </div>
+            </div>
+
+            <div class="ctdh-actions">
+                <button class="ctdh-action-btn ctdh-action-print">
+                    <i class="fas fa-print"></i> In hóa đơn
+                </button>
+                <button class="ctdh-action-btn ctdh-action-help">
+                    <i class="fas fa-question-circle"></i> Cần hỗ trợ?
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Print button functionality
+            const printBtn = document.querySelector('.ctdh-action-print');
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+
+            // Help button functionality
+            const helpBtn = document.querySelector('.ctdh-action-help');
+            helpBtn.addEventListener('click', function() {
+                alert('Vui lòng liên hệ với bộ phận chăm sóc khách hàng qua email support@example.com hoặc số điện thoại 1900 1234 để được hỗ trợ.');
+            });
+        });
+    </script>
+</body>
+</html>

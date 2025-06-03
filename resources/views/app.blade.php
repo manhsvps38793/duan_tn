@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('/css/grid.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/info.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/info_ctdh.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/thanhtoan.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/about.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/detail.css') }}">

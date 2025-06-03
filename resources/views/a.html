@@ -1,7 +1,600 @@
-@extends('app')
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Hồ Sơ Cá Nhân</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Modern monochrome color palette */
+        :root {
+            --user-info-black: #1a1a1a;
+            --user-info-dark-gray: #333333;
+            --user-info-gray: #666666;
+            --user-info-light-gray: #e0e0e0;
+            --user-info-lighter-gray: #f5f5f5;
+            --user-info-white: #ffffff;
+            --user-info-border-radius: 8px;
+            --user-info-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --user-info-transition: all 0.3s ease;
+        }
 
-@section('body')
- <div class="user-info-body">
+        /* Base styles */
+        .user-info-body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--user-info-lighter-gray);
+            color: var(--user-info-black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .user-info-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Profile header */
+        .user-info-profile-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            background: var(--user-info-white);
+            border-radius: var(--user-info-border-radius);
+            box-shadow: var(--user-info-box-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--user-info-white);
+            box-shadow: 0 0 0 1px var(--user-info-light-gray);
+            transition: var(--user-info-transition);
+        }
+
+        .user-info-avatar:hover {
+            transform: scale(1.03);
+        }
+
+        .user-info-edit-avatar-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--user-info-black);
+            color: var(--user-info-white);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--user-info-transition);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info-edit-avatar-btn:hover {
+            background: var(--user-info-dark-gray);
+            transform: scale(1.1);
+        }
+
+        .user-info-username {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            color: var(--user-info-black);
+            font-weight: 700;
+        }
+
+        .user-info-email {
+            color: var(--user-info-gray);
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Profile sections */
+        .user-info-profile-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 992px) {
+            .user-info-profile-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .user-info-profile-section {
+            background: var(--user-info-white);
+            border-radius: var(--user-info-border-radius);
+            box-shadow: var(--user-info-box-shadow);
+            overflow: hidden;
+            transition: var(--user-info-transition);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-profile-section:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            background: var(--user-info-white);
+            border-bottom: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--user-info-black);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-info-edit-btn {
+            background: var(--user-info-white);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: var(--user-info-border-radius);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            transition: var(--user-info-transition);
+        }
+
+        .user-info-edit-btn:hover {
+            background: var(--user-info-lighter-gray);
+            border-color: var(--user-info-gray);
+        }
+
+        .user-info-section-content {
+            padding: 1.5rem;
+        }
+
+        .user-info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .user-info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--user-info-lighter-gray);
+        }
+
+        .user-info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        @media (min-width: 576px) {
+            .user-info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .user-info-label {
+            font-size: 0.875rem;
+            color: var(--user-info-gray);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info-value {
+            font-size: 1rem;
+            color: var(--user-info-black);
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        /* Orders section */
+        .user-info-orders-section {
+            grid-column: 1 / -1;
+        }
+
+        .user-info-orders-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .user-info-orders-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .user-info-order-item {
+            border: 1px solid var(--user-info-light-gray);
+            border-radius: var(--user-info-border-radius);
+            padding: 1.25rem;
+            transition: var(--user-info-transition);
+            background: var(--user-info-white);
+        }
+
+        .user-info-order-item:hover {
+            border-color: var(--user-info-gray);
+        }
+
+        .user-info-order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .user-info-order-id {
+            font-weight: 600;
+            color: var(--user-info-black);
+            font-size: 0.9375rem;
+        }
+
+        .user-info-order-date {
+            color: var(--user-info-gray);
+            font-size: 0.875rem;
+        }
+
+        .user-info-order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-info-order-status-delivered {
+            background-color: var(--user-info-lighter-gray);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-order-status-shipping {
+            background-color: var(--user-info-lighter-gray);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-order-status-cancelled {
+            background-color: var(--user-info-lighter-gray);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-order-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .user-info-order-products {
+            color: var(--user-info-gray);
+            font-size: 0.875rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .user-info-order-total {
+            font-weight: 700;
+            color: var(--user-info-black);
+            font-size: 1.125rem;
+        }
+
+        .user-info-order-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        .user-info-order-detail-btn {
+            background: var(--user-info-white);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+            padding: 0.5rem 1rem;
+            border-radius: var(--user-info-border-radius);
+            cursor: pointer;
+            transition: var(--user-info-transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info-order-detail-btn:hover {
+            background: var(--user-info-lighter-gray);
+            border-color: var(--user-info-gray);
+        }
+
+        /* Modal styles */
+        .user-info-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .user-info-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .user-info-modal-content {
+            background-color: var(--user-info-white);
+            margin: 1rem;
+            padding: 2rem;
+            border-radius: var(--user-info-border-radius);
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: userInfoModalSlideIn 0.4s ease forwards;
+            transform: translateY(50px);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        @keyframes userInfoModalSlideIn {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .user-info-close-btn {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--user-info-gray);
+            cursor: pointer;
+            transition: var(--user-info-transition);
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .user-info-close-btn:hover {
+            color: var(--user-info-black);
+            background: var(--user-info-lighter-gray);
+        }
+
+        .user-info-modal-title {
+            margin-bottom: 1.5rem;
+            color: var(--user-info-black);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-info-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info-input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .user-info-input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--user-info-black);
+            font-size: 0.9375rem;
+        }
+
+        .user-info-input,
+        .user-info-textarea,
+        .user-info-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--user-info-light-gray);
+            border-radius: var(--user-info-border-radius);
+            font-size: 1rem;
+            transition: var(--user-info-transition);
+            background: var(--user-info-white);
+        }
+
+        .user-info-input:focus,
+        .user-info-textarea:focus,
+        .user-info-select:focus {
+            border-color: var(--user-info-gray);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--user-info-light-gray);
+        }
+
+        .user-info-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .user-info-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .user-info-cancel-btn,
+        .user-info-save-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--user-info-border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--user-info-transition);
+            font-size: 0.9375rem;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info-cancel-btn {
+            background-color: var(--user-info-white);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-cancel-btn:hover {
+            background-color: var(--user-info-lighter-gray);
+            border-color: var(--user-info-gray);
+        }
+
+        .user-info-save-btn {
+            background: var(--user-info-black);
+            color: var(--user-info-white);
+        }
+
+        .user-info-save-btn:hover {
+            background: var(--user-info-dark-gray);
+        }
+
+        /* Toast notification */
+        .user-info-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--user-info-black);
+            color: var(--user-info-white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--user-info-border-radius);
+            box-shadow: var(--user-info-box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1100;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--user-info-transition);
+            border: 1px solid var(--user-info-dark-gray);
+        }
+
+        .user-info-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .user-info-toast-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Loading spinner */
+        .user-info-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--user-info-white);
+            animation: userInfoSpin 1s ease-in-out infinite;
+        }
+
+        @keyframes userInfoSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .user-info-profile-header {
+                padding: 1.5rem;
+            }
+
+            .user-info-modal-content {
+                padding: 1.5rem;
+            }
+
+            .user-info-form-actions {
+                flex-direction: column-reverse;
+                gap: 0.75rem;
+            }
+
+            .user-info-cancel-btn,
+            .user-info-save-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .user-info-container {
+                padding: 1rem;
+            }
+
+            .user-info-profile-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .user-info-avatar {
+                width: 120px;
+                height: 120px;
+            }
+
+            .user-info-username {
+                font-size: 1.5rem;
+            }
+
+            .user-info-section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .user-info-edit-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="user-info-body">
 
 
     <div class="user-info-container">
@@ -76,7 +669,9 @@
                                 </div>
                             </div>
                             <div class="user-info-order-actions">
-                                <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i class="fas fa-eye"></i> Xem chi tiết</a>
+                                <button class="user-info-order-detail-btn">
+                                    <i class="fas fa-eye"></i> Xem chi tiết
+                                </button>
                             </div>
                         </div>
 
@@ -95,7 +690,9 @@
                                 </div>
                             </div>
                             <div class="user-info-order-actions">
-                                <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i class="fas fa-eye"></i> Xem chi tiết</a>
+                                <button class="user-info-order-detail-btn">
+                                    <i class="fas fa-eye"></i> Xem chi tiết
+                                </button>
                             </div>
                         </div>
 
@@ -114,7 +711,9 @@
                                 </div>
                             </div>
                             <div class="user-info-order-actions">
-                                <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i class="fas fa-eye"></i> Xem chi tiết</a>
+                                <button class="user-info-order-detail-btn">
+                                    <i class="fas fa-eye"></i> Xem chi tiết
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -335,4 +934,5 @@
             });
         });
     </script>
-@endsection
+</body>
+</html>

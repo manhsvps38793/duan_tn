@@ -1,202 +1,209 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống đăng nhập | M A G</title>
+@extends('app')
+
+@section('body')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href=" {{asset('')}}css/login.css">
-</head>
+    <link rel="stylesheet" href=" {{ asset('') }}css/login.css">
 
-<body>
-    <div class="container">
-        <div class="decor-top"></div>
-        <div class="decor-bottom"></div>
-        
-        <div class="panel-container">
-            <div class="left-panel order-login-1">
-                <div class="brand">
-                    <div class="brand-logo">M A G</div>
-                    <div class="brand-text">MEMBERS</div>
+    <div class="logins-body">
+        <div class="logins-container">
+            <div class="logins-decor-top"></div>
+            <div class="logins-decor-bottom"></div>
+
+            <div class="logins-panel-container">
+                <div class="logins-left-panel logins-order-login-1">
+                    <div class="logins-brand">
+                        <div class="logins-brand-logo">M A G</div>
+                        <div class="logins-brand-text">MEMBERS</div>
+                    </div>
+
+                    <div class="logins-welcome-text">
+                        <h1>Trải nghiệm thành viên</h1>
+                        <p>Tham gia hệ thống thành viên để tận hưởng những đặc quyền và ưu đãi độc quyền dành riêng cho bạn.
+                        </p>
+                    </div>
+
+                    <div class="logins-benefits">
+                        <h3>Lợi ích đặc biệt</h3>
+
+                        <div class="logins-benefit-item">
+                            <div class="logins-check-icon"><i class="fas fa-check"></i></div>
+                            <div class="logins-benefit-text">Quản lý và nâng cấp hạng thẻ thành viên</div>
+                        </div>
+
+                        <div class="logins-benefit-item">
+                            <div class="logins-check-icon"><i class="fas fa-check"></i></div>
+                            <div class="logins-benefit-text">Theo dõi lịch sử giao dịch và hóa đơn điện tử</div>
+                        </div>
+
+                        <div class="logins-benefit-item">
+                            <div class="logins-check-icon"><i class="fas fa-check"></i></div>
+                            <div class="logins-benefit-text">Nhận ưu đãi đặc biệt chỉ dành riêng cho thành viên</div>
+                        </div>
+
+                        <div class="logins-benefit-item">
+                            <div class="logins-check-icon"><i class="fas fa-check"></i></div>
+                            <div class="logins-benefit-text">Tích điểm và đổi quà từ các chương trình khuyến mãi</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="welcome-text">
-                    <h1>Trải nghiệm thành viên</h1>
-                    <p>Tham gia hệ thống thành viên để tận hưởng những đặc quyền và ưu đãi độc quyền dành riêng cho bạn.</p>
-                </div>
-                
-                <div class="benefits">
-                    <h3>Lợi ích đặc biệt</h3>
-                    
-                    <div class="benefit-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <div class="benefit-text">Quản lý và nâng cấp hạng thẻ thành viên</div>
-                    </div>
-                    
-                    <div class="benefit-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <div class="benefit-text">Theo dõi lịch sử giao dịch và hóa đơn điện tử</div>
-                    </div>
-                    
-                    <div class="benefit-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <div class="benefit-text">Nhận ưu đãi đặc biệt chỉ dành riêng cho thành viên</div>
-                    </div>
-                    
-                    <div class="benefit-item">
-                        <div class="check-icon"><i class="fas fa-check"></i></div>
-                        <div class="benefit-text">Tích điểm và đổi quà từ các chương trình khuyến mãi</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="right-panel order-login-2">
-                <div class="form-container">
-                    <div class="form-nav">
-                        <div class="nav-item active" data-target="login">ĐĂNG NHẬP</div>
-                        <div class="nav-item" data-target="register">ĐĂNG KÝ</div>
-                        <div class="nav-item" data-target="forgot">QUÊN MẬT KHẨU</div>
-                    </div>
-                    
-                    <div class="form-header">
-                        <h2>Đăng nhập tài khoản</h2>
-                        <p>Nhập thông tin của bạn để truy cập vào hệ thống</p>
-                    </div>
-                    
-                    <!-- Login Form -->
-                    <div id="login" class="form-content active">
-                        <form class="login-form" onsubmit="login(event)">
-                            <div class="input-group">
-                                <label for="login-username">TÊN TÀI KHOẢN</label>
-                                <input type="text" id="login-username" placeholder="Tên đăng nhập hoặc email">
-                                <p class="error-message" id="login-checkusername">Vui lòng nhập tên đăng nhập</p>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="login-password">MẬT KHẨU</label>
-                                <div class="password-container">
-                                    <input type="password" id="login-password" placeholder="Mật khẩu của bạn">
-                                    <button type="button" class="toggle-password" onclick="togglePassword('login-password')">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+
+                <div class="logins-right-panel logins-order-login-2">
+                    <div class="logins-form-container">
+                        <div class="logins-form-nav">
+                            <div class="logins-nav-item logins-active" data-target="login">ĐĂNG NHẬP</div>
+                            <div class="logins-nav-item" data-target="register">ĐĂNG KÝ</div>
+                            <div class="logins-nav-item" data-target="forgot">QUÊN MẬT KHẨU</div>
+                        </div>
+
+                        <div class="logins-form-header">
+                            <h2>Đăng nhập tài khoản</h2>
+                            <p>Nhập thông tin của bạn để truy cập vào hệ thống</p>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div id="login" class="logins-form-content logins-active">
+                            <form class="logins-login-form" onsubmit="login(event)">
+                                <div class="logins-input-group">
+                                    <label for="login-username">TÊN TÀI KHOẢN</label>
+                                    <input type="text" id="login-username" placeholder="Tên đăng nhập hoặc email">
+                                    <p class="logins-error-message" id="login-checkusername">Vui lòng nhập tên đăng nhập</p>
                                 </div>
-                                <p class="error-message" id="login-checkpass">Vui lòng nhập mật khẩu</p>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">ĐĂNG NHẬP</button>
-                            
-                            <div class="social-login">
-                                <div class="divider">
-                                    <div class="divider-line"></div>
-                                    <div class="divider-text">HOẶC ĐĂNG NHẬP VỚI</div>
-                                    <div class="divider-line"></div>
-                                </div>
-                                
-                                <div class="social-buttons">
-                                    <div class="social-btn google" onclick="loginWithGoogle()">
-                                        <i class="fab fa-google google-icon social-icon"></i>
-                                        <span>Google</span>
+
+                                <div class="logins-input-group">
+                                    <label for="login-password">MẬT KHẨU</label>
+                                    <div class="logins-password-container">
+                                        <input type="password" id="login-password" placeholder="Mật khẩu của bạn">
+                                        <button type="button" class="logins-toggle-password"
+                                            onclick="togglePassword('login-password')">
+                                            <i class="far fa-eye"></i>
+                                        </button>
                                     </div>
-                                    <div class="social-btn facebook" onclick="loginWithFacebook()">
-                                        <i class="fab fa-facebook-f facebook-icon social-icon"></i>
-                                        <span>Facebook</span>
+                                    <p class="logins-error-message" id="login-checkpass">Vui lòng nhập mật khẩu</p>
+                                </div>
+
+                                <button type="submit" class="logins-submit-btn">ĐĂNG NHẬP</button>
+
+                                <div class="logins-social-login">
+                                    <div class="logins-divider">
+                                        <div class="logins-divider-line"></div>
+                                        <div class="logins-divider-text">HOẶC ĐĂNG NHẬP VỚI</div>
+                                        <div class="logins-divider-line"></div>
+                                    </div>
+
+                                    <div class="logins-social-buttons">
+                                        <div class="logins-social-btn logins-google" onclick="loginWithGoogle()">
+                                            <i class="fab fa-google logins-google-icon logins-social-icon"></i>
+                                            <span>Google</span>
+                                        </div>
+                                        <div class="logins-social-btn logins-facebook" onclick="loginWithFacebook()">
+                                            <i class="fab fa-facebook-f logins-facebook-icon logins-social-icon"></i>
+                                            <span>Facebook</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="action-links">
-                                <a href="#" class="action-link" data-target="forgot">Quên mật khẩu?</a>
-                                <a href="#" class="action-link" data-target="register">Tạo tài khoản mới</a>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <!-- Register Form -->
-                    <div id="register" class="form-content">
-                        <form class="register-form" onsubmit="register(event)">
-                            <div class="input-group">
-                                <label for="fullname">HỌ VÀ TÊN</label>
-                                <input type="text" id="fullname" placeholder="Nhập họ và tên đầy đủ">
-                                <p class="error-message" id="checkfullname">Vui lòng nhập họ tên</p>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="email">EMAIL</label>
-                                <input type="email" id="email" placeholder="Địa chỉ email của bạn">
-                                <p class="error-message" id="checkemail">Vui lòng nhập email hợp lệ</p>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="phone">SỐ ĐIỆN THOẠI</label>
-                                <input type="tel" id="phone" placeholder="Số điện thoại">
-                                <p class="error-message" id="checkphone">Vui lòng nhập số điện thoại</p>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="register-password">MẬT KHẨU</label>
-                                <div class="password-container">
-                                    <input type="password" id="register-password" placeholder="Tạo mật khẩu mạnh">
-                                    <button type="button" class="toggle-password" onclick="togglePassword('register-password')">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+
+                                <div class="logins-action-links">
+                                    <a href="#" class="logins-action-link" data-target="forgot">Quên mật khẩu?</a>
+                                    <a href="#" class="logins-action-link" data-target="register">Tạo tài khoản
+                                        mới</a>
                                 </div>
-                                <p class="error-message" id="register-checkpass">Mật khẩu phải có ít nhất 8 ký tự</p>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="confirm-password">XÁC NHẬN MẬT KHẨU</label>
-                                <div class="password-container">
-                                    <input type="password" id="confirm-password" placeholder="Nhập lại mật khẩu">
-                                    <button type="button" class="toggle-password" onclick="togglePassword('confirm-password')">
-                                        <i class="far fa-eye"></i>
-                                    </button>
+                            </form>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register" class="logins-form-content">
+                            <form class="logins-register-form" onsubmit="register(event)">
+                                <div class="logins-input-group">
+                                    <label for="fullname">HỌ VÀ TÊN</label>
+                                    <input type="text" id="fullname" placeholder="Nhập họ và tên đầy đủ">
+                                    <p class="logins-error-message" id="checkfullname">Vui lòng nhập họ tên</p>
                                 </div>
-                                <p class="error-message" id="checkconfirmpass">Mật khẩu không khớp</p>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">ĐĂNG KÝ</button>
-                            
-                            <div class="social-login">
-                                <div class="divider">
-                                    <div class="divider-line"></div>
-                                    <div class="divider-text">HOẶC ĐĂNG KÝ BẰNG</div>
-                                    <div class="divider-line"></div>
+
+                                <div class="logins-input-group">
+                                    <label for="email">EMAIL</label>
+                                    <input type="email" id="email" placeholder="Địa chỉ email của bạn">
+                                    <p class="logins-error-message" id="checkemail">Vui lòng nhập email hợp lệ</p>
                                 </div>
-                                
-                                <div class="social-buttons">
-                                    <div class="social-btn google" onclick="registerWithGoogle()">
-                                        <i class="fab fa-google google-icon social-icon"></i>
-                                        <span>Google</span>
+
+                                <div class="logins-input-group">
+                                    <label for="phone">SỐ ĐIỆN THOẠI</label>
+                                    <input type="tel" id="phone" placeholder="Số điện thoại">
+                                    <p class="logins-error-message" id="checkphone">Vui lòng nhập số điện thoại</p>
+                                </div>
+
+                                <div class="logins-input-group">
+                                    <label for="register-password">MẬT KHẨU</label>
+                                    <div class="logins-password-container">
+                                        <input type="password" id="register-password" placeholder="Tạo mật khẩu mạnh">
+                                        <button type="button" class="logins-toggle-password"
+                                            onclick="togglePassword('register-password')">
+                                            <i class="far fa-eye"></i>
+                                        </button>
                                     </div>
-                                    <div class="social-btn facebook" onclick="registerWithFacebook()">
-                                        <i class="fab fa-facebook-f facebook-icon social-icon"></i>
-                                        <span>Facebook</span>
+                                    <p class="logins-error-message" id="register-checkpass">Mật khẩu phải có ít nhất 8 ký
+                                        tự</p>
+                                </div>
+
+                                <div class="logins-input-group">
+                                    <label for="confirm-password">XÁC NHẬN MẬT KHẨU</label>
+                                    <div class="logins-password-container">
+                                        <input type="password" id="confirm-password" placeholder="Nhập lại mật khẩu">
+                                        <button type="button" class="logins-toggle-password"
+                                            onclick="togglePassword('confirm-password')">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <p class="logins-error-message" id="checkconfirmpass">Mật khẩu không khớp</p>
+                                </div>
+
+                                <button type="submit" class="logins-submit-btn">ĐĂNG KÝ</button>
+
+                                <div class="logins-social-login">
+                                    <div class="logins-divider">
+                                        <div class="logins-divider-line"></div>
+                                        <div class="logins-divider-text">HOẶC ĐĂNG KÝ BẰNG</div>
+                                        <div class="logins-divider-line"></div>
+                                    </div>
+
+                                    <div class="logins-social-buttons">
+                                        <div class="logins-social-btn logins-google" onclick="registerWithGoogle()">
+                                            <i class="fab fa-google logins-google-icon logins-social-icon"></i>
+                                            <span>Google</span>
+                                        </div>
+                                        <div class="logins-social-btn logins-facebook" onclick="registerWithFacebook()">
+                                            <i class="fab fa-facebook-f logins-facebook-icon logins-social-icon"></i>
+                                            <span>Facebook</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="action-links">
-                                <a href="#" class="action-link" data-target="login">Đã có tài khoản? Đăng nhập</a>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <!-- Forgot Password Form -->
-                    <div id="forgot" class="form-content">
-                        <form class="forgot-form" onsubmit="forgotPassword(event)">
-                            <div class="input-group">
-                                <label for="account">EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
-                                <input type="text" id="account" placeholder="Nhập email hoặc số điện thoại đăng ký">
-                                <p class="error-message" id="checkaccount">Vui lòng nhập email hoặc số điện thoại</p>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn">GỬI YÊU CẦU</button>
-                            
-                            <div class="action-links">
-                                <a href="#" class="action-link" data-target="login">Quay lại đăng nhập</a>
-                            </div>
-                        </form>
+
+                                <div class="logins-action-links">
+                                    <a href="#" class="logins-action-link" data-target="login">Đã có tài khoản?
+                                        Đăng nhập</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Forgot Password Form -->
+                        <div id="forgot" class="logins-form-content">
+                            <form class="logins-forgot-form" onsubmit="forgotPassword(event)">
+                                <div class="logins-input-group">
+                                    <label for="account">EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
+                                    <input type="text" id="account"
+                                        placeholder="Nhập email hoặc số điện thoại đăng ký">
+                                    <p class="logins-error-message" id="checkaccount">Vui lòng nhập email hoặc số điện
+                                        thoại</p>
+                                </div>
+
+                                <button type="submit" class="logins-submit-btn">GỬI YÊU CẦU</button>
+
+                                <div class="logins-action-links">
+                                    <a href="#" class="logins-action-link" data-target="login">Quay lại đăng
+                                        nhập</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,81 +212,84 @@
 
     <script>
         // Form navigation
-        document.querySelectorAll('.nav-item, .action-link').forEach(item => {
+        document.querySelectorAll('.logins-nav-item, .logins-action-link').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = this.getAttribute('data-target');
-                
+
                 // Update navigation
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
+                document.querySelectorAll('.logins-nav-item').forEach(nav => {
+                    nav.classList.remove('logins-active');
                 });
-                
-                if(target) {
-                    document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
-                    
+
+                if (target) {
+                    document.querySelector(`.logins-nav-item[data-target="${target}"]`).classList.add(
+                        'logins-active');
+
                     // Show target form
-                    document.querySelectorAll('.form-content').forEach(form => {
-                        form.classList.remove('active');
+                    document.querySelectorAll('.logins-form-content').forEach(form => {
+                        form.classList.remove('logins-active');
                     });
-                    document.getElementById(target).classList.add('active');
-                    
+                    document.getElementById(target).classList.add('logins-active');
+
                     // Update form header
-                    const header = document.querySelector('.form-header');
-                    if(target === 'login') {
+                    const header = document.querySelector('.logins-form-header');
+                    if (target === 'login') {
                         header.querySelector('h2').textContent = 'Đăng nhập tài khoản';
-                        header.querySelector('p').textContent = 'Nhập thông tin của bạn để truy cập vào hệ thống';
-                    } else if(target === 'register') {
+                        header.querySelector('p').textContent =
+                            'Nhập thông tin của bạn để truy cập vào hệ thống';
+                    } else if (target === 'register') {
                         header.querySelector('h2').textContent = 'Tạo tài khoản mới';
                         header.querySelector('p').textContent = 'Điền thông tin để đăng ký tài khoản';
-                    } else if(target === 'forgot') {
+                    } else if (target === 'forgot') {
                         header.querySelector('h2').textContent = 'Khôi phục mật khẩu';
-                        header.querySelector('p').textContent = 'Vui lòng cung cấp thông tin để khôi phục mật khẩu';
+                        header.querySelector('p').textContent =
+                            'Vui lòng cung cấp thông tin để khôi phục mật khẩu';
                     }
                 }
             });
         });
-        
+
         // Toggle password visibility
         function togglePassword(fieldId) {
             const passwordField = document.getElementById(fieldId);
             const toggleIcon = passwordField.nextElementSibling.querySelector('i');
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            
+
             passwordField.setAttribute('type', type);
             toggleIcon.classList.toggle('fa-eye');
             toggleIcon.classList.toggle('fa-eye-slash');
         }
-        
+
         // Login function
         function login(event) {
             event.preventDefault();
             const username = document.getElementById('login-username').value;
             const password = document.getElementById('login-password').value;
-            
+
             let valid = true;
-            
+
             // Reset errors
-            document.querySelectorAll('#login .error-message').forEach(el => {
+            document.querySelectorAll('#login .logins-error-message').forEach(el => {
                 el.style.display = 'none';
             });
-            
+
             if (!username) {
                 document.getElementById('login-checkusername').style.display = 'block';
                 valid = false;
             }
-            
+
             if (!password) {
                 document.getElementById('login-checkpass').style.display = 'block';
                 valid = false;
             }
-            
+
             if (valid) {
                 alert('Đăng nhập thành công! Chào mừng ' + username);
                 // In a real app, you would submit the form here
             }
         }
-        
+
         // Register function
         function register(event) {
             event.preventDefault();
@@ -288,90 +298,89 @@
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
-            
+
             let valid = true;
-            
+
             // Reset errors
-            document.querySelectorAll('#register .error-message').forEach(el => {
+            document.querySelectorAll('#register .logins-error-message').forEach(el => {
                 el.style.display = 'none';
             });
-            
+
             if (!fullname) {
                 document.getElementById('checkfullname').style.display = 'block';
                 valid = false;
             }
-            
+
             if (!email || !validateEmail(email)) {
                 document.getElementById('checkemail').style.display = 'block';
                 valid = false;
             }
-            
+
             if (!phone || !validatePhone(phone)) {
                 document.getElementById('checkphone').style.display = 'block';
                 valid = false;
             }
-            
+
             if (!password || password.length < 8) {
                 document.getElementById('register-checkpass').style.display = 'block';
                 valid = false;
             }
-            
+
             if (password !== confirmPassword) {
                 document.getElementById('checkconfirmpass').style.display = 'block';
                 valid = false;
             }
-            
+
             if (valid) {
                 alert('Đăng ký thành công! Chào mừng ' + fullname);
                 // Redirect to login
-                document.querySelector('.nav-item[data-target="login"]').click();
+                document.querySelector('.logins-nav-item[data-target="login"]').click();
             }
         }
-        
+
         // Forgot password function
         function forgotPassword(event) {
             event.preventDefault();
             const account = document.getElementById('account').value;
-            
+
             // Reset error
             document.getElementById('checkaccount').style.display = 'none';
-            
+
             if (!account) {
                 document.getElementById('checkaccount').style.display = 'block';
                 return;
             }
-            
+
             alert('Yêu cầu khôi phục mật khẩu đã được gửi! Vui lòng kiểm tra email hoặc điện thoại của bạn.');
         }
-        
+
         // Validation helpers
         function validateEmail(email) {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const re =
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(email);
         }
-        
+
         function validatePhone(phone) {
             const re = /^\d{10,11}$/;
             return re.test(phone);
         }
-        
+
         // Social login functions
         function loginWithGoogle() {
             alert('Đăng nhập bằng Google được chọn');
         }
-        
+
         function loginWithFacebook() {
             alert('Đăng nhập bằng Facebook được chọn');
         }
-        
+
         function registerWithGoogle() {
             alert('Đăng ký bằng Google được chọn');
         }
-        
+
         function registerWithFacebook() {
             alert('Đăng ký bằng Facebook được chọn');
         }
     </script>
-</body>
-
-</html>
+@endsection
