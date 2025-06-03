@@ -51,14 +51,17 @@ header>.nav-top>.nav-pc>ul {
 header>.nav-top>.nav-pc>ul>li>a {
     text-decoration: none;
     color: #000;
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .logo>a {
     text-decoration: none;
 
 }
-
+.nav-top>.user{
+    display: flex;
+    align-items: center;
+}
 .Search>form {
     display: flex;
     position: relative;
@@ -162,10 +165,15 @@ header>.nav-top>.nav-pc>ul>li>a {
 .user-all ul ul a:hover {
     background-color: rgb(189, 189, 189);
     color: #ffffff;
+
 }
 
-.user-all>ul>li:hover>ul {
+.user-all>ul>li:hover>ul{
     display: block;
+    width: 130px !important;
+}
+.user-all>ul>li:hover>ul>li{
+    width: auto;
 }
 
 /*  */
@@ -980,6 +988,7 @@ header>.nav-top>.nav-pc>ul>li>a {
     text-decoration: none;
     color: rgb(62, 61, 61);
     font-weight: normal;
+    font-size: 17px;
 
 }
 
@@ -990,7 +999,7 @@ header>.nav-top>.nav-pc>ul>li>a {
 .item-price {
     text-align: center;
     padding: 3px 5px;
-    font-size: 20px;
+    font-size: 17px;
     color: rgb(62, 61, 61);
 }
 
@@ -2736,7 +2745,7 @@ footer {
 
 /* box login */
 .about-us {
-    background-image: url('hình cái lồn địt mẹ đéo ra');
+
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

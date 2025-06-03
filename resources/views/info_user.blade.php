@@ -5,14 +5,7 @@
 
 
     <div class="user-info-container">
-        <header class="user-info-profile-header">
-            <div class="user-info-avatar-container">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&h=200&q=80" alt="Avatar" class="user-info-avatar">
-                <button class="user-info-edit-avatar-btn" aria-label="Edit avatar"><i class="fas fa-camera"></i></button>
-            </div>
-            <h1 class="user-info-username">Nguyễn Văn A</h1>
-            <p class="user-info-email"><i class="fas fa-envelope"></i> nguyenvana@example.com</p>
-        </header>
+
 
         <div class="user-info-profile-content">
             <section class="user-info-profile-section">

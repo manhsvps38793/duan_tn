@@ -452,7 +452,7 @@
                 <div>
                     <h2 class="section-title-ab" style="margin-top: 30px">Đăng ký nhận ưu đãi</h2>
                 </div>
-                <div class="about-us">
+                <div class="about-us" style="background-image: url('{{ asset('img/slide1.jpg') }}');">
                     <div class="box-log">
                         <div class="text-content">
                             <h3 class="text">Trở thành thành viên của M A G ngay hôm nay !!</h3>
