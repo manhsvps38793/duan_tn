@@ -245,7 +245,7 @@
             color: #e53935;
             font-size: 14px;
             margin-top: 8px;
-            display: none;
+            /* display: none; */
         }
 
         .logins-password-container {

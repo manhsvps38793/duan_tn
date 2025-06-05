@@ -1,69 +1,78 @@
 @extends('app')
 
 @section('body')
- <div class="index-slider-container" id="slider">
-    <div class="index-progress-bar"></div>
-    <div class="index-slider-track-container">
-      <div class="index-slider-track">
-        <div class="index-slide active" style="background-image: url('{{asset('/img/slide1.jpg')}}');">
-          <div class="index-slide-overlay"></div>
-          <div class="index-slide-content">
-            <span class="season-tag">New Collection</span>
-            <h1 class="index-slide-title">Elegant Simplicity</h1>
-            <p class="index-slide-description">Discover our minimalist collection where every piece tells a story of
-              refined elegance and timeless design.</p>
-            <a href="#" class="shop-btn">Explore</a>
-          </div>
+    @auth
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">Đăng xuất</button>
+        </form>
+    @endauth
+    <div class="index-slider-container" id="slider">
+        <div class="index-progress-bar"></div>
+        <div class="index-slider-track-container">
+            <div class="index-slider-track">
+                <div class="index-slide active" style="background-image: url('{{asset('/img/slide1.jpg')}}');">
+                    <div class="index-slide-overlay"></div>
+                    <div class="index-slide-content">
+                        <span class="season-tag">New Collection</span>
+                        <h1 class="index-slide-title">Elegant Simplicity</h1>
+                        <p class="index-slide-description">Discover our minimalist collection where every piece tells a
+                            story of
+                            refined elegance and timeless design.</p>
+                        <a href="#" class="shop-btn">Explore</a>
+                    </div>
+                </div>
+                <div class="index-slide" style="background-image: url('{{asset('/img/slider_2.webp')}}');">
+                    <div class="index-slide-overlay"></div>
+                    <div class="index-slide-content">
+                        <span class="season-tag">Summer 2023</span>
+                        <h1 class="index-slide-title">Luxury Accessories</h1>
+                        <p class="index-slide-description">Elevate your everyday with our curated selection of premium
+                            accessories
+                            crafted for the modern individual.</p>
+                        <a href="#" class="shop-btn">View Collection</a>
+                    </div>
+                </div>
+                <div class="index-slide" style="background-image: url('{{asset('/img/slider_3.webp')}}');">
+                    <div class="index-slide-overlay"></div>
+                    <div class="index-slide-content">
+                        <span class="season-tag">Men's Edition</span>
+                        <h1 class="index-slide-title">Tailored Perfection</h1>
+                        <p class="index-slide-description">Experience the perfect blend of comfort and sophistication with
+                            our
+                            premium menswear collection.</p>
+                        <a href="#" class="shop-btn">Shop Now</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="index-slide" style="background-image: url('{{asset('/img/slider_2.webp')}}');">
-          <div class="index-slide-overlay"></div>
-          <div class="index-slide-content">
-            <span class="season-tag">Summer 2023</span>
-            <h1 class="index-slide-title">Luxury Accessories</h1>
-            <p class="index-slide-description">Elevate your everyday with our curated selection of premium accessories
-              crafted for the modern individual.</p>
-            <a href="#" class="shop-btn">View Collection</a>
-          </div>
+
+        <button class="arrow-btn prev-btn">&#10094;</button>
+        <button class="arrow-btn next-btn">&#10095;</button>
+
+        <div class="index-slider-nav">
+            <button class="nav-dot active"></button>
+            <button class="nav-dot"></button>
+            <button class="nav-dot"></button>
         </div>
-        <div class="index-slide" style="background-image: url('{{asset('/img/slider_3.webp')}}');">
-          <div class="index-slide-overlay"></div>
-          <div class="index-slide-content">
-            <span class="season-tag">Men's Edition</span>
-            <h1 class="index-slide-title">Tailored Perfection</h1>
-            <p class="index-slide-description">Experience the perfect blend of comfort and sophistication with our
-              premium menswear collection.</p>
-            <a href="#" class="shop-btn">Shop Now</a>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <button class="arrow-btn prev-btn">&#10094;</button>
-    <button class="arrow-btn next-btn">&#10095;</button>
-
-    <div class="index-slider-nav">
-      <button class="nav-dot active"></button>
-      <button class="nav-dot"></button>
-      <button class="nav-dot"></button>
-    </div>
-  </div>
-
-  {{-- kết thúc slider --}}
+    {{-- kết thúc slider --}}
 
     <div class="introduce">
         <p class="tieude">Enjoy Your Youth!</p>
         <p class="introduce-test">Không chỉ là thời trang, M A G còn là “phòng thí nghiệm”
-            của tuổi trẻ - nơi nghiên cứu và cho  ra đời nguồn năng lượng
+            của tuổi trẻ - nơi nghiên cứu và cho ra đời nguồn năng lượng
             mang tên “Youth”. Chúng mình luôn muốn tạo nên những trải
-            nghiệm  vui vẻ, năng động và trẻ trung.
+            nghiệm vui vẻ, năng động và trẻ trung.
         </p>
     </div>
     <!-- san pham sale hết thời gian thì display none -->
-     <section class="product-sale" style="margin-bottom: 10px">
+    <section class="product-sale" style="margin-bottom: 10px">
         <div class="header-product-sale">
             <div>
-            <h2 class="section-title">Đang giảm giá</h2>
-            <img src="{{asset('/img/sale.webp')}}" alt="">
+                <h2 class="section-title">Đang giảm giá</h2>
+                <img src="{{asset('/img/sale.webp')}}" alt="">
             </div>
 
             <div class="count-down">
@@ -81,8 +90,10 @@
                     <div class="time-bottom">Giây</div>
                 </div>
             </div>
-            <div class="see-more-sale" style="position: absolute; display: flex; align-items: center;gap: 5px; right: 11%; margin-top: 189px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+            <div class="see-more-sale"
+                style="position: absolute; display: flex; align-items: center;gap: 5px; right: 11%; margin-top: 189px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                    class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
         <div class="product-sale-box">
@@ -91,7 +102,7 @@
             </div>
             <ul class="row product-list-sale">
                 <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
+                    <div class="item-img">
                         <span class="item-giam">-44%</span>
                         <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                         <a href="{{asset('/detail')}}"><img src="{{asset('img/aothun.webp')}}" alt=""></a>
@@ -99,59 +110,8 @@
                     </div>
                     <div class="item-name item-name-sale">
                         <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
                     </div>
                     <div class="item-price item-price-sales">
                         <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -160,15 +120,66 @@
                 </li>
                 <!--  -->
                 <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
+                    <div class="item-img">
                         <span class="item-giam">-44%</span>
                         <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                         <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
                     </div>
                     <div class="item-name item-name-sale">
                         <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
+                    </div>
+                    <div class="item-price item-price-sales">
+                        <span style="color: red;padding-right: 10px;">195.000đ</span>
+                        <span><del>300.000đ</del></span>
+                    </div>
+                </li>
+                <!--  -->
+                <li class="item" style="background-color: white; border-radius: 7px;">
+                    <div class="item-img">
+                        <span class="item-giam">-44%</span>
+                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
+                    </div>
+                    <div class="item-name item-name-sale">
+                        <h3><a href="">
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
+                    </div>
+                    <div class="item-price item-price-sales">
+                        <span style="color: red;padding-right: 10px;">195.000đ</span>
+                        <span><del>300.000đ</del></span>
+                    </div>
+                </li>
+                <!--  -->
+                <li class="item" style="background-color: white; border-radius: 7px;">
+                    <div class="item-img">
+                        <span class="item-giam">-44%</span>
+                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
+                    </div>
+                    <div class="item-name item-name-sale">
+                        <h3><a href="">
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
+                    </div>
+                    <div class="item-price item-price-sales">
+                        <span style="color: red;padding-right: 10px;">195.000đ</span>
+                        <span><del>300.000đ</del></span>
+                    </div>
+                </li>
+                <!--  -->
+                <li class="item" style="background-color: white; border-radius: 7px;">
+                    <div class="item-img">
+                        <span class="item-giam">-44%</span>
+                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
+                    </div>
+                    <div class="item-name item-name-sale">
+                        <h3><a href="">
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
                     </div>
                     <div class="item-price item-price-sales">
                         <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -176,15 +187,15 @@
                     </div>
                 </li>
                 <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
+                    <div class="item-img">
                         <span class="item-giam">-44%</span>
                         <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
                         <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
                     </div>
                     <div class="item-name item-name-sale">
                         <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
+                                Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                            </a></h3>
                     </div>
                     <div class="item-price item-price-sales">
                         <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -194,16 +205,17 @@
             </ul>
         </div>
         <div class="pruduct-xemthem see-more-mobile" style="display: none; margin-left: 36%; margin-top: 10px;">
-             <div style=" display: flex; align-items: center;gap: 5px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+            <div style=" display: flex; align-items: center;gap: 5px;">
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                    class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
-     </section>
-      <!-- load danh muc -->
-     <section class="section-cat" style="padding-bottom: 10px; background-color: white; position: relative; z-index: 10;">
+    </section>
+    <!-- load danh muc -->
+    <section class="section-cat" style="padding-bottom: 10px; background-color: white; position: relative; z-index: 10;">
         <div class=" grid wide container">
-             <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
-        <ul class="list-cat">
+            <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
+            <ul class="list-cat">
                 <li class="item-category">
                     <img class="category-img" src="img/aothun.webp" alt="">
                     <div class="detail-cat">
@@ -251,15 +263,16 @@
                         <a href="#"><button>Xem ngay</button></a>
                     </div>
                 </li>
-        </ul>
-    </div>
-     </section>
+            </ul>
+        </div>
+    </section>
     <!-- san pham pho bien -->
     <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
             <h2 class="section-title">Sản phẩm nổi bật</h2>
             <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                    class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -277,8 +290,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -296,8 +309,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -315,8 +328,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -334,8 +347,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -353,8 +366,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -372,8 +385,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -391,8 +404,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -410,8 +423,8 @@
                             </div>
                             <div class="item-name">
                                 <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
+                                        Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
+                                    </a></h3>
                             </div>
                             <div class="item-price">
                                 <span style="color: red;padding-right: 10px;">195.000đ</span>
@@ -436,8 +449,11 @@
                         </div>
                         <div class="about-text">
                             <h2>Giới thiệu shop M A G</h2>
-                            <p>Chúng tôi là một cửa hàng chuyên cung cấp các sản phẩm chất lượng cao với giá cả hợp lý. Với hơn 10 năm kinh nghiệm trong ngành, chúng tôi tự hào mang đến cho khách hàng những trải nghiệm mua sắm tốt nhất.</p>
-                            <p>Đội ngũ nhân viên chuyên nghiệp, tận tâm luôn sẵn sàng hỗ trợ khách hàng 24/7. Chúng tôi cam kết chỉ bán những sản phẩm chính hãng, có nguồn gốc xuất xứ rõ ràng.</p>
+                            <p>Chúng tôi là một cửa hàng chuyên cung cấp các sản phẩm chất lượng cao với giá cả hợp lý. Với
+                                hơn 10 năm kinh nghiệm trong ngành, chúng tôi tự hào mang đến cho khách hàng những trải
+                                nghiệm mua sắm tốt nhất.</p>
+                            <p>Đội ngũ nhân viên chuyên nghiệp, tận tâm luôn sẵn sàng hỗ trợ khách hàng 24/7. Chúng tôi cam
+                                kết chỉ bán những sản phẩm chính hãng, có nguồn gốc xuất xứ rõ ràng.</p>
                             <p>Hãy đến với chúng tôi để trải nghiệm dịch vụ tốt nhất và những ưu đãi hấp dẫn!</p>
                             <button>Xem thêm</button>
                         </div>
@@ -456,7 +472,7 @@
                     <div class="box-log">
                         <div class="text-content">
                             <h3 class="text">Trở thành thành viên của M A G ngay hôm nay !!</h3>
-                            <h2 class="text" >Nhận ngay voucher freeship cho đơn hàng đầu tiên</h2>
+                            <h2 class="text">Nhận ngay voucher freeship cho đơn hàng đầu tiên</h2>
                             <button class="btn-log">Đăng ký ngay</button>
                         </div>
                     </div>
@@ -464,11 +480,13 @@
             </div>
         </div>
     </div>
-    <div class="grid wide container post-container" style="background-color: white; position: relative; z-index: 99; top: 0px">
+    <div class="grid wide container post-container"
+        style="background-color: white; position: relative; z-index: 99; top: 0px">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
             <h2 style="font-size: 35px; font-weight: normal; padding: 20px 0px;">Tin tức</h2>
             <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                    class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
 
@@ -485,9 +503,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -502,9 +521,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -519,9 +539,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
 
                 </div>
             </div>
@@ -537,9 +558,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -554,9 +576,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
             <div class="col l-4 m-6 c-12">
@@ -571,9 +594,10 @@
                         <h2>Công bố ra mắt sản phẩm mới</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ yêu thích phong cách </p>
+                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
+                            yêu thích phong cách </p>
                     </div>
-                    <button>Đọc tiếp  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
