@@ -65,8 +65,7 @@
 
             <div class="user" >
                 <div class="favourite-container">
-                    <a href=""><i class="fa fa-heart" aria-hidden="true" style="color: rgb(255, 0, 0); font-size: 26px;"></i></a>
-                    <div class="cart-badge">0</div>
+                    <a href="{{asset('/favourite_product')}}"><i class="fa fa-heart" aria-hidden="true" style="color: rgb(255, 0, 0); font-size: 26px;"></i></a>
                 </div>
                 <div class="cart-container">
                     <a href="{{asset('/cart')}}"><i class="fa-solid fa-cart-shopping fa-xl" style="color: rgb(255, 64, 64);"></i></a>
@@ -77,7 +76,7 @@
                         <li>
                             <a href="{{asset('/infouser')}}"><i class="fa-solid fa-circle-user fa-2xl" style="color: rgb(189, 189, 189);"></i></a>
                             <ul>
-                                <li><a href="{{asset('/login')}}">Đăng nhập</a></li>
+                                <li><a href="{{ route('showlogin')}}">Đăng nhập</a></li>
                                 <li><a href="{{asset('/register')}}">Đăng ký</a></li>
                             </ul>
                         </li>

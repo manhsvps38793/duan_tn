@@ -63,23 +63,34 @@
 
                         <!-- Login Form -->
                         <div id="login" class="logins-form-content logins-active">
-                            <form class="logins-login-form" onsubmit="login(event)">
+                            <form action="{{ route('login') }}" method="POST" class="logins-login-form">
+                                @csrf
+
                                 <div class="logins-input-group">
-                                    <label for="login-username">TÊN TÀI KHOẢN</label>
-                                    <input type="text" id="login-username" placeholder="Tên đăng nhập hoặc email">
-                                    <p class="logins-error-message" id="login-checkusername">Vui lòng nhập tên đăng nhập</p>
+                                    <label for="email">TÊN TÀI KHOẢN</label>
+                                    <input type="text" value="{{ old('email') }}" name="email" id="login-username"
+                                        placeholder="Tên đăng nhập hoặc email">
+                                    {{-- <p class="logins-error-message" id="login-checkusername">Vui lòng nhập tên đăng
+                                        nhập</p>
+                                    --}}
+                                    @error('email')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="logins-input-group">
                                     <label for="login-password">MẬT KHẨU</label>
                                     <div class="logins-password-container">
-                                        <input type="password" id="login-password" placeholder="Mật khẩu của bạn">
-                                        <button type="button" class="logins-toggle-password"
-                                            onclick="togglePassword('login-password')">
+                                        <input type="password" name="password" id="login-password"
+                                            placeholder="Mật khẩu của bạn">
+                                        <button type="button" class="logins-toggle-password">
                                             <i class="far fa-eye"></i>
                                         </button>
                                     </div>
-                                    <p class="logins-error-message" id="login-checkpass">Vui lòng nhập mật khẩu</p>
+                                    {{-- <p class="logins-error-message" id="login-checkpass">Vui lòng nhập mật khẩu</p> --}}
+                                    @error('password')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="logins-submit-btn">ĐĂNG NHẬP</button>
@@ -92,14 +103,14 @@
                                     </div>
 
                                     <div class="logins-social-buttons">
-                                        <div class="logins-social-btn logins-google" onclick="loginWithGoogle()">
+                                        <a href="{{ route('login.google') }}" class="logins-social-btn logins-google" onclick="loginWithGoogle()">
                                             <i class="fab fa-google logins-google-icon logins-social-icon"></i>
                                             <span>Google</span>
-                                        </div>
-                                        <div class="logins-social-btn logins-facebook" onclick="loginWithFacebook()">
+                                        </a>
+                                        <a href="{{ route('login.facebook') }}" class="logins-social-btn logins-facebook" onclick="loginWithFacebook()">
                                             <i class="fab fa-facebook-f logins-facebook-icon logins-social-icon"></i>
                                             <span>Facebook</span>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -113,48 +124,69 @@
 
                         <!-- Register Form -->
                         <div id="register" class="logins-form-content">
-                            <form class="logins-register-form" onsubmit="register(event)">
+                            <form action="{{ route('register') }}" method="POST" class="logins-register-form">
+                                @csrf
                                 <div class="logins-input-group">
-                                    <label for="fullname">HỌ VÀ TÊN</label>
-                                    <input type="text" id="fullname" placeholder="Nhập họ và tên đầy đủ">
-                                    <p class="logins-error-message" id="checkfullname">Vui lòng nhập họ tên</p>
+                                    <label for="name">HỌ VÀ TÊN</label>
+                                    <input type="text" name="name" value="{{ old('name') }}" id="fullname"
+                                        placeholder="Nhập họ và tên đầy đủ">
+                                    {{-- <p class="logins-error-message" id="checkfullname">Vui lòng nhập họ tên</p> --}}
+                                    @error('name')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
+
                                 </div>
 
                                 <div class="logins-input-group">
                                     <label for="email">EMAIL</label>
-                                    <input type="email" id="email" placeholder="Địa chỉ email của bạn">
-                                    <p class="logins-error-message" id="checkemail">Vui lòng nhập email hợp lệ</p>
+                                    <input type="email" name="email" value="{{ old('email') }}" id="email"
+                                        placeholder="Địa chỉ email của bạn">
+                                    {{-- <p class="logins-error-message" id="checkemail">Vui lòng nhập email hợp lệ</p> --}}
+                                    @error('email')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="logins-input-group">
                                     <label for="phone">SỐ ĐIỆN THOẠI</label>
-                                    <input type="tel" id="phone" placeholder="Số điện thoại">
-                                    <p class="logins-error-message" id="checkphone">Vui lòng nhập số điện thoại</p>
+                                    <input type="tel" name="phone" value="{{ old('phone') }}" id="phone"
+                                        placeholder="Số điện thoại">
+                                    {{-- <p class="logins-error-message" id="checkphone">Vui lòng nhập số điện thoại</p>
+                                    --}}
+                                    @error('phone')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="logins-input-group">
                                     <label for="register-password">MẬT KHẨU</label>
                                     <div class="logins-password-container">
-                                        <input type="password" id="register-password" placeholder="Tạo mật khẩu mạnh">
-                                        <button type="button" class="logins-toggle-password"
+                                        <input type="password" name="password" id="register-password"
+                                            placeholder="Tạo mật khẩu mạnh">
+                                        <button type="submit" class="logins-toggle-password"
                                             onclick="togglePassword('register-password')">
                                             <i class="far fa-eye"></i>
                                         </button>
                                     </div>
-                                    <p class="logins-error-message" id="register-checkpass">Mật khẩu phải có ít nhất 8 ký
-                                        tự</p>
+                                    {{-- <p class="logins-error-message" id="register-checkpass">Mật khẩu phải có ít nhất 8
+                                        ký
+                                        tự</p> --}}
+                                    @error('password')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <div class="logins-input-group">
                                     <label for="confirm-password">XÁC NHẬN MẬT KHẨU</label>
                                     <div class="logins-password-container">
-                                        <input type="password" id="confirm-password" placeholder="Nhập lại mật khẩu">
+                                        <input type="password" name="password_confirmation" id="confirm-password"
+                                            placeholder="Nhập lại mật khẩu">
                                         <button type="button" class="logins-toggle-password"
                                             onclick="togglePassword('confirm-password')">
                                             <i class="far fa-eye"></i>
                                         </button>
                                     </div>
-                                    <p class="logins-error-message" id="checkconfirmpass">Mật khẩu không khớp</p>
+                                    {{-- <p class="logins-error-message" id="checkconfirmpass">Mật khẩu không khớp</p> --}}
                                 </div>
 
                                 <button type="submit" class="logins-submit-btn">ĐĂNG KÝ</button>
@@ -167,14 +199,14 @@
                                     </div>
 
                                     <div class="logins-social-buttons">
-                                        <div class="logins-social-btn logins-google" onclick="registerWithGoogle()">
+                                        <a href="{{ route('login.google') }}" class="logins-social-btn logins-google" >
                                             <i class="fab fa-google logins-google-icon logins-social-icon"></i>
                                             <span>Google</span>
-                                        </div>
-                                        <div class="logins-social-btn logins-facebook" onclick="registerWithFacebook()">
+                                        </a>
+                                        <a href="{{ route('login.facebook') }}" class="logins-social-btn logins-facebook" >
                                             <i class="fab fa-facebook-f logins-facebook-icon logins-social-icon"></i>
                                             <span>Facebook</span>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -187,11 +219,10 @@
 
                         <!-- Forgot Password Form -->
                         <div id="forgot" class="logins-form-content">
-                            <form class="logins-forgot-form" onsubmit="forgotPassword(event)">
+                            <form class="logins-forgot-form">
                                 <div class="logins-input-group">
                                     <label for="account">EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
-                                    <input type="text" id="account"
-                                        placeholder="Nhập email hoặc số điện thoại đăng ký">
+                                    <input type="text" id="account" placeholder="Nhập email hoặc số điện thoại đăng ký">
                                     <p class="logins-error-message" id="checkaccount">Vui lòng nhập email hoặc số điện
                                         thoại</p>
                                 </div>
@@ -211,9 +242,8 @@
     </div>
 
     <script>
-        // Form navigation
         document.querySelectorAll('.logins-nav-item, .logins-action-link').forEach(item => {
-            item.addEventListener('click', function(e) {
+            item.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = this.getAttribute('data-target');
 
@@ -249,7 +279,6 @@
                 }
             });
         });
-
         // Toggle password visibility
         function togglePassword(fieldId) {
             const passwordField = document.getElementById(fieldId);
@@ -261,99 +290,11 @@
             toggleIcon.classList.toggle('fa-eye-slash');
         }
 
-        // Login function
-        function login(event) {
-            event.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
+       
+      
 
-            let valid = true;
 
-            // Reset errors
-            document.querySelectorAll('#login .logins-error-message').forEach(el => {
-                el.style.display = 'none';
-            });
-
-            if (!username) {
-                document.getElementById('login-checkusername').style.display = 'block';
-                valid = false;
-            }
-
-            if (!password) {
-                document.getElementById('login-checkpass').style.display = 'block';
-                valid = false;
-            }
-
-            if (valid) {
-                alert('Đăng nhập thành công! Chào mừng ' + username);
-                // In a real app, you would submit the form here
-            }
-        }
-
-        // Register function
-        function register(event) {
-            event.preventDefault();
-            const fullname = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-
-            let valid = true;
-
-            // Reset errors
-            document.querySelectorAll('#register .logins-error-message').forEach(el => {
-                el.style.display = 'none';
-            });
-
-            if (!fullname) {
-                document.getElementById('checkfullname').style.display = 'block';
-                valid = false;
-            }
-
-            if (!email || !validateEmail(email)) {
-                document.getElementById('checkemail').style.display = 'block';
-                valid = false;
-            }
-
-            if (!phone || !validatePhone(phone)) {
-                document.getElementById('checkphone').style.display = 'block';
-                valid = false;
-            }
-
-            if (!password || password.length < 8) {
-                document.getElementById('register-checkpass').style.display = 'block';
-                valid = false;
-            }
-
-            if (password !== confirmPassword) {
-                document.getElementById('checkconfirmpass').style.display = 'block';
-                valid = false;
-            }
-
-            if (valid) {
-                alert('Đăng ký thành công! Chào mừng ' + fullname);
-                // Redirect to login
-                document.querySelector('.logins-nav-item[data-target="login"]').click();
-            }
-        }
-
-        // Forgot password function
-        function forgotPassword(event) {
-            event.preventDefault();
-            const account = document.getElementById('account').value;
-
-            // Reset error
-            document.getElementById('checkaccount').style.display = 'none';
-
-            if (!account) {
-                document.getElementById('checkaccount').style.display = 'block';
-                return;
-            }
-
-            alert('Yêu cầu khôi phục mật khẩu đã được gửi! Vui lòng kiểm tra email hoặc điện thoại của bạn.');
-        }
-
+        
         // Validation helpers
         function validateEmail(email) {
             const re =
@@ -364,23 +305,6 @@
         function validatePhone(phone) {
             const re = /^\d{10,11}$/;
             return re.test(phone);
-        }
-
-        // Social login functions
-        function loginWithGoogle() {
-            alert('Đăng nhập bằng Google được chọn');
-        }
-
-        function loginWithFacebook() {
-            alert('Đăng nhập bằng Facebook được chọn');
-        }
-
-        function registerWithGoogle() {
-            alert('Đăng ký bằng Google được chọn');
-        }
-
-        function registerWithFacebook() {
-            alert('Đăng ký bằng Facebook được chọn');
         }
     </script>
 @endsection
