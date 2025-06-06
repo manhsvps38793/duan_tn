@@ -65,8 +65,7 @@
 
             <div class="user" >
                 <div class="favourite-container">
-                    <a href=""><i class="fa fa-heart" aria-hidden="true" style="color: rgb(255, 0, 0); font-size: 26px;"></i></a>
-                    <div class="cart-badge">0</div>
+                    <a href="{{asset('/favourite_product')}}"><i class="fa fa-heart" aria-hidden="true" style="color: rgb(255, 0, 0); font-size: 26px;"></i></a>
                 </div>
                 <div class="cart-container">
                     <a href="{{asset('/cart')}}"><i class="fa-solid fa-cart-shopping fa-xl" style="color: rgb(255, 64, 64);"></i></a>

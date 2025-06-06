@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -41,3 +42,10 @@ Route::get('news', function () {
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
 });
+Route::get('favourite_product', function () {
+    return view('favourite_product');
+});
+
+
+// load san pham
+Route::get('product', [ProductController::class, 'ProductAll']);
