@@ -1,207 +1,234 @@
-// deital
-document.addEventListener('DOMContentLoaded', () => {
-    const imagedaitals = document.querySelectorAll('.detail-imgall img');
-    const thumbnails = document.querySelectorAll('.detail-itemimg');
-    const sliderdeital = document.getElementById('sliderdeital');
-    const prevBtn = document.querySelector('.prev-btndeital');
-    const nextBtn = document.querySelector('.next-btndeital');
-    let currentIndex = 0;
-    let isDragging = false;
-    let startX = 0;
-    let moveX = 0;
+let selectedColor = null;  // Biến lưu màu sắc được chọn
+let selectedSize = null;   // Biến lưu kích thước được chọn
 
+// Hàm cập nhật số lượng hiển thị theo màu + size đã chọn
+function updateQuantityDisplay() {
+    const productIdInput = document.getElementById('product-id');  // Lấy input ẩn chứa product id
+    if (!productIdInput) {
+        console.error('Không tìm thấy input product-id trong DOM');
+        return;  // Nếu không có product id thì thoát hàm
+    }
+
+    const productId = productIdInput.value;  // Lấy giá trị product id
+
+    if (selectedColor && selectedSize) {  // Nếu đã chọn đủ màu và size
+        console.log('Gọi API với:', { productId, selectedColor, selectedSize });
+
+        // Gọi API lấy số lượng variant dựa trên product_id, color, size
+        fetch(`/datn/public/get-variant-quantity?product_id=${productId}&color=${selectedColor}&size=${selectedSize}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Lỗi khi fetch dữ liệu'); // Nếu lỗi HTTP thì báo lỗi
+                return response.json();  // Trả về dữ liệu JSON
+            })
+            .then(data => {
+                console.log('Dữ liệu trả về:', data);
+                // Hiển thị số lượng còn trong phần tử #stock-info
+                document.getElementById('stock-info').textContent = `Số lượng còn: ${data.quantity}`;
+                if(data.sku == undefined) {
+                    data.sku = ''
+                }
+                document.getElementById('sku-info').textContent = `Mã SKU: ${data.sku}`;
+            })
+            .catch(error => {  // Xử lý lỗi khi fetch
+                console.error('Lỗi:', error);
+                // Thông báo lỗi cho người dùng
+                document.getElementById('stock-info').textContent = 'Không thể lấy dữ liệu';
+            });
+    } else {
+        // Nếu chưa chọn đủ màu và size thì nhắc người dùng chọn
+        document.getElementById('stock-info').textContent = 'Vui lòng chọn màu và kích thước';
+    }
+}
+
+// Đợi DOM load xong rồi thực hiện các thao tác
+document.addEventListener('DOMContentLoaded', () => {
+    const sizeIcons = document.querySelectorAll('.detail-textall-sizeicon');  // Lấy tất cả div chọn size
+    const colorIcons = document.querySelectorAll('.detail-textall-imgicon');  // Lấy tất cả div chọn màu
+    const sizeDisplay = document.getElementById('selected-icon');             // Phần hiển thị kích thước được chọn
+    const colorDisplay = document.getElementById('selected-iconhinhanh');     // Phần hiển thị màu được chọn
+
+    // Khởi tạo mặc định:
+    if (sizeIcons.length > 0) {
+        sizeIcons[0].classList.add('active');          // Đánh dấu size đầu tiên là active
+        selectedSize = sizeIcons[0].textContent.trim();  // Lấy giá trị size đầu tiên
+        sizeDisplay.textContent = `Kích thước: ${selectedSize}`;  // Hiển thị kích thước được chọn
+    }
+
+    if (colorIcons.length > 0) {
+        colorIcons[0].classList.add('active');          // Đánh dấu màu đầu tiên là active
+        selectedColor = colorIcons[0].textContent.trim();  // Lấy giá trị màu đầu tiên
+        colorDisplay.textContent = `Màu: ${selectedColor}`;  // Hiển thị màu được chọn
+    }
+
+    updateQuantityDisplay();  // Cập nhật số lượng hiển thị ngay khi trang tải xong
+
+    // Lắng nghe sự kiện click chọn size
+    sizeIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            sizeIcons.forEach(i => i.classList.remove('active'));  // Bỏ active ở tất cả size
+            icon.classList.add('active');  // Đánh dấu size vừa click là active
+            selectedSize = icon.textContent.trim();  // Lấy giá trị size mới
+            sizeDisplay.textContent = `Kích thước: ${selectedSize}`;  // Cập nhật hiển thị size
+            updateQuantityDisplay();  // Cập nhật số lượng mới
+        });
+    });
+
+    // Lắng nghe sự kiện click chọn màu
+    colorIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            colorIcons.forEach(i => i.classList.remove('active'));  // Bỏ active ở tất cả màu
+            icon.classList.add('active');  // Đánh dấu màu vừa click là active
+            selectedColor = icon.textContent.trim();  // Lấy giá trị màu mới
+            colorDisplay.textContent = `Màu: ${selectedColor}`;  // Cập nhật hiển thị màu
+            updateQuantityDisplay();  // Cập nhật số lượng mới
+        });
+    });
+
+    // ------------ Slider ảnh chi tiết ------------
+    const imagedaitals = document.querySelectorAll('.detail-imgall img');  // Ảnh lớn
+    const thumbnails = document.querySelectorAll('.detail-itemimg');       // Ảnh thumbnail nhỏ
+    const sliderdeital = document.getElementById('sliderdeital');          // Container slider
+    const prevBtn = document.querySelector('.prev-btndeital');             // Nút previous
+    const nextBtn = document.querySelector('.next-btndeital');             // Nút next
+    let currentIndex = 0;   // Ảnh hiện tại đang hiển thị
+    let isDragging = false; // Biến xác định đang kéo chuột
+    let startX = 0;         // Vị trí bắt đầu kéo chuột
+    let moveX = 0;          // Khoảng cách kéo chuột
+
+    // Hàm cập nhật ảnh lớn và thumbnail theo ảnh hiện tại
     function updateImagedaitals() {
         imagedaitals.forEach((img, index) => {
-            img.classList.toggle('activedeiatl', index === currentIndex);
+            img.classList.toggle('activedeiatl', index === currentIndex);  // Ảnh lớn được active
         });
         thumbnails.forEach((thumb, index) => {
-            thumb.classList.toggle('activedeiatl', index === currentIndex);
+            thumb.classList.toggle('activedeiatl', index === currentIndex);  // Thumbnail được active
         });
     }
 
-    // Nút bấm cho PC
+    // Click nút previous chuyển ảnh trước
     prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + imagedaitals.length) % imagedaitals.length;
+        currentIndex = (currentIndex - 1 + imagedaitals.length) % imagedaitals.length;  // Vòng lại nếu vượt biên
         updateImagedaitals();
     });
 
+    // Click nút next chuyển ảnh tiếp theo
     nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % imagedaitals.length;
+        currentIndex = (currentIndex + 1) % imagedaitals.length;  // Vòng lại nếu vượt biên
         updateImagedaitals();
     });
 
-    // Swipe logic cho PC & Mobile
+    // Sự kiện bắt đầu kéo chuột trên slider
     sliderdeital.addEventListener('mousedown', (e) => {
         isDragging = true;
-        startX = e.clientX;
+        startX = e.clientX;  // Ghi nhận vị trí bắt đầu kéo
     });
 
+    // Sự kiện kéo chuột trên slider
     sliderdeital.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        moveX = e.clientX - startX;
+        if (!isDragging) return;  // Nếu chưa kéo thì không xử lý
+        moveX = e.clientX - startX;  // Tính khoảng cách di chuyển chuột
     });
 
+    // Sự kiện thả chuột trên slider
     sliderdeital.addEventListener('mouseup', () => {
-        if (Math.abs(moveX) > 50) {
-            if (moveX < 0) {
-                currentIndex = (currentIndex + 1) % imagedaitals.length; // Swipe trái
-            } else {
-                currentIndex = (currentIndex - 1 + imagedaitals.length) % imagedaitals.length; // Swipe phải
-            }
+        if (Math.abs(moveX) > 50) {  // Nếu kéo đủ khoảng cách (>50px)
+            currentIndex = (moveX < 0)
+                ? (currentIndex + 1) % imagedaitals.length  // Kéo sang trái chuyển ảnh kế tiếp
+                : (currentIndex - 1 + imagedaitals.length) % imagedaitals.length;  // Kéo sang phải chuyển ảnh trước
             updateImagedaitals();
         }
-        isDragging = false;
-        moveX = 0;
+        isDragging = false;  // Reset trạng thái kéo
+        moveX = 0;           // Reset khoảng cách kéo
     });
 
+    // Các sự kiện cảm ứng cho thiết bị di động
     sliderdeital.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
+        startX = e.touches[0].clientX;  // Vị trí bắt đầu chạm
     });
 
     sliderdeital.addEventListener('touchmove', (e) => {
-        moveX = e.touches[0].clientX - startX;
+        moveX = e.touches[0].clientX - startX;  // Khoảng cách di chuyển tay
     });
 
     sliderdeital.addEventListener('touchend', () => {
-        if (Math.abs(moveX) > 50) {
-            if (moveX < 0) {
-                currentIndex = (currentIndex + 1) % imagedaitals.length; // Swipe trái
-            } else {
-                currentIndex = (currentIndex - 1 + imagedaitals.length) % imagedaitals.length; // Swipe phải
-            }
+        if (Math.abs(moveX) > 50) {  // Nếu vuốt đủ khoảng cách
+            currentIndex = (moveX < 0)
+                ? (currentIndex + 1) % imagedaitals.length  // Vuốt sang trái chuyển ảnh kế tiếp
+                : (currentIndex - 1 + imagedaitals.length) % imagedaitals.length;  // Vuốt sang phải chuyển ảnh trước
             updateImagedaitals();
         }
-        moveX = 0;
+        moveX = 0;  // Reset khoảng cách vuốt
     });
 
-    // Thumbnails click
+    // Click vào thumbnail để chuyển ảnh tương ứng
     thumbnails.forEach((thumb, index) => {
         thumb.addEventListener('click', () => {
             currentIndex = index;
             updateImagedaitals();
         });
     });
-});
 
+    // ------------- Popup bảng size chart -------------
+    const openBox = document.getElementById('openBox');  // Nút mở popup
+    const popupBox = document.getElementById('popupBox');  // Hộp popup
+    const overlay = document.getElementById('overlay');  // Màn hình phủ mờ nền
+    const closeBox = document.getElementById('closeBox');  // Nút đóng popup
 
-// click size
-  // Get elements
-  const openBox = document.getElementById('openBox');
-    const popupBox = document.getElementById('popupBox');
-    const overlay = document.getElementById('overlay');
-    const closeBox = document.getElementById('closeBox');
-
-    // Show popup box
+    // Mở popup khi click vào nút openBox
     openBox.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default link behavior
-        popupBox.style.display = 'block';
-        overlay.style.display = 'block';
+        e.preventDefault();  // Ngăn sự kiện mặc định (nếu có)
+        popupBox.style.display = 'block';  // Hiển thị popup
+        overlay.style.display = 'block';   // Hiển thị overlay mờ nền
     });
 
-    // Hide popup box
+    // Đóng popup khi click nút đóng
     closeBox.addEventListener('click', () => {
-        popupBox.style.display = 'none';
-        overlay.style.display = 'none';
+        popupBox.style.display = 'none';  // Ẩn popup
+        overlay.style.display = 'none';   // Ẩn overlay
     });
 
-    // Hide popup box when clicking on the overlay
+    // Đóng popup khi click ra ngoài overlay
     overlay.addEventListener('click', () => {
-        popupBox.style.display = 'none';
-        overlay.style.display = 'none';
+        popupBox.style.display = 'none';  // Ẩn popup
+        overlay.style.display = 'none';   // Ẩn overlay
     });
 
-    // soluong
-    document.addEventListener("DOMContentLoaded", () => {
-    const decreaseBtn = document.getElementById("decrease");
-    const increaseBtn = document.getElementById("increase");
-    const quantityInput = document.getElementById("quantity");
+    // ------------- Nút tăng giảm số lượng -------------
+    const decreaseBtn = document.getElementById("decrease");  // Nút giảm số lượng
+    const increaseBtn = document.getElementById("increase");  // Nút tăng số lượng
+    const quantityInput = document.getElementById("quantity");  // Input số lượng
 
+    // Xử lý giảm số lượng (tối thiểu 1)
     decreaseBtn.addEventListener("click", () => {
-        let currentValue = parseInt(quantityInput.value, 10);
-        if (currentValue > 1) {
-        quantityInput.value = currentValue - 1;
-        }
+        let currentValue = parseInt(quantityInput.value, 10);  // Lấy giá trị hiện tại
+        if (currentValue > 1) quantityInput.value = currentValue - 1;  // Giảm nếu > 1
     });
 
+    // Xử lý tăng số lượng
     increaseBtn.addEventListener("click", () => {
         let currentValue = parseInt(quantityInput.value, 10);
         quantityInput.value = currentValue + 1;
     });
-    });
 
-    // chuyen
-      // Đảm bảo rằng khi trang tải, Item 1 có màu đỏ
-      window.onload = function() {
-        document.getElementById('detail-sp').style.border = '1px solid red'; // Mặc định cho Item 1 là đỏ
-        document.getElementById('box-detail-sp').style.display = 'block'; // Hiển thị box 1
+    // ------------- Chuyển tab Chi tiết sản phẩm / Bình luận -------------
+    window.onload = function() {
+        document.getElementById('detail-sp').style.border = '1px solid red';  // Tab chi tiết sản phẩm được highlight
+        document.getElementById('box-detail-sp').style.display = 'block';     // Hiển thị nội dung chi tiết sản phẩm mặc định
     };
+});
 
-    function changeContent(itemNumber) {
-        // Ẩn cả hai box
-        document.getElementById('box-detail-sp').style.display = 'none';
-        document.getElementById('box-detail-bl').style.display = 'none';
+// Hàm chuyển đổi nội dung tab chi tiết sản phẩm hoặc bình luận
+function changeContent(itemNumber) {
+    document.getElementById('box-detail-sp').style.display = 'none';  // Ẩn box chi tiết sản phẩm
+    document.getElementById('box-detail-bl').style.display = 'none';  // Ẩn box bình luận
+    document.getElementById('detail-sp').style.border = '1px solid black';  // Reset border tab chi tiết sản phẩm
+    document.getElementById('detail-bl').style.border = '1px solid black';  // Reset border tab bình luận
 
-        // Đặt lại border của cả hai nút về màu đen
-        document.getElementById('detail-sp').style.border = '1px solid black'; // Mặc định border đen
-        document.getElementById('detail-bl').style.border = '1px solid black'; // Mặc định border đen
-
-        // Hiển thị box tương ứng và cập nhật nội dung cho box tương ứng
-        if (itemNumber === 1) {
-            document.getElementById('box-detail-sp').style.display = 'block'; // Hiển thị box 1
-            document.getElementById('detail-sp').style.border = '1px solid red'; // Thêm border đỏ cho box 1
-            document.getElementById('box-detail-sp').innerHTML; // Cập nhật nội dung box 1
-        } else if (itemNumber === 2) {
-            document.getElementById('box-detail-bl').style.display = 'block'; // Hiển thị box 2
-            document.getElementById('detail-bl').style.border = '1px solid red'; // Thêm border đỏ cho box 2
-            document.getElementById('box-detail-bl').innerHTML; // Cập nhật nội dung box 2
-        }
+    if (itemNumber === 1) {  // Nếu chọn tab chi tiết sản phẩm
+        document.getElementById('box-detail-sp').style.display = 'block';  // Hiển thị box chi tiết sản phẩm
+        document.getElementById('detail-sp').style.border = '1px solid red';  // Đổi màu viền tab
+    } else if (itemNumber === 2) {  // Nếu chọn tab bình luận
+        document.getElementById('box-detail-bl').style.display = 'block';  // Hiển thị box bình luận
+        document.getElementById('detail-bl').style.border = '1px solid red';  // Đổi màu viền tab
     }
-    
-// size
-document.addEventListener('DOMContentLoaded', () => {
-        const icons = document.querySelectorAll('.detail-textall-sizeicon'); // Sử dụng đúng class
-        const display = document.getElementById('selected-icon'); // Tham chiếu đến phần tử hiển thị
-
-        // Mặc định chọn icon đầu tiên
-        if (icons.length > 0) {
-            icons[0].classList.add('active');
-            display.textContent = `Kích thước: ${icons[0].textContent}`;
-        }
-
-        icons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                // Xóa class 'active' từ tất cả icon
-                icons.forEach(i => i.classList.remove('active'));
-
-                // Thêm class 'active' vào icon được click
-                icon.classList.add('active');
-
-                // In ra tên của icon
-                display.textContent = `Kích thước: ${icon.textContent}`;
-            });
-        });
-    });
-    // icon hinhf
-    document.addEventListener('DOMContentLoaded', () => {
-        const icons = document.querySelectorAll('.detail-textall-imgicon'); // Sử dụng đúng class
-        const display = document.getElementById('selected-iconhinhanh'); // Tham chiếu đúng ID
-
-        // Mặc định chọn icon đầu tiên
-        if (icons.length > 0) {
-            icons[0].classList.add('active');
-            display.textContent = `Màu: ${icons[0].textContent}`;
-        }
-
-        icons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                // Xóa class 'active' từ tất cả icon
-                icons.forEach(i => i.classList.remove('active'));
-
-                // Thêm class 'active' vào icon được click
-                icon.classList.add('active');
-
-                // In ra tên của icon
-                display.textContent = `Màu: ${icon.textContent}`;
-            });
-        });
-    });
+}

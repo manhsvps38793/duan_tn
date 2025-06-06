@@ -88,7 +88,6 @@
     $(document).ready(function() {
         $('.list-cat').lightSlider({
             item: 5, // Mặc định trên desktop
-            loop: true,
             slideMargin: 20,
             controls: true,
             auto: false,

@@ -62,7 +62,7 @@
      <section class="product-sale" style="margin-bottom: 10px">
         <div class="header-product-sale">
             <div>
-            <h2 class="section-title">Đang giảm giá</h2>
+            <h2 class="section-title">Sản phẩm giảm trên 30%</h2>
             <img src="{{asset('/img/sale.webp')}}" alt="">
             </div>
 
@@ -90,107 +90,26 @@
                 <img src="{{asset('/img/Ảnh chụp màn hình 2025-05-24 230355.png')}}" alt="">
             </div>
             <ul class="row product-list-sale">
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="{{asset('img/aothun.webp')}}" alt=""></a>
-
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-            <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <!--  -->
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
-                <li class="item" style="background-color: white; border-radius: 7px;">
-                    <div class="item-img" >
-                        <span class="item-giam">-44%</span>
-                        <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                        <a href="{{asset('/detail')}}"><img src="img/aothun.webp" alt=""></a>
-                    </div>
-                    <div class="item-name item-name-sale">
-                        <h3><a href="">
-                            Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                        </a></h3>
-                    </div>
-                    <div class="item-price item-price-sales">
-                        <span style="color: red;padding-right: 10px;">195.000đ</span>
-                        <span><del>300.000đ</del></span>
-                    </div>
-                </li>
+{{--product-sale ................  --}}
+                @foreach ($products_sale as $productssale)
+                    <li class="item" style="background-color: white; border-radius: 7px;">
+                        <div class="item-img" >
+                            <span class="item-giam">{{$productssale->sale}}%</span>
+                            <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <a href="{{asset('/detail/'. $productssale->id)}}"><img src="{{asset($productssale->images->first()->path)}}" alt=""></a>
+                        </div>
+                        <div class="item-name item-name-sale">
+                            <h3><a href="{{asset('/detail/'. $productssale->id)}}">
+                                {{$productssale->name}}
+                            </a></h3>
+                        </div>
+                        <div class="item-price item-price-sales">
+                            <span style="color: red;padding-right: 10px;">{{$productssale->price}}đ</span>
+                            <span><del>{{$productssale->original_price}}đ</del></span>
+                        </div>
+                    </li>
+                @endforeach
+<!--  -->
             </ul>
         </div>
         <div class="pruduct-xemthem see-more-mobile" style="display: none; margin-left: 36%; margin-top: 10px;">
@@ -204,53 +123,17 @@
         <div class=" grid wide container">
              <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
         <ul class="list-cat">
+{{-- product-category --}}
+            @foreach ($product_categories as $b)
                 <li class="item-category">
                     <img class="category-img" src="img/aothun.webp" alt="">
                     <div class="detail-cat">
-                        <h2 class="category-name">Áo thun</h2>
+                        <h2 class="category-name">{{$b->name}}</h2>
                         <a href="#"><button>Xem ngay</button></a>
                     </div>
                 </li>
-
-
-                <li class="item-category">
-                    <img class="category-img" src="img/aokhoac.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">Áo khoác</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
-
-
-                <li class="item-category">
-                    <img class="category-img" src="img/polo.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">Polo</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
-
-                <li class="item-category">
-                    <img class="category-img" src="img/somi.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">Sơ mi</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
-                <li class="item-category">
-                    <img class="category-img" src="img/quan.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">Quần</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
-                <li class="item-category">
-                    <img class="category-img" src="img/aothun.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">Áo thun</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
+            @endforeach
+{{--  --}}
         </ul>
     </div>
      </section>
@@ -267,159 +150,38 @@
         <section class="product-thun">
             <div class="grid wide container">
                 <div class="row">
-                    <div class="col l-3 m-6 c-6 ">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <a href="/detail.html"><img src="{{asset('/img/aothun.webp')}}" alt=""></a>
-
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
+{{-- product is_featured --}}
+                    @foreach ($products_is_featured as $products_is_featured)
+                        <div class="col l-3 m-6 c-6 ">
+                            <div class="item">
+                                <div class="item-img">
+                                    <span class="item-giam">-{{ $products_is_featured->sale }}%</span>
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+                                    
+                                    <a href="{{asset('/detail/'. $products_is_featured->id)}}">
+                                        <img src="{{ asset($products_is_featured->images->first()->path) }}" alt="{{ $products_is_featured->name }}">
+                                    </a>
+                                </div>
+                                <div class="item-name">
+                                    <h3>
+                                        <a href="{{asset('/detail/'. $products_is_featured->id)}}">
+                                            {{ $products_is_featured->name }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="item-price">
+                                    <span style="color: red;padding-right: 10px;">
+                                        {{ number_format($products_is_featured->price * (1 - $products_is_featured->sale / 100), 0, ',', '.') }}đ
+                                    </span>
+                                    <span><del>{{ number_format($products_is_featured->price, 0, ',', '.') }}đ</del></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
-                    <div class="col l-3 m-6 c-6 row-mobile">
-                        <div class="item">
-                            <div class="item-img">
-                                <span class="item-giam">-44%</span>
-                                <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                <img src="{{asset('/img/aothun.webp')}}" alt="">
-                            </div>
-                            <div class="item-name">
-                                <h3><a href="">
-                                    Áo Thun Local Brand Unisex Summer Fresh Tshirt TS282
-                                </a></h3>
-                            </div>
-                            <div class="item-price">
-                                <span style="color: red;padding-right: 10px;">195.000đ</span>
-                                <span><del>300.000đ</del></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
+{{--  --}}
+            </div>
             </div>
         </section>
     </section>

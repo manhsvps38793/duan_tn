@@ -1,10 +1,9 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
+
 Route::get('about', function () {
     return view('about');
 });
@@ -20,9 +19,7 @@ Route::get('login', function () {
 Route::get('register', function () {
     return view('register');
 });
-Route::get('detail', function () {
-    return view('detail');
-});
+
 Route::get('infouser', function () {
     return view('info_user');
 });
@@ -44,3 +41,13 @@ Route::get('info-ctdh', function () {
 Route::get('newdetail', function () {
     return view('new_detail');
 });
+
+
+// page -> home
+Route::get('/', [PageController::class, 'home']);
+// detail product
+Route::get('/detail/{id}', [PageController::class, 'detail']);
+// detail-color-sizesize
+
+Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
+
