@@ -79,6 +79,9 @@ Route::get('favourite_product', function () {
 
 // load san pham
 Route::get('product', [ProductController::class, 'ProductAll']);
+Route::get('productFeatured', [ProductController::class, 'ProductFeatured']);
+// sắp xếp
+
 
 Route::get('newdetail', function () {
     return view('new_detail');

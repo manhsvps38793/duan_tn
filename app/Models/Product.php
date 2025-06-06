@@ -14,5 +14,11 @@ class Product extends Model
     {
         return $this->hasOne(ProductImage::class, 'product_id', 'id')->orderBy('order');
     }
+
+    // sp noi bat
+    public function productFeatured($query)
+    {
+        return $query->where('is_featured', 1);
+    }
 }
 ?>

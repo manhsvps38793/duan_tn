@@ -130,11 +130,14 @@
                                                     <i class="fas fa-chevron-down select-icon"></i>
                                                 </div>
                                                 <ul class="dropdown-menu" id="dropdownMenu">
-                                                    <li class="dropdown-item selected" data-value="Nổi bật">
-                                                        <span class="radio"></span> Nổi bật
+                                                    <li class="dropdown-item selected" data-value="Mặc định">
+                                                        <span class="radio"></span><a href="/product">Mặc định</a>
+                                                    </li>
+                                                    <li class="dropdown-item" data-value="Nổi bật">
+                                                        <span class="radio"></span><a href="/productFeatured">Nổi bật</a>
                                                     </li>
                                                     <li class="dropdown-item" data-value="Bán chạy">
-                                                        <span class="radio"></span> Bán chạy
+                                                        <span class="radio"></span><a href="/productFeatured">Bán chạy</a>
                                                     </li>
                                                     <li class="dropdown-item" data-value="Giá: Thấp đến Cao">
                                                         <span class="radio"></span> Giá: Thấp đến Cao
