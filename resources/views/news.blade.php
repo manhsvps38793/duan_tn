@@ -9,7 +9,7 @@
 
             <div class="news-featured-grid">
                 <!-- Article 1 -->
-                <article class="news-article-card">
+                    <a style="text-decoration: none" class="news-article-card" href="newdetail">
                     <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
                         <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
@@ -29,51 +29,53 @@
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
 
                 <!-- Article 2 -->
-                <article class="news-article-card">
+                       <a style="text-decoration: none" class="news-article-card" href="newdetail">
+                    <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
-                        <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sustainable fashion">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
                     </div>
                     <div class="news-article-content">
-                        <span class="news-article-category">Bền vững</span>
-                        <h3 class="news-article-title">Thời trang bền vững: Xu hướng hay trách nhiệm?</h3>
-                        <p class="news-article-excerpt">Những thương hiệu đang thay đổi ngành công nghiệp thời trang với các giải pháp thân thiện môi trường...</p>
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
                         <div class="news-article-meta">
                             <div class="news-meta-item">
                                 <i class="far fa-user"></i>
-                                <span>Thu Hà</span>
+                                <span>Minh Anh</span>
                             </div>
                             <div class="news-meta-item">
                                 <i class="far fa-calendar"></i>
-                                <span>12/10/2023</span>
+                                <span>15/10/2023</span>
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
 
                 <!-- Article 3 -->
-                <article class="news-article-card">
+                     <a style="text-decoration: none" class="news-article-card" href="newdetail">
+                    <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
-                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Accessories trend">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
                     </div>
                     <div class="news-article-content">
-                        <span class="news-article-category">Phụ kiện</span>
-                        <h3 class="news-article-title">Phụ kiện đình đám nhất mùa thu đông 2023</h3>
-                        <p class="news-article-excerpt">Từ túi xách mini đến giày boots cổ điển, đây là những phụ kiện không thể thiếu trong tủ đồ của bạn...</p>
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
                         <div class="news-article-meta">
                             <div class="news-meta-item">
                                 <i class="far fa-user"></i>
-                                <span>Ngọc Trinh</span>
+                                <span>Minh Anh</span>
                             </div>
                             <div class="news-meta-item">
                                 <i class="far fa-calendar"></i>
-                                <span>10/10/2023</span>
+                                <span>15/10/2023</span>
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
             </div>
         </div>
     </section>
@@ -84,71 +86,74 @@
             <h2 class="news-section-title">Bài viết mới nhất</h2>
 
             <div class="news-articles-grid">
-                <!-- Article 4 -->
-                <article class="news-article-card">
+               <!-- Article 1 -->
+                    <a style="text-decoration: none" class="news-article-card" href="newdetail">
+                    <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
-                        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Men's fashion">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
                     </div>
                     <div class="news-article-content">
-                        <span class="news-article-category">Thời trang nam</span>
-                        <h3 class="news-article-title">Cập nhật tủ đồ nam với 5 item không thể thiếu</h3>
-                        <p class="news-article-excerpt">Những món đồ cơ bản nhưng đầy tinh tế giúp phái mạnh luôn tự tin và phong cách...</p>
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
                         <div class="news-article-meta">
                             <div class="news-meta-item">
                                 <i class="far fa-user"></i>
-                                <span>Tuấn Anh</span>
+                                <span>Minh Anh</span>
                             </div>
                             <div class="news-meta-item">
                                 <i class="far fa-calendar"></i>
-                                <span>08/10/2023</span>
+                                <span>15/10/2023</span>
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
 
-                <!-- Article 5 -->
-                <article class="news-article-card">
+                <!-- Article 2 -->
+                       <a style="text-decoration: none" class="news-article-card" href="newdetail">
+                    <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Beauty trend">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
                     </div>
                     <div class="news-article-content">
-                        <span class="news-article-category">Làm đẹp</span>
-                        <h3 class="news-article-title">Xu hướng làm đẹp từ Hàn Quốc đang gây sốt</h3>
-                        <p class="news-article-excerpt">Các bí quyết chăm sóc da và trang điểm được các sao Hàn ưa chuộng...</p>
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
                         <div class="news-article-meta">
                             <div class="news-meta-item">
                                 <i class="far fa-user"></i>
-                                <span>Minh Ngọc</span>
+                                <span>Minh Anh</span>
                             </div>
                             <div class="news-meta-item">
                                 <i class="far fa-calendar"></i>
-                                <span>05/10/2023</span>
+                                <span>15/10/2023</span>
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
 
-                <!-- Article 6 -->
-                <article class="news-article-card">
+                <!-- Article 3 -->
+                     <a style="text-decoration: none" class="news-article-card" href="newdetail">
+                    <span class="news-article-badge">Mới nhất</span>
                     <div class="news-article-image">
-                        <img src="https://images.unsplash.com/photo-1543076447-215ad9ba6923?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Luxury brands">
+                        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fashion trend 2023">
                     </div>
                     <div class="news-article-content">
-                        <span class="news-article-category">Thương hiệu</span>
-                        <h3 class="news-article-title">Các thương hiệu xa xỉ đang thay đổi thế nào sau đại dịch?</h3>
-                        <p class="news-article-excerpt">Những chiến lược mới của các nhà mốt hàng đầu để thích nghi với thị trường...</p>
+                        <span class="news-article-category">Xu hướng</span>
+                        <h3 class="news-article-title">5 xu hướng thời trang sẽ thống trị năm 2023</h3>
+                        <p class="news-article-excerpt">Khám phá những xu hướng nổi bật từ các tuần lễ thời trang quốc tế và cách kết hợp chúng vào tủ đồ của bạn...</p>
                         <div class="news-article-meta">
                             <div class="news-meta-item">
                                 <i class="far fa-user"></i>
-                                <span>Thanh Hương</span>
+                                <span>Minh Anh</span>
                             </div>
                             <div class="news-meta-item">
                                 <i class="far fa-calendar"></i>
-                                <span>02/10/2023</span>
+                                <span>15/10/2023</span>
                             </div>
                         </div>
                     </div>
-                </article>
+                    </a>
             </div>
         </div>
     </section>

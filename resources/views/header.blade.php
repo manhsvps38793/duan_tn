@@ -76,7 +76,7 @@
                         <li>
                             <a href="{{asset('/infouser')}}"><i class="fa-solid fa-circle-user fa-2xl" style="color: rgb(189, 189, 189);"></i></a>
                             <ul>
-                                <li><a href="{{asset('/login')}}">Đăng nhập</a></li>
+                                <li><a href="{{ route('showlogin')}}">Đăng nhập</a></li>
                                 <li><a href="{{asset('/register')}}">Đăng ký</a></li>
                             </ul>
                         </li>

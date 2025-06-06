@@ -2,11 +2,7 @@
 
 @section('body')
  <div class="user-info-body">
-
-
     <div class="user-info-container">
-
-
         <div class="user-info-profile-content">
             <section class="user-info-profile-section">
                 <div class="user-info-section-header">
