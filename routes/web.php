@@ -4,9 +4,11 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VerificationController;
-
+use App\Http\Controllers\UserInfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserOrderController;
+
 
 
 Route::get('about', function () {
@@ -42,10 +44,10 @@ Route::get('/', function () {
 })->name('home');
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
-  Route::get('infouser', function () {
-        return view('info_user');
-    })->name('user');
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
+    Route::post('/user/update-info', [UserInfoController::class, 'updateUserInfo'])->middleware('auth');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
 });
 
 Route::get('product', function () {
