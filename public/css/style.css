@@ -81,7 +81,7 @@ header>.nav-top>.nav-pc>ul>li>a {
     position: absolute;
     /* border-radius: 0px 7px 7px 0px; */
     right: 0px;
-    padding: 10px;
+    padding: 13px 12px;
     cursor: pointer;
     top: 0px;
     border: none;
@@ -322,7 +322,7 @@ header>.nav-top>.nav-pc>ul>li>a {
 
 /* slider { */
     :root {
-      --primary-color: #f6e8de;
+      --primary-color: #000000;
       --secondary-color: #333;
       --text-color: #fff;
       --overlay-color: rgba(0, 0, 0, 0.4);
@@ -1465,7 +1465,7 @@ footer {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     padding: 20px;
     position: sticky;
-    margin-top: 60px;
+    /* margin-top: 60px; */
     top: 20px;
 }
 
@@ -1529,13 +1529,13 @@ footer {
 .filter-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 30px;
 }
 
 .filter-option {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
+    /* padding: 8px 12px; */
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 20px;
@@ -1605,7 +1605,7 @@ footer {
 .price-option {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 4px 0;
 }
 
 .price-option label {
@@ -1642,7 +1642,7 @@ footer {
 .category-option {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+    padding: 4px 0;
 }
 
 .category-option label {
@@ -1936,9 +1936,15 @@ footer {
 
 
 /* lọc sản phẩm----------------------------------------------- */
+.product-sort-mobile{
+    margin-top: 20px;
+}
 .product-sort-mobile .relative {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-   background-color: white;
+    background-color: rgb(255, 255, 255);
 }
 
 .relative .dropdown-container {
@@ -1947,6 +1953,7 @@ footer {
 }
 
 .dropdown-container .select-trigger {
+    width: 100%;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -1961,14 +1968,17 @@ footer {
     font-size: 12px;
     line-height: 160%;
 }
-
+.select-trigger>p{
+    width: 20% auto;
+}
 .select-trigger .select-value {
+    width: 70%;
     font-weight: 600;
     margin: 0px 10px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     letter-spacing: 0.25px;
-    min-width: 70px;
-    max-width: 70px;
+    min-width: 70px auto;
+    max-width: 70px auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2875,4 +2885,51 @@ footer {
         padding: 12px 30px;
     }
 }
+/* Phân trang */
+.chuyentrang {
+    margin-top: 30px;
+    text-align: center;
+}
 
+.chuyentrang .pagination {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+}
+
+.chuyentrang .pagination li {
+    margin: 0 5px;
+}
+
+.chuyentrang .pagination li a,
+.chuyentrang .pagination li span {
+    display: inline-block;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    color: #333;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.chuyentrang .pagination li.active span {
+    background-color: #000000;
+    color: white;
+    border-color: #000000;
+}
+
+.chuyentrang .pagination li a:hover {
+    background-color: #f5f5f5;
+}
+
+.chuyentrang .pagination li.disabled span {
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+/* Filter active state */
+.filter-option.active,
+.price-option.active {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}

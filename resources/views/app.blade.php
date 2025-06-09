@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>@yield('title', 'Trang chủ')</title>
+
     <link rel="stylesheet" href="{{ asset('/css/grid.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/info.css') }}">
@@ -11,14 +12,10 @@
     <link rel="stylesheet" href="{{ asset('/css/thanhtoan.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/about.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/detail.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:wght@100..900&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
 
-
-    {{-- <link rel="stylesheet" href="{{ asset('/css/tintuc.css') }}"> --}}
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
-   <link
-        href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oxanium:wght@200..800&display=swap"
-        rel="stylesheet">
     @stack('styles')
 </head>
 <body>
@@ -31,269 +28,184 @@
 
     @include('footer')
 
-    <script src="{{asset('/js/slider.js')}}"></script>
-
-
-
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const searchButton = document.querySelector(".Search");
-        const searchInputMobile = document.querySelector(".search-input-mobile");
-
-        searchButton.addEventListener("click", function () {
-            searchInputMobile.classList.toggle("active");
-        });
-    });
-</script>
-    <!-- Thêm jQuery và lightSlider -->
+    <script src="{{ asset('/js/slider.js') }}"></script>
+    <script src="{{ asset('/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
 
-    <!-- Khởi tạo lightSlider -->
     <script>
-    $(document).ready(function() {
-        $('.product-list').lightSlider({
-            item: 5, // Mặc định trên desktop
-            loop: true,
-            slideMargin: 20,
-            controls: true,
-            auto: false,
-            responsive : [
-                {
-                    breakpoint: 992, // Tablet
-                    settings: {
-                        item: 2,
-                        slideMargin: 15,
-                    }
-                },
-                {
-                    breakpoint: 576, // Mobile
-                    settings: {
-                        item: 2, // Chỉ hiển thị 1 item trên mobile
-                        slideMove: 1,
-                        slideMargin: 10,
-                        adaptiveHeight: true, // Chiều cao tự động
-                        enableDrag: false, // Tắt kéo trên mobile để tránh xung đột với scroll trang
-                        controls: true,
-                        pager: true
-                    }
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle search input mobile
+        const searchButton = document.querySelector(".Search");
+        const searchInputMobile = document.querySelector(".search-input-mobile");
+        if (searchButton && searchInputMobile) {
+            searchButton.addEventListener("click", function () {
+                searchInputMobile.classList.toggle("active");
+            });
+        }
+
+        // Live search setup
+        function setupLiveSearch(inputId, formId, suggestionBoxId) {
+            const input = document.getElementById(inputId);
+            const form = document.getElementById(formId);
+            const suggestionBox = document.getElementById(suggestionBoxId);
+
+            if (!input || !form || !suggestionBox) return;
+
+            input.addEventListener('keyup', function () {
+                const keyword = input.value.trim();
+                if (keyword.length > 1) {
+                    fetch(`/search-suggestions?keyword=${encodeURIComponent(keyword)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionBox.innerHTML = '';
+                            if (data.length > 0) {
+                                suggestionBox.innerHTML = ''; // Xóa gợi ý cũ trước khi thêm mới
+                                data.forEach(item => {
+                                    const li = document.createElement('li');
+                                    li.style.display = 'flex';
+                                    li.style.alignItems = 'center';
+                                    li.style.cursor = 'pointer';
+                                    li.style.padding = '5px';
+
+                                    // anhanh
+                                    const img = document.createElement('img');
+                                    img.src = item.image;
+                                    img.alt = item.name;
+                                    img.style.width = '50px';
+                                    img.style.height = '50px';
+                                    img.style.objectFit = 'cover';
+                                    img.style.marginRight = '10px';
+                                    img.style.borderRadius = '4px';
+
+                                    // ten & gia
+                                    const infoContainer = document.createElement('div');
+                                    infoContainer.style.display = 'flex';
+                                    infoContainer.style.flexDirection = 'column';
+
+                                    // tên sp
+                                    const nameSpan = document.createElement('span');
+                                    nameSpan.textContent = item.name;
+                                    nameSpan.style.fontWeight = 'normal';
+
+                                    // giái
+                                    const priceSpan = document.createElement('span');
+                                    priceSpan.textContent = `${Number(item.price).toLocaleString()}đ`;
+                                    priceSpan.style.color = 'red';
+                                    priceSpan.style.fontSize = '14px';
+                                    priceSpan.style.marginTop = '2px';
+
+                                    // Gộp vào infoContainer
+                                    infoContainer.appendChild(nameSpan);
+                                    infoContainer.appendChild(priceSpan);
+
+                                    // Gộp tất cả vào li
+                                    li.appendChild(img);
+                                    li.appendChild(infoContainer);
+
+                                    // Sự kiện click để vào chi tiết
+                                    li.addEventListener('click', function () {
+                                        window.location.href = `/detail/${item.id}`;
+                                    });
+
+                                    suggestionBox.appendChild(li);
+                                });
+                            }
+                        });
+                } else {
+                    suggestionBox.innerHTML = '';
                 }
-            ]
-        });
+            });
+
+            input.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    form.submit();
+                }
+            });
+        }
+
+        setupLiveSearch('search-input', 'search-form', 'suggestion-box');
+        setupLiveSearch('search-input-mobile', 'search-form-mobile', 'suggestion-box-mobile');
+
     });
     </script>
-    {{-- danh muc --}}
+
+    <!-- Khởi tạo các slider -->
     <script>
-    $(document).ready(function() {
-        $('.list-cat').lightSlider({
-            item: 5, // Mặc định trên desktop
-            loop: true,
-            slideMargin: 20,
-            controls: true,
-            auto: false,
-            responsive : [
-                {
-                    breakpoint: 992, // Tablet
-                    settings: {
-                        item: 2,
-                        slideMargin: 15,
+    $(document).ready(function () {
+        const sliderConfigs = [
+            { selector: '.product-list', item: 5 },
+            { selector: '.list-cat', item: 5 },
+            { selector: '.product-list-bestseller', item: 5 },
+            { selector: '.product-list-recommend', item: 5 },
+            { selector: '.product-list-sale', item: 3, auto: true, speed: 1000, pause: 5000 }
+        ];
+
+        sliderConfigs.forEach(config => {
+            $(config.selector).lightSlider({
+                item: config.item,
+                loop: true,
+                slideMargin: 20,
+                controls: true,
+                auto: config.auto || false,
+                speed: config.speed || 400,
+                pause: config.pause || 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: { item: 2, slideMargin: 15 }
+                    },
+                    {
+                        breakpoint: 576,
+                        settings: {
+                            item: 2,
+                            slideMove: 1,
+                            slideMargin: 10,
+                            adaptiveHeight: true,
+                            enableDrag: false,
+                            controls: true,
+                            pager: true
+                        }
                     }
-                },
-                {
-                    breakpoint: 576, // Mobile
-                    settings: {
-                        item: 2, // Chỉ hiển thị 1 item trên mobile
-                        slideMove: 1,
-                        slideMargin: 10,
-                        adaptiveHeight: true, // Chiều cao tự động
-                        enableDrag: false, // Tắt kéo trên mobile để tránh xung đột với scroll trang
-                        controls: true,
-                        pager: true
-                    }
-                }
-            ]
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $('.product-list-bestseller').lightSlider({
-            item: 5, // Mặc định trên desktop
-            loop: true,
-            slideMargin: 20,
-            controls: true,
-            auto: false,
-            responsive : [
-                {
-                    breakpoint: 992, // Tablet
-                    settings: {
-                        item: 2,
-                        slideMargin: 15,
-                    }
-                },
-                {
-                    breakpoint: 576, // Mobile
-                    settings: {
-                        item: 2, // Chỉ hiển thị 1 item trên mobile
-                        slideMove: 1,
-                        slideMargin: 10,
-                        adaptiveHeight: true, // Chiều cao tự động
-                        enableDrag: false, // Tắt kéo trên mobile để tránh xung đột với scroll trang
-                        controls: true,
-                        pager: true
-                    }
-                }
-            ]
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $('.product-list-recommend').lightSlider({
-            item: 5, // Mặc định trên desktop
-            loop: true,
-            slideMargin: 20,
-            controls: true,
-            auto: false,
-            responsive : [
-                {
-                    breakpoint: 992, // Tablet
-                    settings: {
-                        item: 2,
-                        slideMargin: 15,
-                    }
-                },
-                {
-                    breakpoint: 576, // Mobile
-                    settings: {
-                        item: 2, // Chỉ hiển thị 1 item trên mobile
-                        slideMove: 1,
-                        slideMargin: 10,
-                        adaptiveHeight: true, // Chiều cao tự động
-                        enableDrag: false, // Tắt kéo trên mobile để tránh xung đột với scroll trang
-                        controls: true,
-                        pager: true
-                    }
-                }
-            ]
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $('.product-list-sale').lightSlider({
-            item: 3, // Mặc định trên desktop
-            loop: true,
-            slideMargin: 20,
-            controls: true,
-            auto: true,
-            speed: 1000,             // Thời gian trượt giữa các slide (ms)
-            pause: 5000,
-            responsive : [
-                {
-                    breakpoint: 992, // Tablet
-                    settings: {
-                        item: 2,
-                        slideMargin: 15,
-                    }
-                },
-                {
-                    breakpoint: 576, // Mobile
-                    settings: {
-                        item: 2, // Chỉ hiển thị 1 item trên mobile
-                        slideMove: 1,
-                        slideMargin: 10,
-                        adaptiveHeight: true, // Chiều cao tự động
-                        enableDrag: false, // Tắt kéo trên mobile để tránh xung đột với scroll trang
-                        controls: true,
-                        pager: true
-                    }
-                }
-            ]
+                ]
+            });
         });
     });
     </script>
 
-    <!-- countdown -->
-     <script>
-    // Lấy các phần tử hiển thị giờ, phút, giây
+    <!-- Countdown -->
+    <script>
     const hourEl = document.querySelector('.time-hour');
     const minuteEl = document.querySelector('.time-minute');
     const secondEl = document.querySelector('.time-second');
     const saleSection = document.querySelector('.product-sale');
 
-    // Lấy tổng thời gian đếm ngược từ DOM
-    let hours = parseInt(hourEl.textContent);
-    let minutes = parseInt(minuteEl.textContent);
-    let seconds = parseInt(secondEl.textContent);
-
-    // Tính tổng thời gian đếm ngược (tính bằng giây)
+    let hours = parseInt(hourEl?.textContent || 0);
+    let minutes = parseInt(minuteEl?.textContent || 0);
+    let seconds = parseInt(secondEl?.textContent || 0);
     let totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
-    // Hàm cập nhật thời gian hiển thị
     function updateCountdown() {
         if (totalSeconds <= 0) {
             clearInterval(countdown);
-            saleSection.style.display = 'none';
+            if (saleSection) saleSection.style.display = 'none';
             return;
         }
 
         totalSeconds--;
-
         const h = Math.floor(totalSeconds / 3600);
         const m = Math.floor((totalSeconds % 3600) / 60);
         const s = totalSeconds % 60;
 
-        hourEl.textContent = h.toString().padStart(2, '0');
-        minuteEl.textContent = m.toString().padStart(2, '0');
-        secondEl.textContent = s.toString().padStart(2, '0');
+        if (hourEl) hourEl.textContent = h.toString().padStart(2, '0');
+        if (minuteEl) minuteEl.textContent = m.toString().padStart(2, '0');
+        if (secondEl) secondEl.textContent = s.toString().padStart(2, '0');
     }
 
-    // Gọi hàm mỗi giây
     const countdown = setInterval(updateCountdown, 1000);
     </script>
-    <script src="{{asset('/js/main.js')}}"></script>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const tabs = document.querySelectorAll('.list-tabs ul li');
-        const sections = {
-            'tab-product-new': document.querySelector('.list-product-new'),
-            'tab-product-bestseller': document.querySelector('.list-product-bestseller'),
-            'tab-product-recommend': document.querySelector('.list-product-recommend')
-        };
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                // Bỏ active khỏi tất cả tab
-                tabs.forEach(t => t.classList.remove('active'));
-
-                // Thêm active vào tab được chọn
-                this.classList.add('active');
-
-                // Ẩn tất cả các section
-                Object.values(sections).forEach(section => {
-                    section.style.display = 'none';
-                });
-
-                // Hiện section tương ứng
-                if (this.classList.contains('tab-product-new')) {
-                    sections['tab-product-new'].style.display = 'block';
-                } else if (this.classList.contains('tab-product-bestseller')) {
-                    sections['tab-product-bestseller'].style.display = 'block';
-                } else if (this.classList.contains('tab-product-recommend')) {
-                    sections['tab-product-recommend'].style.display = 'block';
-                }
-            });
-        });
-
-        // Kích hoạt tab đầu tiên mặc định
-        tabs[0].classList.add('active');
-    });
-
-
-</script>
-
+    @stack('scripts')
 </body>
 </html>

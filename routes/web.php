@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VerificationController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -46,17 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-
-// Route::get('/login', [LoginController::class, 'showRegister']);
-
-// Route::get('register', function () {
-//     return view('register');
-// });
-Route::get('detail', function () {
-    return view('detail');
-});
-
-Route::get('product', function () {
+Route::get('products', function () {
     return view('product');
 });
 Route::get('pagereturn', function () {
@@ -78,12 +70,38 @@ Route::get('favourite_product', function () {
 
 
 // load san pham
-Route::get('product', [ProductController::class, 'ProductAll']);
+
+
+Route::get('/products', [ProductController::class, 'ProductAll'])->name('product.filter');
+
+// sx nổi bậtbật
 Route::get('productFeatured', [ProductController::class, 'ProductFeatured']);
-// sắp xếp
+// sx bán chạy
+Route::get('productBestseller', [ProductController::class, 'ProductBestseller']);
+// sx gias cao -> thấp
+Route::get('productPriceLowToHight', [ProductController::class, 'ProductPriceLowToHight']);
+Route::get('productPriceHightToLow', [ProductController::class, 'ProductPriceHightToLow']);
+//tìm kiếm
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions']);
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+
+
+
+
+
+
 
 
 Route::get('newdetail', function () {
     return view('new_detail');
 });
+
+
+// page -> home
+Route::get('/', [PageController::class, 'home']);
+// detail product
+Route::get('/detail/{id}', [PageController::class, 'detail']);
+// detail-color-sizesize
+
+Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
 
