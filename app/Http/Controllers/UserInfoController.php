@@ -11,18 +11,15 @@ class UserInfoController extends Controller
 {
     public function showUserInfo()
     {
-   
         $user = Auth::user();
 
-    
         $orders = Order::where('user_id', Auth::id())
-            ->with('items')
+            ->with('orderDetails') // Sửa từ 'items' thành 'orderDetails'
             ->whereNull('deleted_at')
             ->orderBy('created_at', 'desc')
-            ->take(3)
+            ->take(5) // Lấy 5 đơn hàng
             ->get();
 
- 
         return view('info_user', compact('user', 'orders'));
     }
 
@@ -60,7 +57,7 @@ class UserInfoController extends Controller
             ], 422);
         }
 
-        // Chỉ cập nhật các trường được gửi lên
+       
         $data = [];
         if ($request->has('fullname')) $data['name'] = $request->input('fullname');
         if ($request->has('email')) $data['email'] = $request->input('email');

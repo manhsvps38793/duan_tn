@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
 });
 
-Route::get('product', function () {
+Route::get('products', function () {
     return view('product');
 });
 Route::get('pagereturn', function () {
@@ -72,7 +72,27 @@ Route::get('favourite_product', function () {
 
 
 // load san pham
-Route::get('product', [ProductController::class, 'ProductAll']);
+
+
+Route::get('/products', [ProductController::class, 'ProductAll'])->name('product.filter');
+
+// sx nổi bậtbật
+Route::get('productFeatured', [ProductController::class, 'ProductFeatured']);
+// sx bán chạy
+Route::get('productBestseller', [ProductController::class, 'ProductBestseller']);
+// sx gias cao -> thấp
+Route::get('productPriceLowToHight', [ProductController::class, 'ProductPriceLowToHight']);
+Route::get('productPriceHightToLow', [ProductController::class, 'ProductPriceHightToLow']);
+//tìm kiếm
+Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions']);
+Route::get('/search', [ProductController::class, 'search'])->name('search');
+
+
+
+
+
+
+
 
 Route::get('newdetail', function () {
     return view('new_detail');

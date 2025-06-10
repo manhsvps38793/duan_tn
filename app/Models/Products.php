@@ -20,9 +20,10 @@ class Products extends Model
         return $this->hasMany(product_variants::class, 'product_id', 'id');
     }
     // của thg lol nam ko biết
-     public function thumbnail()
+    public function thumbnail()
     {
-        return $this->hasOne(Product_images::class, 'product_id', 'id')->orderBy('order');
+        return $this->hasOne(Product_images::class, 'product_id', 'id')->where('order', 1);
     }
-    
+
+
 }

@@ -1,4 +1,3 @@
-
 @extends('app')
 
 @section('body')
@@ -63,13 +62,13 @@
                                 </div>
                                 <div class="user-info-order-details">
                                     <div class="user-info-order-products">
-                                        {{ $order->items->map(fn($item) => "{$item->product_name} (x{$item->quantity})")->implode(', ') }}
+                                        {{ $order->orderDetails->map(fn($item) => "{$item->product_name} (x{$item->quantity})")->implode(', ') }}
                                     </div>
                                     <div class="user-info-order-total">
                                         {{ number_format($order->total_price, 0, ',', '.') }}₫
                                     </div>
                                 </div>
-                                <div class="user-info-order-actions">
+                               <div class="user-info-order-actions">
                                     <a style="text-decoration: none" class="user-info-order-detail-btn" href="{{ route('user.order.details', $order->id) }}"><i class="fas fa-eye"></i> Xem chi tiết</a>
                                 </div>
                             </div>

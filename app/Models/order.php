@@ -9,15 +9,17 @@ class Order extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['user_id', 'voucher_id', 'total_price', 'status'];
+    protected $fillable = [
+        'user_id', 'voucher_id', 'total_price', 'status'
+    ];
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
     }
 }

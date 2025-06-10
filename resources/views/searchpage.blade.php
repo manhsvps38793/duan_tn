@@ -4,7 +4,7 @@
     <div class="pruductall">
         <div class="grid wide container">
             <div class="row">
-                <div class="col l-3 c-0">
+                {{-- <div class="col l-3 c-0">
                     <form method="GET" action="{{ route('product.filter') }}" class="product-filter-container">
                         <!-- Thêm các tham số hiện tại vào form -->
                         @if(request()->has('category'))
@@ -82,8 +82,8 @@
                             <button type="submit" class="filter-button">Áp dụng bộ lọc</button>
                         </div>
                     </form>
-                </div>
-                <div class="col l-9">
+                </div> --}}
+                <div class="col l-12">
                     <div class="product-box-sp">
                         <div id="box1" class="box-sanpham active-sanpham">
                             <section class="product-thun">
@@ -138,7 +138,7 @@
                                             cursor: not-allowed;
                                         }
                                     </style>
-                                    <div class="product-sort-mobile">
+                                    {{-- <div class="product-sort-mobile">
                                         <h2 class="page-title">Tất cả sản phẩm</h2>
                                         <div class="relative">
                                             <p>Sắp xếp theo: </p>
@@ -186,9 +186,9 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <!-- Filter trên mobile - dạng dropdown -->
-                                    <div class="product-filter-mobile">
+                                    {{-- <div class="product-filter-mobile">
                                         <div class="mobile-filter-header">
                                             <div class="mobile-filter-toggle">
                                                 <i class="fas fa-filter"></i> Bộ lọc
@@ -198,19 +198,19 @@
                                         </div>
 
                                         <div class="mobile-filter-content">
-                                            <!-- Nội dung filter sẽ được sao chép từ desktop -->
+
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row" style="margin-top: 20px">
                                         @foreach ($productAll as $productItem)
-                                            <div class="col l-4 m-6 c-6">
+                                            <div class="col l-3 m-6 c-6">
                                                 <div class="item product-pading-size">
                                                     <div class="item-img">
                                                         <span class="item-giam">-{{ $productItem->sale }}%</span>
                                                         <div class="item-icon">
                                                             <i class="fa-solid fa-cart-shopping"></i>
                                                         </div>
-                                                         <a href="{{asset('/detail/'. $productItem->id)}}">
+                                                        <a href="/detail.html">
                                                             @if ($productItem->thumbnail && $productItem->thumbnail->path)
                                                                 <img src="{{ asset( $productItem->thumbnail->path) }}" alt="Ảnh" width="150">
                                                             @else
@@ -230,7 +230,6 @@
                                                         <span>
                                                             <del>{{ number_format($productItem->original_price) }}đ</del>
                                                         </span>
-
                                                     </div>
                                                 </div>
                                             </div>
