@@ -22,7 +22,9 @@
                         <div class="ctdh-summary-label"><i class="fas fa-truck"></i> Trạng thái</div>
                         <div class="ctdh-summary-value">
                             <span class="ctdh-status ctdh-status-{{ $order->status }}">
-                                        {{ $order->status == 'delivered' ? 'Đã giao' : ($order->status == 'pending' ? 'Đang giao' : 'Đã hủy') }}</span>
+                                        {{ $order->status == 'delivered' ? 'Đã giao' : ($order->status == 'pending' ? 'Đang giao' : 'Đã hủy') }}
+                                
+                            </span>
                         </div>
                     </div>
                     <div class="ctdh-summary-item">
@@ -53,12 +55,12 @@
                                 <td>
                                     <div class="ctdh-product">
                                         @if ($detail->productVariant && $detail->productVariant->product && $detail->productVariant->product->thumbnail)
-                                            <img src="{{ asset($detail->productVariant->product->thumbnail->path) }}" alt="{{ $detail->productVariant->name ?? 'Sản phẩm' }}" class="ctdh-product-image">
+                                            <img src="{{ asset($detail->productVariant->product->thumbnail->path) }}" alt="{{ $detail->productVariant->product->name ?? 'Sản phẩm' }}" class="ctdh-product-image">
                                         @else
-                                            <img src="https://via.placeholder.com/200" alt="{{ $detail->productVariant->name ?? 'Sản phẩm' }}" class="ctdh-product-image">
+                                            <img src="https://via.placeholder.com/200" alt="{{ $detail->productVariant->product->name ?? 'Sản phẩm' }}" class="ctdh-product-image">
                                         @endif
                                         <div class="ctdh-product-info">
-                                            <div class="ctdh-product-name">{{ $detail->productVariant->name ?? $detail->product_name ?? 'Không có thông tin' }}</div>
+                                            <div class="ctdh-product-name">{{ $detail->productVariant->product->name ?? $detail->product_name ?? 'Không có thông tin' }}</div>
                                             <div class="ctdh-product-sku">Mã: {{ $detail->productVariant->sku ?? 'N/A' }}</div>
                                             <div class="ctdh-product-price">{{ number_format($detail->unit_price, 0, ',', '.') }}₫</div>
                                         </div>
@@ -125,7 +127,7 @@
                 <div class="ctdh-timeline">
                     <h2 class="ctdh-section-title"><i class="fas fa-history"></i> Lịch sử đơn hàng</h2>
                     @foreach ($histories as $history)
-                        <div class="ctdh-timeline-item {{ $history['status'] == 'delivered' ? 'active' : '' }}">
+                        <div class="ctdh-timeline-item {{ $order->status == $history['status'] ? 'active' : '' }}">
                             <div class="ctdh-timeline-dot"></div>
                             <div class="ctdh-timeline-date">{{ $history['status_date']->format('d/m/Y - H:i') }}</div>
                             <div class="ctdh-timeline-title">{{ $history['title'] }}</div>

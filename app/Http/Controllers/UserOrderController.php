@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use Illuminate\Http\Request;
 
 class UserOrderController extends Controller
 {
     public function show($orderId)
     {
-        $order = Order::with(['orderDetails.productVariant', 'user'])
+        $order = Order::with(['orderDetails.productVariant.product.thumbnail', 'user'])
             ->where('id', $orderId)
             ->where('user_id', auth()->id())
             ->firstOrFail();
         $histories = $this->generateOrderHistories($order);
 
-        // Trả về view info_ctdh
         return view('info_ctdh', compact('order', 'histories'));
     }
 
@@ -33,11 +31,11 @@ class UserOrderController extends Controller
             ],
             'shipped' => [
                 'title' => 'Đang giao hàng',
-                'description' => 'Đơn hàng đang được vận chuyển bởi đối tác của chúng tôi',
+                'description' => 'Đơn hàng đang được vận chuyển đến bạn',
                 'date' => $order->created_at->addDay(),
             ],
             'packed' => [
-                'title' => 'Đã đóng gói',
+                'title' => 'Đang đóng gói',
                 'description' => 'Đơn hàng đã được đóng gói và sẵn sàng để vận chuyển',
                 'date' => $order->created_at->addHours(2),
             ],
