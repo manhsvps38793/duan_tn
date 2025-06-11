@@ -31,9 +31,8 @@
             <div class="col l-5 c-12 order-3">
                 <div class="detail-textall">
                     <!-- Wishlist button -->
-                    <button class="wishlist-button " id="wishlistBtn">
-                        <i class="far fa-heart"></i>
-                    </button>
+                     <a href="{{ route('wishlist.add', $product_detail->id) }}" class="wishlist-button">
+                    <i class="fa fa-heart"></i> </a>
                     {{-- name --}}
                     <h2>{{ $product_detail->name }}</h2>
                     {{--  --}}
@@ -87,11 +86,12 @@
                     <div class="option-container">
                         @foreach ($colors as $color)
                             <h1></h1>
-                            <div class="detail-textall-imgicon " style="background-color: {{ $color->hex_code }};"
-                                id="iconhinhanh1">
-                                <p hidden>{{ $color->name }}</p>
-                            </div>
-                        @endforeach
+                           <div class="detail-textall-imgicon" 
+                                    style="background-color: {{ $color->hex_code  }};" 
+                                    id="iconhinhanh{{ $color->index }}">
+                              <p hidden>{{ $color->name }}</p>
+                     </div>
+                         @endforeach
                         {{--  --}}
                     </div>
                     <div class="option-title" id="selected-icon">Kích thước: Chọn size</div>

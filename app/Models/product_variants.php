@@ -16,4 +16,8 @@ class product_variants extends Model
     {
         return $this->belongsTo(Sizes::class);
     }
+      public function color()
+    {
+        return $this->belongsTo(colors::class);
+    }
 }
