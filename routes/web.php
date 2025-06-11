@@ -5,11 +5,12 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewController;
 use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\UserOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ContactController;
 
 
 Route::get('about', function () {
@@ -18,7 +19,7 @@ Route::get('about', function () {
 Route::get('contact', function () {
     return view('contact');
 });
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::get('cart', function () {
     return view('cart');
 });
@@ -46,11 +47,15 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // })->name('home');
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
-  Route::get('infouser', function () {
-        return view('info_user');
-    })->name('user');
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
+    Route::post('/user/update-info', [UserInfoController::class, 'updateUserInfo'])->middleware('auth');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+ 
 });
+
+
 
 Route::get('products', function () {
     return view('product');
@@ -108,8 +113,6 @@ Route::get('/detail/{id}', [PageController::class, 'detail']);
 // detail-color-sizesize
 
 Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
-
-
 
 
 
