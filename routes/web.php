@@ -3,6 +3,7 @@
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\NewController;
 use App\Http\Controllers\VerificationController;
 
 use Illuminate\Support\Facades\Route;
@@ -57,9 +58,9 @@ Route::get('pagereturn', function () {
 Route::get('payment', function () {
     return view('payment');
 });
-Route::get('news', function () {
-    return view('news');
-});
+// Route::get('news', function () {
+//     return view('news');
+// });
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
 });
@@ -105,3 +106,9 @@ Route::get('/detail/{id}', [PageController::class, 'detail']);
 
 Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
 
+
+
+
+
+Route::get('/news', [NewController::class, 'show_new']);
+Route::get('/new_detail/{id}', [NewController::class, 'new_detail']);
