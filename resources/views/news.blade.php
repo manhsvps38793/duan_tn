@@ -84,8 +84,8 @@
                 @endforeach
 
                 {{-- Hiển thị nút phân trang --}}
-                <div class="pagination">
-                    {{ $newList->links() }}
+                <div class="chuyentrang">
+                    {{ $newList->links(('pagination')) }}
                 </div>
 
 

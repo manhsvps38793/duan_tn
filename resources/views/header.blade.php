@@ -86,7 +86,7 @@
 
         <div class="user">
             <div class="favourite-container">
-                <a href="{{asset('/favourite_product')}}"><i class="fa fa-heart" style="color: red; font-size: 26px;"></i></a>
+                <a href="{{asset('/wishlist')}}"><i class="fa fa-heart" style="color: red; font-size: 26px;"></i></a>
             </div>
             <div class="cart-container">
                 <a href="{{asset('/cart')}}"><i class="fa-solid fa-cart-shopping fa-xl" style="color: rgb(255, 64, 64);"></i></a>
