@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/css/info.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/info_ctdh.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/thanhtoan.css') }}">
-    {{-- <link rel="stylesheet" href="{{ asset('/css/about.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('/css/about.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/detail.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
