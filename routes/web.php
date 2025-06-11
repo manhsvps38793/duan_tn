@@ -37,9 +37,9 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->name('verification.verify')
     ->middleware('signed');
 // home
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
   Route::get('infouser', function () {
@@ -98,7 +98,7 @@ Route::get('newdetail', function () {
 
 
 // page -> home
-Route::get('/', [PageController::class, 'home']);
+Route::get('/', [PageController::class, 'home'])->name('home');
 // detail product
 Route::get('/detail/{id}', [PageController::class, 'detail']);
 // detail-color-sizesize

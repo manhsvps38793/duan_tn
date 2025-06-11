@@ -68,9 +68,10 @@
             <form id="search-form" action="{{ route('search') }}" method="GET" autocomplete="off">
                 <input type="text" id="search-input" name="keyword" placeholder="Tìm kiếm sản phẩm...">
 
-                <button class="icon-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="icon-search icon-search-pc" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <ul id="suggestion-box" class="suggestion-list"></ul>
             </form>
+                <button class="icon-search-mobile" type="" style="display: none"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
 
         <div class="nav-pc">
@@ -96,8 +97,21 @@
                     <li>
                         <a href="{{asset('/infouser')}}"><i class="fa-solid fa-circle-user fa-2xl" style="color: rgb(189, 189, 189);"></i></a>
                         <ul>
-                            <li><a href="{{ route('showlogin') }}">Đăng nhập</a></li>
-                            <li><a href="{{asset('/register')}}">Đăng ký</a></li>
+                            @guest
+                                {{-- Chưa đăng nhập --}}
+                                <li><a href="{{ route('showlogin') }}">Đăng nhập</a></li>
+                                <li><a href="{{ route('register') }}">Đăng ký</a></li>
+                            @endguest
+
+                            @auth
+                                {{-- Đã đăng nhập --}}
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit">Đăng xuất</button>
+                                    </form>
+                                </li>
+                            @endauth
                         </ul>
                     </li>
                 </ul>
