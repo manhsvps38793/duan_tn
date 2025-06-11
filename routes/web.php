@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NewController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ContactController;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -16,6 +18,7 @@ Route::get('about', function () {
 Route::get('contact', function () {
     return view('contact');
 });
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 Route::get('cart', function () {
     return view('cart');
 });
@@ -112,3 +115,8 @@ Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity'
 
 Route::get('/news', [NewController::class, 'show_new']);
 Route::get('/new_detail/{id}', [NewController::class, 'new_detail']);
+
+Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');
