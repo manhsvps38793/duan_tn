@@ -94,7 +94,7 @@
                         </div>
                         <div class="contact-info-content">
                             <h4>Facebook</h4>
-                            <p><a href="https://facebook.com/abccompany" target="_blank">fb.com/abccompany</a></p>
+                            <p><a href="https://www.facebook.com/tran.inh.khoi.930568" target="_blank">fb.com/DEV STORE SHOP</a></p>
                         </div>
                     </div>
 
@@ -133,8 +133,14 @@
             <!-- Contact Form -->
             <div class="contact-form-container contact-animate contact-delay-1">
                 <h3>Gửi Thông Điệp Cho Chúng Tôi</h3>
-                <form id="contactForm" method="POST">
-                    <div class="contact-form-row">
+                  <form id="contactForm" method="POST" action="{{ route('contact.send') }}">
+                       @csrf
+                    @if(session('success'))
+                    <div class="alert alert-success" style="margin-bottom: 20px; color: green; font-weight: bold;">
+                    {{ session('success') }}
+                    </div>
+                    @endif
+                       <div class="contact-form-row">
                         <div class="contact-form-group">
                             <label for="name">Họ và Tên <span>*</span></label>
                             <input type="text" id="name" name="name" class="contact-form-control" required>

@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('body')
-    @auth
+    {{-- @auth
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit">Đăng xuất</button>
         </form>
-    @endauth
+    @endauth --}}
     <div class="index-slider-container" id="slider">
         <div class="index-progress-bar"></div>
         <div class="index-slider-track-container">
@@ -78,7 +78,7 @@
             <div class="count-down">
                 <p style="color: red;">Kết thúc sau:</p>
                 <div class="box-time">
-                    <div class="time time-hour">10</div>
+                    <div class="time time-hour">20</div>
                     <div class="time-bottom">Giờ</div>
                 </div>
                 <div class="box-time">
@@ -179,7 +179,7 @@
                                     <div class="item-icon">
                                         <i class="fa-solid fa-cart-shopping"></i>
                                     </div>
-                                    
+
                                     <a href="{{asset('/detail/'. $products_is_featured->id)}}">
                                         <img src="{{ asset($products_is_featured->images->first()->path) }}" alt="{{ $products_is_featured->name }}">
                                     </a>

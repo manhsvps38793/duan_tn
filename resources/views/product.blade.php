@@ -6,7 +6,6 @@
             <div class="row">
                 <div class="col l-3 c-0">
                     <form method="GET" action="{{ route('product.filter') }}" class="product-filter-container">
-                        <!-- Thêm các tham số hiện tại vào form -->
                         @if(request()->has('category'))
                             @foreach(request()->input('category') as $category)
                                 <input type="hidden" name="category[]" value="{{ $category }}">
@@ -21,7 +20,7 @@
 
                         <div class="product-filter-desktop pruductall-danhmuc">
                             <div class="total-product">
-                                <p>Tất cả:   <span class="total">    {{    $total }}</span> sản phẩm</p>
+                                <p><span class="total">    {{    $total }}</span> sản phẩm</p>
                             </div>
 
                             <!-- DANH MỤC -->
@@ -91,7 +90,7 @@
                                     <style>
                                         .product-sort-mobile {
                                             display: flex;
-                                            align-items: center;
+                                            /* align-items: center; */
                                             justify-content: space-between;
                                         }
 
@@ -140,52 +139,52 @@
                                     </style>
                                     <div class="product-sort-mobile">
                                         <h2 class="page-title">Tất cả sản phẩm</h2>
-                                        <div class="relative">
-                                            <p>Sắp xếp theo: </p>
-                                            <div class="dropdown-container">
-                                                <div class="select-trigger" id="sortButton">
+                                            <div class="relative">
+                                                <p class="sort-title">Sắp xếp theo: </p>
+                                                <div class="dropdown-container">
+                                                    <div class="select-trigger" id="sortButton">
 
-                                                    <span class="select-value" id="selectedValue">
-                                                        @if(request()->is('productFeatured'))
-                                                            Nổi bật
-                                                        @elseif(request()->is('productBestseller'))
-                                                            Bán chạy
-                                                        @elseif(request()->is('productPriceLowToHight'))
-                                                            Giá: Thấp đến Cao
-                                                        @elseif(request()->is('productPriceHightToLow'))
-                                                            Giá: Cao đến Thấp
-                                                        @else
-                                                            Mặc định
-                                                        @endif
-                                                    </span>
+                                                        <span class="select-value" id="selectedValue">
+                                                            @if(request()->is('productFeatured'))
+                                                                Nổi bật
+                                                            @elseif(request()->is('productBestseller'))
+                                                                Bán chạy
+                                                            @elseif(request()->is('productPriceLowToHight'))
+                                                                Giá: Thấp đến Cao
+                                                            @elseif(request()->is('productPriceHightToLow'))
+                                                                Giá: Cao đến Thấp
+                                                            @else
+                                                                Mặc định
+                                                            @endif
+                                                        </span>
 
-                                                    <i class="fas fa-chevron-down select-icon"></i>
+                                                        <i class="fas fa-chevron-down select-icon"></i>
+                                                    </div>
+                                                    <style>
+                                                        .dropdown-menu>.dropdown-item>a{
+                                                            text-decoration: none;
+                                                            color: black;
+                                                        }
+                                                    </style>
+                                                    <ul class="dropdown-menu" id="dropdownMenu">
+                                                        <li class="dropdown-item {{ request()->is('product') ? 'selected' : '' }}" data-value="Mặc định">
+                                                            <span class="radio"></span><a href="/products">Mặc định</a>
+                                                        </li>
+                                                        <li class="dropdown-item {{ request()->is('productFeatured') ? 'selected' : '' }}" data-value="Nổi bật">
+                                                            <span class="radio"></span><a href="/productFeatured">Nổi bật</a>
+                                                        </li>
+                                                        <li class="dropdown-item {{ request()->is('productBestseller') ? 'selected' : '' }}" data-value="Bán chạy">
+                                                            <span class="radio"></span><a href="/productBestseller">Bán chạy</a>
+                                                        </li>
+                                                        <li class="dropdown-item {{ request()->is('productPriceLowToHight') ? 'selected' : '' }}" data-value="Giá: Thấp đến Cao">
+                                                            <span class="radio"></span><a href="productPriceLowToHight"> Giá: Thấp đến Cao</a>
+                                                        </li>
+                                                        <li class="dropdown-item {{ request()->is('productPriceHightToLow') ? 'selected' : '' }}" data-value="Giá: Cao đến Thấp">
+                                                            <span class="radio"></span><a href="productPriceHightToLow">Giá: Cao đến Thấp</a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <style>
-                                                    .dropdown-menu>.dropdown-item>a{
-                                                        text-decoration: none;
-                                                        color: black;
-                                                    }
-                                                </style>
-                                                <ul class="dropdown-menu" id="dropdownMenu">
-                                                    <li class="dropdown-item {{ request()->is('product') ? 'selected' : '' }}" data-value="Mặc định">
-                                                        <span class="radio"></span><a href="/products">Mặc định</a>
-                                                    </li>
-                                                    <li class="dropdown-item {{ request()->is('productFeatured') ? 'selected' : '' }}" data-value="Nổi bật">
-                                                        <span class="radio"></span><a href="/productFeatured">Nổi bật</a>
-                                                    </li>
-                                                    <li class="dropdown-item {{ request()->is('productBestseller') ? 'selected' : '' }}" data-value="Bán chạy">
-                                                        <span class="radio"></span><a href="/productBestseller">Bán chạy</a>
-                                                    </li>
-                                                    <li class="dropdown-item {{ request()->is('productPriceLowToHight') ? 'selected' : '' }}" data-value="Giá: Thấp đến Cao">
-                                                        <span class="radio"></span><a href="productPriceLowToHight"> Giá: Thấp đến Cao</a>
-                                                    </li>
-                                                    <li class="dropdown-item {{ request()->is('productPriceHightToLow') ? 'selected' : '' }}" data-value="Giá: Cao đến Thấp">
-                                                        <span class="radio"></span><a href="productPriceHightToLow">Giá: Cao đến Thấp</a>
-                                                    </li>
-                                                </ul>
                                             </div>
-                                        </div>
                                     </div>
                                     <!-- Filter trên mobile - dạng dropdown -->
                                     <div class="product-filter-mobile">
@@ -198,7 +197,48 @@
                                         </div>
 
                                         <div class="mobile-filter-content">
-                                            <!-- Nội dung filter sẽ được sao chép từ desktop -->
+                                            <form method="GET" action="{{ route('product.filter') }}">
+                                                <div class="filter-section">
+                                                    <h3>DANH MỤC</h3>
+                                                    <div class="category-options">
+                                                        @foreach ($categories as $category)
+                                                            <div class="category-option">
+                                                                <input type="checkbox" id="mobile_category{{ $category->id }}" name="category[]" value="{{ $category->id }}"
+                                                                    {{ in_array($category->id, (array)request()->input('category')) ? 'checked' : '' }}>
+                                                                <label for="mobile_category{{ $category->id }}">{{ $category->name }}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+
+                                                <div class="filter-section">
+                                                    <h3>SIZE</h3>
+                                                    <div class="filter-options">
+                                                        @foreach ($sizes as $size)
+                                                            <div class="filter-option">
+                                                                <input type="radio" id="mobile_size{{ $size->id }}" name="size" value="{{ $size->id }}"
+                                                                    {{ request()->input('size') == $size->id ? 'checked' : '' }}>
+                                                                <label for="mobile_size{{ $size->id }}">{{ $size->name }}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+
+                                                <div class="filter-section">
+                                                    <h3>GIÁ</h3>
+                                                    <div class="price-options">
+                                                        @foreach ([1 => 'Dưới 100.000đ', 2 => '100.000đ - 200.000đ', 3 => '200.000đ - 300.000đ', 4 => 'Trên 300.000đ'] as $value => $label)
+                                                            <div class="price-option">
+                                                                <input type="radio" name="price" id="mobile_price{{ $value }}" value="{{ $value }}"
+                                                                    {{ request()->input('price') == $value ? 'checked' : '' }}>
+                                                                <label for="mobile_price{{ $value }}">{{ $label }}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+
+                                                <button type="submit" class="filter-button">Áp dụng</button>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px">
@@ -289,9 +329,7 @@
             const filterCount = document.querySelector('.product-filter-count');
 
             // Sao chép nội dung filter từ desktop sang mobile
-            if (desktopFilter && mobileFilterContent) {
-                mobileFilterContent.innerHTML = desktopFilter.innerHTML;
-            }
+
 
             // Xử lý toggle mobile filter
             if (mobileFilterToggle) {
