@@ -204,6 +204,17 @@
     }
 
     const countdown = setInterval(updateCountdown, 1000);
+
+   //chặn gửi phom khi chưa nhập từ khóa
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+        const input = document.getElementById('search-input');
+        const keyword = input.value.trim();
+
+        if (keyword === '') {
+            e.preventDefault(); // Ngăn form submit
+            alert('Vui lòng nhập từ khóa tìm kiếm!');
+        }
+    });
     </script>
 
     @stack('scripts')

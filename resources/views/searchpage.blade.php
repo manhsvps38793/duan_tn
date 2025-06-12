@@ -1,6 +1,11 @@
 @extends('app')
 
 @section('body')
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="pruductall">
         <div class="grid wide container">
             <div class="row">
@@ -88,6 +93,11 @@
                         <div id="box1" class="box-sanpham active-sanpham">
                             <section class="product-thun">
                                 <div class="grid wide container">
+                                    <p class="title-search">
+                                        Hiển thị <span style="font-weight: bold">{{$total}}</span> kết quả cho từ khóa: <span style="color: red">"{{$keyword}}"</span>
+                                    </p>
+
+
                                     <style>
                                         .product-sort-mobile {
                                             display: flex;

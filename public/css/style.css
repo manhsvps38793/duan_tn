@@ -2965,6 +2965,7 @@ footer {
 /* Filter active state */
 .filter-option.active,
 .price-option.active {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     border-radius: 4px;
 }
+
