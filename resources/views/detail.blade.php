@@ -11,7 +11,7 @@
                             <img src="{{ asset($image->path) }}" alt="Thumbnail">
                         </div>
                     @endforeach
-                    {{--  --}}
+                    {{-- --}}
                 </div>
             </div>
 
@@ -23,7 +23,7 @@
                         <img src="{{ asset($image->path) }}" alt="Image {{ $index + 1 }}"
                             class="{{ $index == 0 ? 'activedeiatl' : '' }}">
                     @endforeach
-                    {{--  --}}
+                    {{-- --}}
                     <button class="next-btndeital"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
@@ -36,10 +36,10 @@
                     </button>
                     {{-- name --}}
                     <h2>{{ $product_detail->name }}</h2>
-                    {{--  --}}
+                    {{-- --}}
                     {{-- sku variants --}}
                     <div id="sku-info"></div>
-                    {{--  --}}
+                    {{-- --}}
                     <hr>
                     <p class="deital-star">
                         @php
@@ -66,22 +66,26 @@
 
                     <div class="price-container">
                         <div class="current-price">
-                            {{ number_format($product_detail->price * (1 - $product_detail->sale / 100), 0, ',', '.') }}đ
+                            {{ number_format($product_detail->price)}}đ
                         </div>
-                        <div class="original-price">{{ number_format($product_detail->price, 0, ',', '.') }}đ</div>
+                        <div class="original-price">{{ number_format($product_detail->original_price) }}đ</div>
                         <div class="discount-badge">{{ $product_detail->sale }}%</div>
                     </div>
                     <div class="detail-button-mua" style="margin-bottom: 15px">
-                        <button class="add-button-detail">
+                        <button class="add-button-detail" id="btnAddCart">
                             <i class="fas fa-shopping-cart"></i> THÊM GIỎ HÀNG
                         </button>
-                        <button class="buy-button-detail">
+                        <a href="{{route('payment.add')}}" style="text-decoration: none" class="buy-button-detail">
                             <i class="fas fa-bolt"></i> MUA NGAY
-                        </button>
+                        </a>
+                        {{-- Place to store variant id --}}
+                        <input type="hidden" id="product_variant_id" name="product_variant_id" value="">
+                        {{-- quantity input exists --}}
+                        <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}">
                     </div>
                     {{-- giới thiệu sản phẩm --}}
                     {!! $product_detail->short_description !!}
-                    {{--  --}}
+                    {{-- --}}
                     <div class="option-title" id="selected-iconhinhanh">Màu sắc: Chọn màu</div>
                     {{-- color --}}
                     <div class="option-container">
@@ -92,7 +96,7 @@
                                 <p hidden>{{ $color->name }}</p>
                             </div>
                         @endforeach
-                        {{--  --}}
+                        {{-- --}}
                     </div>
                     <div class="option-title" id="selected-icon">Kích thước: Chọn size</div>
                     <div class="option-container">
@@ -102,7 +106,7 @@
                                 <p>{{ $size->name }}</p>
                             </div>
                         @endforeach
-                        {{--  --}}
+                        {{-- --}}
                     </div>
 
                     <!-- Nơi hiển thị số lượng còn hàng -->
@@ -131,8 +135,9 @@
                         <div class="quantity-control">
                             <div class="quantity-buttons">
                                 <button type="button" id="decrease">-</button>
-                                <input type="number" id="quantity" value="1" min="1" />
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" />
                                 <button type="button" id="increase">+</button>
+
                             </div>
                         </div>
                     </div>
@@ -141,6 +146,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
 
@@ -257,5 +264,10 @@
             </div>
         </div>
     </section>
+    <script>
+        window.routes = {
+            addToCart: "{{ route('cart.add') }}"
+        };
+    </script>
     <script src="{{ asset('/js/detail.js') }}"></script>
 @endsection

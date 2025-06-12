@@ -62,4 +62,8 @@ class User extends Authenticatable
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

@@ -21,4 +21,8 @@ class product_variants extends Model
     {
         return $this->belongsTo(sizes::class, 'size_id');
     }
+    public function image()
+{
+    return $this->hasOne(Product_images::class, 'id', 'product_img_id'); // hoặc tuỳ theo quan hệ bạn thiết kế
+}
 }

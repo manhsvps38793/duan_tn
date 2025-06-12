@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 
+use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -15,9 +18,9 @@ Route::get('about', function () {
 Route::get('contact', function () {
     return view('contact');
 });
-Route::get('cart', function () {
-    return view('cart');
-});
+// Route::get('cart', function () {
+//     return view('cart');
+// });
 // Route::get('login', function () {
 //     return view('login');
 // });
@@ -37,15 +40,15 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->name('verification.verify')
     ->middleware('signed');
 // home
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
-  Route::get('infouser', function () {
+    Route::get('infouser', function () {
         return view('info_user');
     })->name('user');
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 Route::get('products', function () {
@@ -54,9 +57,7 @@ Route::get('products', function () {
 Route::get('pagereturn', function () {
     return view('page_return');
 });
-Route::get('payment', function () {
-    return view('payment');
-});
+
 Route::get('news', function () {
     return view('news');
 });
@@ -98,10 +99,25 @@ Route::get('newdetail', function () {
 
 
 // page -> home
-Route::get('/', [PageController::class, 'home']);
+Route::get('/', [PageController::class, 'home'])->name('home');
 // detail product
 Route::get('/detail/{id}', [PageController::class, 'detail']);
 // detail-color-sizesize
 
-Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
+Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity'])->name('getVariantQuantity');
 
+// cart
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+// lưu session
+Route::post('/cart/session-add', [CartController::class, 'storeSessionCart']);
+// voucher
+Route::post('/cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+// xóa và tăng số lượng
+Route::get('/cart/remove/{variantId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+// thanh toán 
+Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
+Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
+Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
+Route::get('/payment/result', [PaymentController::class, 'result'])->name('payment.result');

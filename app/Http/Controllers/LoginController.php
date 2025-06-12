@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\WelcomeMail;
 use App\Models\User;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -108,5 +109,26 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('showlogin');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Lấy giỏ hàng từ session
+        $sessionCart = session()->get('cart', []);
+
+        // Đồng bộ với database
+        foreach ($sessionCart as $item) {
+            $cartItem = \App\Models\Cart::firstOrNew([
+                'user_id' => $user->id,
+                'product_variant_id' => $item['product_variant_id'],
+            ]);
+            $cartItem->quantity += $item['quantity'];
+            $cartItem->save();
+        }
+
+        // Xóa giỏ hàng trong session
+        session()->forget('cart');
+
+        return redirect('/');
     }
 }
