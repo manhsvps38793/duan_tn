@@ -90,22 +90,12 @@
                     <div class="option-container">
                         @foreach ($colors as $color)
                             <h1></h1>
-<<<<<<< HEAD
-                            <div class="detail-textall-imgicon " style="background-color: {{ $color->hex_code }};"
-                                id="iconhinhanh1">
-                                <p hidden>{{ $color->name }}</p>
-                            </div>
-                        @endforeach
-                        {{-- --}}
-=======
                            <div class="detail-textall-imgicon" 
                                     style="background-color: {{ $color->hex_code  }};" 
                                     id="iconhinhanh{{ $color->index }}">
                               <p hidden>{{ $color->name }}</p>
                      </div>
                          @endforeach
-                        {{--  --}}
->>>>>>> 98365e7505556d804f01dbd715ce92289717c1ff
                     </div>
                     <div class="option-title" id="selected-icon">Kích thước: Chọn size</div>
                     <div class="option-container">

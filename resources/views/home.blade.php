@@ -116,7 +116,7 @@
                             </a></h3>
                         </div>
                         <div class="item-price item-price-sales">
-                            <span style="color: red;padding-right: 10px;">{{$productssale->price}}đ</span>
+                            <span style="color: red;padding-right: 10px;">{{ number_format($productssale->price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
                             <span><del>{{$productssale->original_price}}đ</del></span>
                         </div>
                     </li>
@@ -261,115 +261,27 @@
         </div>
 
         <div class="row">
-            <div class="col l-4 m-6 c-12">
+            @foreach ($news as $news)
+                         <div class="col l-4 m-6 c-12">
                 <div class="post-item">
                     <div class="post-img">
-                        <img src="img/team.png" alt="">
+                        <img src="{{asset('/img/'. $news->image)}}" alt="">
                     </div>
                     <div class="post-time">
-                        <p>13/11/2005</p>
+                        {{ \Carbon\Carbon::parse($news->posted_date)->format('d/m/Y') }}
                     </div>
                     <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
+                        <h2>{{$news->title}}</h2>
                     </div>
                     <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
+                        <p>{{$news->description}}</p>
                     </div>
                     <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
             </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/tam_nhin.webp" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                </div>
-            </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/aokhoac.webp" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-
-                </div>
-            </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/slide1.jpg" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                </div>
-            </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/somi.webp" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                </div>
-            </div>
-            <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="img/slider_3.webp" alt="">
-                    </div>
-                    <div class="post-time">
-                        <p>13/11/2005</p>
-                    </div>
-                    <div class="post-name">
-                        <h2>Công bố ra mắt sản phẩm mới</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>Chào mừng bạn đến với M A G, nơi cung cấp các sản phẩm thời trang và phụ kiện dành cho giới trẻ
-                            yêu thích phong cách </p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                </div>
-            </div>
+            @endforeach
+   
+            
         </div>
     </div>
 @endsection

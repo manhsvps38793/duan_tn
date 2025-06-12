@@ -16,16 +16,12 @@ class product_variants extends Model
     {
         return $this->belongsTo(Sizes::class);
     }
-<<<<<<< HEAD
     public function image()
 {
     return $this->hasOne(Product_images::class, 'id', 'product_img_id'); // hoặc tuỳ theo quan hệ bạn thiết kế
 }
-}
-=======
       public function color()
     {
         return $this->belongsTo(colors::class);
     }
 }
->>>>>>> 98365e7505556d804f01dbd715ce92289717c1ff

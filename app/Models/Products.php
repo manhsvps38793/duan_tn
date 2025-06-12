@@ -23,9 +23,4 @@ class Products extends Model
     {
         return $this->hasOne(Product_images::class, 'product_id', 'id')->where('order', 1);
     }
-<<<<<<< HEAD
-
 }
-=======
-}
->>>>>>> 98365e7505556d804f01dbd715ce92289717c1ff
