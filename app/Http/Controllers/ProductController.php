@@ -154,5 +154,4 @@ class ProductController extends Controller
 
         return view('searchpage', compact('productAll', 'total', 'keyword'));
     }
-
 }

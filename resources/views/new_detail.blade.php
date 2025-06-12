@@ -6,13 +6,14 @@
     <main class="newdetail-container">
         <article>
             <div class="newdetail-article-header">
-                <h1 class="newdetail-article-title">Xu Hướng Thời Trang 2023: Cập Nhật Phong Cách Mới Nhất</h1>
-                <div class="newdetail-article-meta">Đăng bởi: Nguyễn Thị Minh | Ngày: 15/10/2023</div>
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Thời trang 2023" class="newdetail-article-image">
+                <h1 class="newdetail-article-title">{{ $new_detail->title }}</h1>
+                <div class="newdetail-article-meta">Đăng bởi: {{ $new_detail->author }} | Ngày: {{ $new_detail->posted_date }}</div>
+                {{-- <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Thời trang 2023" class="newdetail-article-image"> --}}
             </div>
 
             <div class="newdetail-article-content">
-                <div class="newdetail-article-section">
+                {!! $new_detail->content !!}
+                {{-- <div class="newdetail-article-section">
                     <p class="newdetail-paragraph">Năm 2023 mang đến những xu hướng thời trang đầy sáng tạo, kết hợp giữa nét cổ điển và hiện đại. Từ những bộ suit thanh lịch đến phong cách streetwear cá tính, thời trang năm nay tập trung vào sự thoải mái nhưng không kém phần thời thượng.</p>
                 </div>
 
@@ -80,7 +81,7 @@
                 <div class="newdetail-article-section">
                     <h2 class="newdetail-section-title">Kết Luận</h2>
                     <p class="newdetail-paragraph">Thời trang 2023 mang đến nhiều sự lựa chọn đa dạng cho mọi phong cách. Dù bạn yêu thích vẻ ngoài thanh lịch, cá tính hay năng động, hãy lựa chọn những items phù hợp với cá tính và lối sống của bản thân. Đừng quên kết hợp các xu hướng mới với phong cách riêng để tạo nên dấu ấn cá nhân!</p>
-                </div>
+                </div> --}}
             </div>
         </article>
     </main>

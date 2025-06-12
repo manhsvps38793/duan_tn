@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
-    function home() {
+    function home()
+    {
         $products_sale = Products::with(['images', 'variants'])->where('products.sale', '>', 30)->take(8)->get();
         $products_is_featured = Products::with(['images', 'variants'])->where('is_featured', '>', 0)->take(8)->get();
         $product_categories = DB::table('Product_categories')->select()->get();
@@ -33,16 +34,16 @@ class PageController extends Controller
         $sizes = $product_detail->variants->pluck('size')->unique();
         // sản phẩm liên quan
         $products = Products::with(['images', 'variants'])
-        ->where('category_id', $product_detail->category_id)
-        ->where('id', '!=', $id)
-        ->take(4)
-        ->get();
+            ->where('category_id', $product_detail->category_id)
+            ->where('id', '!=', $id)
+            ->take(4)
+            ->get();
 
         // đánh giá
         $reviewDetail = reviews::with('user')->where('product_id', $id)->get();
 
 
-        $data =[
+        $data = [
             'product_detail' => $product_detail,
             'colors' => $colors,
             'sizes' => $sizes,
@@ -56,16 +57,16 @@ class PageController extends Controller
     {
         $productId = (int) $request->query('product_id');
 
-            $colorName = $request->query('color'); // VD: "Red"
-            $sizeName = $request->query('size');   // VD: "M"
+        $colorName = $request->query('color'); // VD: "Red"
+        $sizeName = $request->query('size');   // VD: "M"
 
-            $colorId = colors::where('name', $colorName)->value('id');
-            $sizeId = sizes::where('name', $sizeName)->value('id');
+        $colorId = colors::where('name', $colorName)->value('id');
+        $sizeId = sizes::where('name', $sizeName)->value('id');
 
-            $variant = product_variants::where('product_id', $productId)
-                ->where('color_id', $colorId)
-                ->where('size_id', $sizeId)
-                ->first();
+        $variant = product_variants::where('product_id', $productId)
+            ->where('color_id', $colorId)
+            ->where('size_id', $sizeId)
+            ->first();
 
         if (!$variant) {
             return response()->json(['quantity' => 0]);
@@ -74,6 +75,8 @@ class PageController extends Controller
         return response()->json([
             'quantity' => $variant->quantity,
             'sku' => $variant->sku,
+            'product_variant_id' => $variant->id
+
         ]);
     }
 

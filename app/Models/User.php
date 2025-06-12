@@ -27,6 +27,8 @@ class User extends Authenticatable
         'provider',
         'provider_id',
         'avatar',
+        'address',
+        'birthday'
 
     ];
 
@@ -61,5 +63,9 @@ class User extends Authenticatable
         $this->forceFill([
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
+    }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

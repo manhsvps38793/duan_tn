@@ -1,12 +1,22 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VerificationController;
 
+use App\Models\Cart;
+
+use App\Http\Controllers\NewController;
+use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\UserOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\ContactController;
 
 
 Route::get('about', function () {
@@ -15,6 +25,8 @@ Route::get('about', function () {
 Route::get('contact', function () {
     return view('contact');
 });
+
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 Route::get('cart', function () {
     return view('cart');
 });
@@ -42,11 +54,21 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // })->name('home');
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
-  Route::get('infouser', function () {
+
+    Route::get('infouser', function () {
         return view('info_user');
     })->name('user');
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
+    Route::post('/user/update-info', [UserInfoController::class, 'updateUserInfo'])->middleware('auth');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
 });
+
+
 
 Route::get('products', function () {
     return view('product');
@@ -54,12 +76,13 @@ Route::get('products', function () {
 Route::get('pagereturn', function () {
     return view('page_return');
 });
+
 Route::get('payment', function () {
     return view('payment');
 });
-Route::get('news', function () {
-    return view('news');
-});
+// Route::get('news', function () {
+//     return view('news');
+// });
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
 });
@@ -103,5 +126,31 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/detail/{id}', [PageController::class, 'detail']);
 // detail-color-sizesize
 
-Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity']);
+Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity'])->name('getVariantQuantity');
 
+
+// cart
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+// lưu session
+Route::post('/cart/session-add', [CartController::class, 'storeSessionCart']);
+// voucher
+Route::post('/cart/apply-voucher', [CartController::class, 'applyVoucher'])->name('cart.applyVoucher');
+// xóa và tăng số lượng
+Route::get('/cart/remove/{variantId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+// thanh toán
+Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
+Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
+Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
+Route::get('/payment/result', [PaymentController::class, 'result'])->name('payment.result');
+
+
+
+Route::get('/news', [NewController::class, 'show_new']);
+Route::get('/new_detail/{id}', [NewController::class, 'new_detail']);
+
+Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
+Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');

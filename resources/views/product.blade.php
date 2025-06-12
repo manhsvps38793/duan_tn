@@ -242,39 +242,45 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px">
-                                        @foreach ($productAll as $productItem)
-                                            <div class="col l-4 m-6 c-6">
-                                                <div class="item product-pading-size">
-                                                    <div class="item-img">
-                                                        <span class="item-giam">-{{ $productItem->sale }}%</span>
-                                                        <div class="item-icon">
-                                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        @if ($productAll->isEmpty())
+                                            <div class="col l-12 m-12 c-12">
+                                                <p style="text-align: center; font-size: 18px; color: #888;">Không có lựa chọn phù hợp.</p>
+                                            </div>
+                                        @else
+                                            @foreach ($productAll as $productItem)
+                                                <div class="col l-4 m-6 c-6">
+                                                    <div class="item product-pading-size">
+                                                        <div class="item-img">
+                                                            <span class="item-giam">-{{ $productItem->sale }}%</span>
+                                                            <div class="item-icon">
+                                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                            </div>
+                                                            <a href="{{ asset('/detail/' . $productItem->id) }}">
+                                                                @if ($productItem->thumbnail && $productItem->thumbnail->path)
+                                                                    <img src="{{ asset($productItem->thumbnail->path) }}" alt="Ảnh" width="150">
+                                                                @else
+                                                                    <img src="{{ asset('img/kocoanh.png') }}" alt="no ảnh ok like" width="150">
+                                                                @endif
+                                                            </a>
                                                         </div>
-                                                         <a href="{{asset('/detail/'. $productItem->id)}}">
-                                                            @if ($productItem->thumbnail && $productItem->thumbnail->path)
-                                                                <img src="{{ asset( $productItem->thumbnail->path) }}" alt="Ảnh" width="150">
-                                                            @else
-                                                                <img src="{{ asset('img/kocoanh.png') }}" alt="no ảnh ok like" width="150">
-                                                            @endif
-                                                        </a>
-                                                    </div>
 
-                                                    <div class="item-name">
-                                                        <h3><a href="">{{ $productItem->name }}</a></h3>
-                                                    </div>
+                                                        <div class="item-name">
+                                                            <h3><a href="">{{ $productItem->name }}</a></h3>
+                                                        </div>
 
-                                                    <div class="item-price">
-                                                        <span style="color: red; padding-right: 10px;">
-                                                            {{ number_format($productItem->original_price * (1 - $productItem->sale / 100)) }}đ
-                                                        </span>
-                                                        <span>
-                                                            <del>{{ number_format($productItem->original_price) }}đ</del>
-                                                        </span>
-
+                                                        <div class="item-price">
+                                                            <span style="color: red; padding-right: 10px;">
+                                                                {{ number_format($productItem->original_price * (1 - $productItem->sale / 100)) }}đ
+                                                            </span>
+                                                            <span>
+                                                                <del>{{ number_format($productItem->original_price) }}đ</del>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
                             </section>
