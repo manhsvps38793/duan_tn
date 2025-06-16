@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\product_variants;
+use App\Models\Products;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,17 @@ class CartController extends Controller
             $subtotal = $cartItems->sum(function ($item) {
                 return $item->productVariant->product->price * $item->quantity;
             });
+
+
+            // $usedVoucherIds = Order::where('user_id', auth()->id())
+            //     ->whereNotNull('voucher_id')
+            //     ->pluck('voucher_id')
+            //     ->toArray();
+
+            $availableVouchers = Voucher::where('quantity', '>', 0)
+                ->where('start_date', '<=', now())
+                ->where('expiration_date', '>=', now())
+                ->get();
         } else {
             $sessionCart = session()->get('cart', []);
             $cartItems = collect($sessionCart)->map(function ($item) {
@@ -36,6 +48,7 @@ class CartController extends Controller
             $subtotal = $cartItems->sum(function ($item) {
                 return $item->productVariant->product->price * $item->quantity;
             });
+            $availableVouchers = null;
 
         }
 
@@ -47,6 +60,7 @@ class CartController extends Controller
                 ->where('start_date', '<=', now())
                 ->where('quantity', '>', 0)
                 ->first();
+
             if ($voucher) {
                 if ($voucher->value_type == 'fixed') {
                     $voucherDiscount = $voucher->discount_amount;
@@ -60,7 +74,8 @@ class CartController extends Controller
 
         $shippingFee = 40000;
         $total = $subtotal - $voucherDiscount + $shippingFee;
-        return view('Cart', compact('cartItems', 'subtotal', 'shippingFee', 'voucherDiscount', 'total'));
+
+        return view('Cart', compact('cartItems', 'subtotal', 'shippingFee', 'voucherDiscount', 'total', 'availableVouchers'));
     }
     public function storeSessionCart(Request $request)
     {
@@ -91,11 +106,26 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $validated = $request->validate([
-            'product_variant_id' => 'required|integer|exists:product_variants,id',
+            'product_variant_id' => 'nullable|integer|exists:product_variants,id',
             'quantity' => 'required|integer|min:1',
+            'product_id' => 'nullable|integer|exists:products,id',
         ]);
-
         $productVariantId = $validated['product_variant_id'];
+
+        if (!$productVariantId) {
+            $productId = $validated['product_id'];
+            $variant = product_variants::where('product_id', $productId)->first();
+            if ($variant) {
+                $productVariantId = $variant->id;
+            } else {
+                return response()->json([
+                    'message' => 'Sản phẩm này hiện không có sẵn biến thể nào'
+                ], 422);
+            }
+        } else {
+            $variant = product_variants::find($productVariantId);
+
+        }
         $variant = product_variants::find($productVariantId);
         if (!$variant || $variant->quantity < 1) {
             return response()->json([
@@ -181,6 +211,7 @@ class CartController extends Controller
 
         if ($voucher) {
             session()->put('applied_voucher', $vouCherCode);
+            session()->put('applied_voucher_id', $voucher->id);
             return redirect()->route('cart.view')->with('success', 'Áp dụng mã giảm giá thành công!');
         } else {
             return redirect()->route('cart.view')->with('error', 'Mã giảm giá không hợp lệ hoặc đã hết hạn.');
@@ -223,9 +254,69 @@ class CartController extends Controller
         }
         return redirect()->route('cart.view');
     }
+    public function updateVariant($variantId, Request $request)
+    {
+        $validated = $request->validate([
+            'color_id' => 'required|exists:colors,id',
+            'size_id' => 'required|exists:sizes,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+        $oldVariant = product_variants::find($variantId);
+        $newVariant = product_variants::where('product_id', $oldVariant->product_id)
+            ->where('color_id', $validated['color_id'])
+            ->where('size_id', $validated['size_id'])
+            ->first();
+
+        // Kiểm tra tồn tại và còn hàng
+        if (!$newVariant) {
+            return back()->with('error', 'Biến thể không tồn tại.');
+
+        }
+
+        if ($newVariant->quantity < 1) {
+            return redirect()->route('cart.view')->with('error', 'Cái này hết hàng rồi!!!');
+
+        }
+        if (Auth::check()) {
+            // Xóa biến thể cũ
+            Cart::where('user_id', Auth::id())->where('product_variant_id', $variantId)->delete();
+
+            // Tạo biến thể mới
+            $cartItem = Cart::firstOrNew([
+                'user_id' => Auth::id(),
+                'product_variant_id' => $newVariant->id,
+            ]);
+            $cartItem->quantity = $validated['quantity'];
+            $cartItem->save();
+        } else {
+            // Lấy cart từ session
+            $cart = Session::get('cart', []);
+
+            // Xóa variant cũ
+            $cart = array_filter($cart, fn($item) => $item['product_variant_id'] != $variantId);
+
+            // Thêm variant mới
+            $cart[] = [
+                'product_variant_id' => $newVariant->id,
+                'quantity' => $validated['quantity'],
+            ];
+
+            Session::put('cart', $cart);
+        }
+        return redirect()->route('cart.view')->with('success', 'Đã cập nhật biến thể sản phẩm!');
+
+    }
+
 
     public function proceedToCheckout(Request $request)
     {
+        $validated = $request->validate([
+            'product_variant_id' => 'nullable|integer|exists:product_variants,id',
+            'quantity' => 'nullable|integer|min:1',
+        ]);
+        $productVariantId = $validated['product_variant_id'] ?? null;
+        $quantity = $validated['quantity'] ?? 1;
+
         if (Auth::check()) {
             $cartItems = Cart::where('user_id', operator: Auth::id())->get();
 
@@ -233,12 +324,31 @@ class CartController extends Controller
             $cartItems = session()->get('cart', default: []);
         }
 
+
+        if (empty($cartItems) && $productVariantId) {
+            $variant = product_variants::find($productVariantId);
+            if (!$variant || $variant->quantity < $quantity) {
+                return redirect()->route('cart.view')->with('error', 'Sản phẩm đã hết hàng hoặc số lượng không đủ.');
+            }
+
+            $cartItems = [
+                [
+                    'product_variant_id' => $productVariantId,
+                    'quantity' => $quantity,
+                ]
+            ];
+        }
+
+
+
         //  $cartItems = Cart::where('user_id', Auth::id())->get();
         // $cartItems = session()->get('cart', []);
 
         if (empty($cartItems)) {
             return redirect()->route('cart.view')->with('error', 'Vui lòng thêm sản phẩm vào giỏ hàng.');
         }
+
+
         $cartDetails = collect($cartItems)->map(function ($item) {
             $variant = product_variants::with('product.thumbnail')->find($item['product_variant_id']);
             if ($variant) {
@@ -289,4 +399,9 @@ class CartController extends Controller
         // Chuyển hướng đến trang thanh toán
         return redirect()->route('payment.show');
     }
+
+
 }
+
+
+

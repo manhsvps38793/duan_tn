@@ -82,6 +82,8 @@
                         {{-- quantity input exists --}}
                         <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}">
                     </div>
+
+                    <div><a href="{{route('tryon.form', ['image' => asset($product_detail->images->first()->path)])}}">Sử dụng AI để mặc thử sản phẩm.</a> </div>
                     {{-- giới thiệu sản phẩm --}}
                     {!! $product_detail->short_description !!}
                     {{-- --}}
@@ -90,6 +92,7 @@
                     <div class="option-container">
                         @foreach ($colors as $color)
                             <h1></h1>
+
                            <div class="detail-textall-imgicon" 
                                     style="background-color: {{ $color->hex_code  }};" 
                                     id="iconhinhanh{{ $color->index }}">
