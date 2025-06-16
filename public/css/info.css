@@ -1,4 +1,3 @@
-        /* Modern monochrome color palette */
         :root {
             --user-info-black: #1a1a1a;
             --user-info-dark-gray: #333333;
@@ -207,6 +206,53 @@
             color: var(--user-info-black);
             font-weight: 500;
             word-break: break-word;
+        }
+
+        .user-info-address-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--user-info-lighter-gray);
+        }
+
+        .user-info-address-item:last-child {
+            border-bottom: none;
+        }
+
+        .user-info-address-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .user-info-address-edit-btn,
+        .user-info-address-delete-btn {
+            background: var(--user-info-white);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--user-info-border-radius);
+            cursor: pointer;
+            transition: var(--user-info-transition);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .user-info-address-edit-btn:hover,
+        .user-info-address-delete-btn:hover {
+            background: var(--user-info-lighter-gray);
+            border-color: var(--user-info-gray);
+        }
+
+        .user-info-address-delete-btn {
+            color: #e53e3e;
+        }
+
+        .user-info-address-delete-btn:hover {
+            background: #fff5f5;
+            border-color: #e53e3e;
         }
 
         /* Orders section */
@@ -453,7 +499,8 @@
         }
 
         .user-info-cancel-btn,
-        .user-info-save-btn {
+        .user-info-save-btn,
+        .user-info-add-address-btn {
             padding: 0.75rem 1.5rem;
             border-radius: var(--user-info-border-radius);
             cursor: pointer;
@@ -484,6 +531,17 @@
 
         .user-info-save-btn:hover {
             background: var(--user-info-dark-gray);
+        }
+
+        .user-info-add-address-btn {
+            background: var(--user-info-lighter-gray);
+            color: var(--user-info-black);
+            border: 1px solid var(--user-info-light-gray);
+        }
+
+        .user-info-add-address-btn:hover {
+            background: var(--user-info-white);
+            border-color: var(--user-info-gray);
         }
 
         /* Toast notification */
@@ -548,7 +606,8 @@
             }
 
             .user-info-cancel-btn,
-            .user-info-save-btn {
+            .user-info-save-btn,
+            .user-info-add-address-btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -579,6 +638,17 @@
             }
 
             .user-info-edit-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .user-info-address-actions {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .user-info-address-edit-btn,
+            .user-info-address-delete-btn {
                 width: 100%;
                 justify-content: center;
             }

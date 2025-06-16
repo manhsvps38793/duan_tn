@@ -15,10 +15,20 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
 
+Route::get('infouser', function () {
+    return view('info_user');
+});
+Route::get('info-ctdh', function () {
+    return view('info_ctdh');
+});
+
 
 Route::get('about', function () {
     return view('about');
 });
+
+
+
 Route::get('contact', function () {
     return view('contact');
 });
@@ -49,7 +59,7 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
 
-    Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
+    // Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
     Route::post('/user/update-info', [UserInfoController::class, 'updateUserInfo'])->middleware('auth');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
@@ -65,9 +75,7 @@ Route::get('products', function () {
 Route::get('pagereturn', function () {
     return view('page_return');
 });
-Route::get('info-ctdh', function () {
-    return view('info_ctdh');
-});
+
 
 Route::get('favourite_product', function () {
     return view('favourite_product');
@@ -89,14 +97,6 @@ Route::get('productPriceHightToLow', [ProductController::class, 'ProductPriceHig
 //tìm kiếm
 Route::get('/search-suggestions', [ProductController::class, 'searchSuggestions']);
 Route::get('/search', [ProductController::class, 'search'])->name('search');
-
-
-
-
-
-
-
-
 
 
 // page -> home

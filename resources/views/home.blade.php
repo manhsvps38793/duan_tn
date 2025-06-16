@@ -139,16 +139,14 @@
              <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
         <ul class="list-cat">
 {{-- product-category --}}
-            @foreach ($product_categories as $b)
-
+            @foreach ($product_categories as $product_categories)
                 <li class="item-category">
-                    <img class="category-img" src="img/aothun.webp" alt="">
+                    <img class="category-img" src="./img/aothun.webp" alt="">
                     <div class="detail-cat">
-                        <h2 class="category-name">{{$b->name}}</h2>
+                        <h2 class="category-name">{{$product_categories->name}}</h2>
                         <a href="#"><button>Xem ngay</button></a>
                     </div>
                 </li>
-
             @endforeach
 {{--  --}}
         </ul>
