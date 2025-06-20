@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Bill;
+use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\product_variants;
+use App\Models\User;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class PaymentController extends Controller
 {
@@ -24,7 +29,7 @@ class PaymentController extends Controller
         $this->vnp_TmnCode = "AJT0AAYH"; // Mã định danh merchant
         $this->vnp_HashSecret = "50394OTCASPHF09AVM4EDBEQINVFJCDO"; // Secret key
         $this->vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $this->vnp_Returnurl = "http://127.0.0.1:8000/payment/result";
+        $this->vnp_Returnurl = "http://127.0.0.1:8080/payment/result";
         $this->vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
         $this->apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     }
@@ -36,9 +41,29 @@ class PaymentController extends Controller
         if (empty($checkoutData) || empty($checkoutData['cartDetails'])) {
             return redirect()->route('cart.view')->with('error', 'Giỏ hàng rỗng. Vui lòng thêm sản phẩm để thanh toán.');
         }
+        $user = Auth::user();
+
+        if (Auth::check()) {
+            $address = Address::where('user_id', $user->id)->first();
+            if (!$address) {
+                $address = Address::create([
+                    'user_id' => $user->id,
+                    'receiver_name' => $user->name ?? 'Người nhận',
+                    'phone' => $user->phone ?? '0000000000',
+                    'email' => $user->email,
+                    'province' => 1, // ID mặc định của tỉnh/thành phố
+                    'district' => 1, // ID mặc định của quận/huyện
+                    'ward' => 1,     // ID mặc định của phường/xã
+                    'address' => 'Địa chỉ mặc định',
+                    'is_default' => 1
+                ]);
+            }
+            $address = Address::where('user_id', $user->id)->get();
+        } else {
+            $address = null;
+        }
 
 
-        $address = Auth::check() ? Auth::user()->addresses()->where('is_default', true)->first() : null;
         return view('payment', [
             'cartDetails' => $checkoutData['cartDetails'] ?? [],
             'subtotal' => $checkoutData['subtotal'] ?? 0,
@@ -51,18 +76,22 @@ class PaymentController extends Controller
     public function paymentStore(Request $request)
     {
         $rules = [
-            'address' => 'required',
-            'fullname' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
             'payment' => 'required',
         ];
 
 
-        if (!Auth::check()) {
-            $rules['city'] = 'required';
-            $rules['district'] = 'required';
-            $rules['ward'] = 'required';
+        if (Auth::check()) {
+            $rules['address'] = 'required'; // ID của địa chỉ từ dropdown
+        } else {
+            $rules = array_merge($rules, [
+                'fullname' => 'required',
+                'email' => 'required|email',
+                'phone' => 'required',
+                'address' => 'required', // địa chỉ chi tiết
+                'city' => 'required',
+                'district' => 'required',
+                'ward' => 'required',
+            ]);
         }
         $request->validate($rules);
 
@@ -77,16 +106,13 @@ class PaymentController extends Controller
         $shippingFee = $checkoutData['shippingFee'];
         $total = $checkoutData['total'];
         $voucherCode = session()->get('applied_voucher');
-        $voucherId = null;
-        if ($voucherCode) {
-            $voucher = Voucher::where('code', $voucherCode)
-                ->where('expiration_date', '>=', now())
-                ->where('start_date', '<=', now())
-                ->where('quantity', '>', 0)
-                ->first();
-            if ($voucher) {
-                $voucherId = $voucher->id;
+        $voucherId = session()->get('applied_voucher_id');
+        if ($voucherId) {
+            $voucher = Voucher::find($voucherId);
+            if ($voucher && $voucher->quantity > 0) {
                 $voucher->decrement('quantity');
+            } else {
+                $voucherId = null; // Nếu voucher không còn hợp lệ, đặt lại về null
             }
         }
 
@@ -103,7 +129,30 @@ class PaymentController extends Controller
         $order->payment_methods = $request->payment;
 
 
+        // Lưu địa chỉ và ghi chú
+        if (Auth::check()) {
+            $order->address_id = $request->address;
+            $address = Address::find($order->address_id);
 
+            // Kiểm tra địa chỉ mặc định
+            if ($address && $address->is_default == 1) {
+                return redirect()->route('payment.show')->with('error', 'Vui lòng cập nhật địa chỉ đầy đủ trước khi thanh toán.');
+            }
+        } else {
+            $address = new Address();
+            $address->user_id = null;
+            $address->receiver_name = $request->fullname;
+            $address->phone = $request->phone;
+            $address->email = $request->email;
+            $address->province = $request->city;
+            $address->district = $request->district;
+            $address->ward = $request->ward;
+            $address->address = $request->address;
+            $address->save();
+
+            $order->address_id = $address->id;
+        }
+        $order->note = $request->note ?? null; // Lưu ghi chú
 
         $order->save();
 
@@ -233,6 +282,8 @@ class PaymentController extends Controller
                         Cart::where('user_id', Auth::id())->delete();
                     }
                     session()->forget(['cart', 'checkout_data', 'applied_voucher']);
+                    Mail::to($order->address->email ?? $order->user->email)->send(new Bill($order));
+
                     return view('payment.success');
                 } else {
                     return view('payment.error');

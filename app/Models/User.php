@@ -64,8 +64,10 @@ class User extends Authenticatable
             'email_verified_at' => $this->freshTimestamp(),
         ])->save();
     }
+
+    // function của infouser
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
     }
 }

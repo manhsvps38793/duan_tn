@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản Lý Người Dùng - Cửa Hàng Thời Trang</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --danger-color: #ef4444;
+        --success-color: #22c55e;
+        --secondary-color: #f9fafb;
+        --light-color: #ffffff;
+        --border-color: #e5e7eb;
+        --text-color: #374151;
+        --text-muted: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+      }
+      .ausermanagement-container {
+        display: flex;
+        min-height: 100vh;
+      }
+      .ausermanagement-sidebar {
+        width: 280px;
+        background-color: var(--light-color);
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease;
+      }
+      .ausermanagement-sidebar-header {
+        padding: 0 1.5rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+      }
+      .ausermanagement-sidebar-header h2 {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .ausermanagement-sidebar-header h2 i {
+        font-size: 1.5rem;
+      }
+      .ausermanagement-sidebar-section {
+        margin-bottom: 1.5rem;
+        padding: 0 1.5rem;
+      }
+      .ausermanagement-sidebar-section h3 {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+      .ausermanagement-sidebar-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .ausermanagement-sidebar-item i {
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1rem;
+      }
+      .ausermanagement-sidebar-item:hover {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        transform: translateX(0.25rem);
+      }
+      .ausermanagement-sidebar-item.ausermanagement-active {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+      .ausermanagement-main-content {
+        flex: 1;
+        padding: 1.5rem;
+        background-color: var(--secondary-color);
+      }
+      .ausermanagement-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .ausermanagement-search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-color);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+      .ausermanagement-search-bar:hover {
+        box-shadow: var(--shadow-md);
+      }
+      .ausermanagement-search-bar input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        background: transparent;
+      }
+      .ausermanagement-search-bar i {
+        color: var(--text-muted);
+        margin-right: 0.5rem;
+      }
+      .ausermanagement-user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .ausermanagement-notification-bell {
+        position: relative;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .ausermanagement-notification-bell:hover {
+        color: var(--primary-color);
+      }
+      .ausermanagement-notification-bell::after {
+        content: "3";
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--danger-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 0.7rem;
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ausermanagement-profile-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+      .ausermanagement-page-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+      }
+      .ausermanagement-page-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+      .ausermanagement-filter-bar {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+      .ausermanagement-filter-select {
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--border-color);
+        background: var(--light-color);
+        font-size: 0.85rem;
+      }
+      .ausermanagement-data-card {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow: var(--shadow-sm);
+      }
+      .ausermanagement-data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .ausermanagement-data-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .ausermanagement-data-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.85rem;
+      }
+      .ausermanagement-data-table tr:last-child td {
+        border-bottom: none;
+      }
+      .ausermanagement-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-right: 0.5rem;
+        position: relative;
+      }
+      .ausermanagement-btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+      }
+      .ausermanagement-btn-primary:hover {
+        background-color: #4338ca;
+      }
+      .ausermanagement-btn-secondary {
+        background-color: var(--light-color);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+      }
+      .ausermanagement-btn-secondary:hover {
+        background-color: #f3f4f6;
+      }
+      .ausermanagement-btn-danger {
+        background-color: transparent;
+        color: var(--danger-color);
+        border: 1px solid var(--danger-color);
+      }
+      .ausermanagement-btn-danger:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+      }
+      .ausermanagement-btn:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--text-color);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        z-index: 10;
+      }
+      .ausermanagement-status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+      .ausermanagement-status-active {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: var(--success-color);
+      }
+      .ausermanagement-status-inactive {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger-color);
+      }
+      .ausermanagement-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0;
+      }
+      .ausermanagement-pagination-controls {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .ausermanagement-pagination-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--border-color);
+        background: var(--light-color);
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+      }
+      .ausermanagement-pagination-btn:hover {
+        background: var(--secondary-color);
+      }
+      .ausermanagement-pagination-btn.ausermanagement-active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+      .ausermanagement-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .ausermanagement-modal-content {
+        background: var(--light-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 600px;
+        box-shadow: var(--shadow-md);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .ausermanagement-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .ausermanagement-modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+      .ausermanagement-modal-close {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .ausermanagement-modal-close:hover {
+        color: var(--text-color);
+      }
+      .ausermanagement-modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .ausermanagement-modal-body label {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+      .ausermanagement-modal-body input,
+      .ausermanagement-modal-body select {
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        width: 100%;
+      }
+      .ausermanagement-modal-body p {
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+      }
+      .ausermanagement-modal-body p strong {
+        font-weight: 600;
+      }
+      .ausermanagement-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .ausermanagement-activity-history {
+        margin-top: 1rem;
+      }
+      .ausermanagement-activity-history h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+      .ausermanagement-activity-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .ausermanagement-activity-table th,
+      .ausermanagement-activity-table td {
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        font-size: 0.85rem;
+        text-align: left;
+      }
+      .ausermanagement-activity-table th {
+        background: var(--secondary-color);
+        font-weight: 500;
+      }
+      @media (max-width: 1024px) {
+        .ausermanagement-sidebar {
+          width: 80px;
+        }
+        .ausermanagement-sidebar-header h2 span,
+        .ausermanagement-sidebar-item span,
+        .ausermanagement-sidebar-section h3 {
+          display: none;
+        }
+        .ausermanagement-sidebar-item {
+          justify-content: center;
+        }
+        .ausermanagement-sidebar-item i {
+          margin: 0;
+        }
+        .ausermanagement-data-table th,
+        .ausermanagement-data-table td {
+          font-size: 0.75rem;
+          padding: 0.5rem;
+        }
+      }
+      @media (max-width: 768px) {
+        .ausermanagement-container {
+          flex-direction: column;
+        }
+        .ausermanagement-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+        .ausermanagement-main-content {
+          padding: 1rem;
+        }
+        .ausermanagement-search-bar {
+          max-width: 100%;
+        }
+        .ausermanagement-filter-bar {
+          flex-direction: column;
+        }
+        .ausermanagement-modal-content {
+          margin: 1rem;
+          max-width: 90%;
+        }
+        .ausermanagement-data-table {
+          display: block;
+          overflow-x: auto;
+        }
+        .ausermanagement-data-table thead {
+          display: none;
+        }
+        .ausermanagement-data-table tbody,
+        .ausermanagement-data-table tr,
+        .ausermanagement-data-table td {
+          display: block;
+          width: 100%;
+        }
+        .ausermanagement-data-table td {
+          position: relative;
+          padding-left: 50%;
+        }
+        .ausermanagement-data-table td::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 1rem;
+          width: 45%;
+          font-weight: 600;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ausermanagement-container">
+      <div class="ausermanagement-sidebar">
+        <div class="ausermanagement-sidebar-header">
+          <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+        </div>
+        <div class="ausermanagement-sidebar-section">
+          <h3>Bảng điều khiển</h3>
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-home"></i><span>Trang chủ</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-box-open"></i><span>Sản phẩm</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a
+          >
+        </div>
+        <div class="ausermanagement-sidebar-section">
+          <h3>Công cụ</h3>
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-warehouse"></i><span>Quản lý kho</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-images"></i><span>Hình ảnh sản phẩm</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-users"></i><span>Khách hàng</span></a
+          >
+          <a
+            href="#"
+            class="ausermanagement-sidebar-item ausermanagement-active"
+            ><i class="fas fa-user-cog"></i><span>Quản lý người dùng</span></a
+          >
+        </div>
+        <div class="ausermanagement-sidebar-section">
+          <h3>Hệ thống</h3>
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-cog"></i><span>Cài đặt</span></a
+          >
+          <a href="#" class="ausermanagement-sidebar-item"
+            ><i class="fas fa-headset"></i><span>Hỗ trợ</span></a
+          >
+        </div>
+      </div>
+      <div class="ausermanagement-main-content">
+        <div class="ausermanagement-header">
+          <div class="ausermanagement-search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Tìm kiếm người dùng..."
+              id="ausermanagement-searchInput"
+            />
+          </div>
+          <div class="ausermanagement-user-profile">
+            <div class="ausermanagement-notification-bell">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="ausermanagement-profile-avatar">QT</div>
+          </div>
+        </div>
+        <h1 class="ausermanagement-page-title">Quản lý người dùng</h1>
+        <p class="ausermanagement-page-subtitle">
+          Quản lý tài khoản nhân viên và quyền truy cập
+        </p>
+        <div class="ausermanagement-filter-bar">
+          <select
+            class="ausermanagement-filter-select"
+            id="ausermanagement-roleFilter"
+          >
+            <option value="">Tất cả vai trò</option>
+            <option value="Quản trị viên">Quản trị viên</option>
+            <option value="Nhân viên">Nhân viên</option>
+            <option value="Người chỉnh sửa">Người chỉnh sửa</option>
+          </select>
+          <select
+            class="ausermanagement-filter-select"
+            id="ausermanagement-statusFilter"
+          >
+            <option value="">Tất cả trạng thái</option>
+            <option value="active">Hoạt động</option>
+            <option value="inactive">Không hoạt động</option>
+          </select>
+          <button
+            class="ausermanagement-btn ausermanagement-btn-primary"
+            id="ausermanagement-addUserBtn"
+          >
+            Thêm người dùng
+          </button>
+        </div>
+        <div class="ausermanagement-data-card">
+          <table
+            class="ausermanagement-data-table"
+            id="ausermanagement-userTable"
+          >
+            <thead>
+              <tr>
+                <th data-label="Mã người dùng">Mã người dùng</th>
+                <th data-label="Tên">Tên</th>
+                <th data-label="Email">Email</th>
+                <th data-label="Vai trò">Vai trò</th>
+                <th data-label="Trạng thái">Trạng thái</th>
+                <th data-label="Ngày tạo">Ngày tạo</th>
+                <th data-label="Hành động">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="ausermanagement-userTableBody">
+              <tr>
+                <td data-label="Mã người dùng">ND001</td>
+                <td data-label="Tên">Nguyễn Văn Quản</td>
+                <td data-label="Email">quan@fashionstore.com</td>
+                <td data-label="Vai trò">Quản trị viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-01-10</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  123 Lê Lợi, Hà Nội
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD001|2025-01-11 08:00|Đăng nhập
+                    </div>
+                    <div class="ausermanagement-activity-item">
+                      HD002|2025-01-12 14:30|Chỉnh sửa sản phẩm
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND002</td>
+                <td data-label="Tên">Trần Thị Nhân</td>
+                <td data-label="Email">nhan@fashionstore.com</td>
+                <td data-label="Vai trò">Nhân viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-02-15</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  456 Nguyễn Huệ, TP.HCM
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD003|2025-02-16 09:00|Đăng nhập
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND003</td>
+                <td data-label="Tên">Lê Văn Sửa</td>
+                <td data-label="Email">sua@fashionstore.com</td>
+                <td data-label="Vai trò">Người chỉnh sửa</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-inactive"
+                    >Không hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2024-12-20</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  789 Trần Phú, Đà Nẵng
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data"></div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND004</td>
+                <td data-label="Tên">Phạm Thị Minh</td>
+                <td data-label="Email">minh@fashionstore.com</td>
+                <td data-label="Vai trò">Nhân viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-03-05</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  101 Lý Thái Tổ, Hải Phòng
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD004|2025-03-06 10:00|Đăng nhập
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND005</td>
+                <td data-label="Tên">Hoàng Văn Hùng</td>
+                <td data-label="Email">hung@fashionstore.com</td>
+                <td data-label="Vai trò">Quản trị viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-01-25</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  234 Hai Bà Trưng, Cần Thơ
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD005|2025-01-26 08:30|Đăng nhập
+                    </div>
+                    <div class="ausermanagement-activity-item">
+                      HD006|2025-01-27 15:00|Thêm sản phẩm
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND006</td>
+                <td data-label="Tên">Ngô Thị Lan</td>
+                <td data-label="Email">lan@fashionstore.com</td>
+                <td data-label="Vai trò">Người chỉnh sửa</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-inactive"
+                    >Không hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2024-11-10</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  567 Nguyễn Trãi, Nha Trang
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data"></div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND007</td>
+                <td data-label="Tên">Đỗ Văn Nam</td>
+                <td data-label="Email">nam@fashionstore.com</td>
+                <td data-label="Vai trò">Nhân viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-04-15</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  890 Phạm Văn Đồng, Huế
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD007|2025-04-16 09:00|Đăng nhập
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Mã người dùng">ND008</td>
+                <td data-label="Tên">Vũ Thị Hoa</td>
+                <td data-label="Email">hoa@fashionstore.com</td>
+                <td data-label="Vai trò">Quản trị viên</td>
+                <td data-label="Trạng thái">
+                  <span
+                    class="ausermanagement-status-badge ausermanagement-status-active"
+                    >Hoạt động</span
+                  >
+                </td>
+                <td data-label="Ngày tạo">2025-05-20</td>
+                <td data-label="Hành động">
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-primary ausermanagement-edit-btn"
+                    data-tooltip="Sửa người dùng"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-secondary ausermanagement-view-btn"
+                    data-tooltip="Xem chi tiết"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="ausermanagement-btn ausermanagement-btn-danger ausermanagement-delete-btn"
+                    data-tooltip="Xóa người dùng"
+                  >
+                    Xóa
+                  </button>
+                </td>
+                <td style="display: none" data-label="Địa chỉ">
+                  112 Lý Nam Đế, Vũng Tàu
+                </td>
+                <td style="display: none" data-label="Lịch sử hoạt động">
+                  <div class="ausermanagement-activity-data">
+                    <div class="ausermanagement-activity-item">
+                      HD008|2025-05-21 10:00|Đăng nhập
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ausermanagement-pagination">
+          <div
+            class="ausermanagement-pagination-controls"
+            id="ausermanagement-paginationControls"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div class="ausermanagement-modal" id="ausermanagement-editUserModal">
+      <div class="ausermanagement-modal-content">
+        <div class="ausermanagement-modal-header">
+          <h2
+            class="ausermanagement-modal-title"
+            id="ausermanagement-editModalTitle"
+          >
+            Thêm người dùng
+          </h2>
+          <span
+            class="ausermanagement-modal-close"
+            id="ausermanagement-editModalClose"
+            >×</span
+          >
+        </div>
+        <div class="ausermanagement-modal-body">
+          <div>
+            <label for="ausermanagement-userCode">Mã người dùng</label>
+            <input
+              type="text"
+              id="ausermanagement-userCode"
+              placeholder="Nhập mã người dùng (VD: ND001)"
+            />
+          </div>
+          <div>
+            <label>Tên người dùng</label>
+            <input
+              type="text"
+              id="ausermanagement-userName"
+              placeholder="Nhập tên người dùng"
+            />
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              id="ausermanagement-userEmail"
+              placeholder="Nhập email"
+            />
+          </div>
+          <div>
+            <label>Vai trò</label>
+            <select id="ausermanagement-userRole">
+              <option value="Quản trị viên">Quản trị viên</option>
+              <option value="Nhân viên">Nhân viên</option>
+              <option value="Người chỉnh sửa">Người chỉnh sửa</option>
+            </select>
+          </div>
+          <div>
+            <label>Mật khẩu</label>
+            <input
+              type="password"
+              id="ausermanagement-userPassword"
+              placeholder="Nhập mật khẩu"
+            />
+          </div>
+          <div>
+            <label>Địa chỉ</label>
+            <input
+              type="text"
+              id="ausermanagement-userAddress"
+              placeholder="Nhập địa chỉ"
+            />
+          </div>
+          <div>
+            <label>Trạng thái</label>
+            <select id="ausermanagement-userStatus">
+              <option value="active">Hoạt động</option>
+              <option value="inactive">Không hoạt động</option>
+            </select>
+          </div>
+        </div>
+        <div class="ausermanagement-modal-footer">
+          <button
+            class="ausermanagement-btn ausermanagement-btn-primary"
+            id="ausermanagement-saveUserBtn"
+          >
+            Lưu
+          </button>
+          <button
+            class="ausermanagement-btn ausermanagement-btn-secondary"
+            id="ausermanagement-cancelUserBtn"
+          >
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="ausermanagement-modal" id="ausermanagement-viewUserModal">
+      <div class="ausermanagement-modal-content">
+        <div class="ausermanagement-modal-header">
+          <h2 class="ausermanagement-modal-title">Chi tiết người dùng</h2>
+          <span
+            class="ausermanagement-modal-close"
+            id="ausermanagement-viewModalClose"
+            >×</span
+          >
+        </div>
+        <div class="ausermanagement-modal-body">
+          <p>
+            <strong>Mã người dùng:</strong>
+            <span id="ausermanagement-viewUserCode"></span>
+          </p>
+          <p>
+            <strong>Tên:</strong>
+            <span id="ausermanagement-viewUserName"></span>
+          </p>
+          <p>
+            <strong>Email:</strong>
+            <span id="ausermanagement-viewUserEmail"></span>
+          </p>
+          <p>
+            <strong>Vai trò:</strong>
+            <span id="ausermanagement-viewUserRole"></span>
+          </p>
+          <p>
+            <strong>Trạng thái:</strong>
+            <span id="ausermanagement-viewUserStatus"></span>
+          </p>
+          <p>
+            <strong>Ngày tạo:</strong>
+            <span id="ausermanagement-viewUserCreated"></span>
+          </p>
+          <p>
+            <strong>Địa chỉ:</strong>
+            <span id="ausermanagement-viewUserAddress"></span>
+          </p>
+          <div class="ausermanagement-activity-history">
+            <h3>Lịch sử hoạt động</h3>
+            <table class="ausermanagement-activity-table">
+              <thead>
+                <tr>
+                  <th>Mã hoạt động</th>
+                  <th>Thời gian</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="ausermanagement-activityHistoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ausermanagement-modal-footer">
+          <button
+            class="ausermanagement-btn ausermanagement-btn-secondary"
+            id="ausermanagement-closeViewBtn"
+          >
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar interaction
+        const ausermanagementSidebarItems = document.querySelectorAll(
+          ".ausermanagement-sidebar-item"
+        );
+        ausermanagementSidebarItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            ausermanagementSidebarItems.forEach((i) =>
+              i.classList.remove("ausermanagement-active")
+            );
+            this.classList.add("ausermanagement-active");
+          });
+        });
+
+        // Edit modal handling
+        const ausermanagementEditModal = document.getElementById(
+          "ausermanagement-editUserModal"
+        );
+        const ausermanagementEditModalTitle = document.getElementById(
+          "ausermanagement-editModalTitle"
+        );
+        const ausermanagementUserCodeInput = document.getElementById(
+          "ausermanagement-userCode"
+        );
+        const ausermanagementUserNameInput = document.getElementById(
+          "ausermanagement-userName"
+        );
+        const ausermanagementUserEmailInput = document.getElementById(
+          "ausermanagement-userEmail"
+        );
+        const ausermanagementUserRoleSelect = document.getElementById(
+          "ausermanagement-userRole"
+        );
+        const ausermanagementUserPasswordInput = document.getElementById(
+          "ausermanagement-userPassword"
+        );
+        const ausermanagementUserAddressInput = document.getElementById(
+          "ausermanagement-userAddress"
+        );
+        const ausermanagementUserStatusSelect = document.getElementById(
+          "ausermanagement-userStatus"
+        );
+        const ausermanagementSaveUserBtn = document.getElementById(
+          "ausermanagement-saveUserBtn"
+        );
+        const ausermanagementCancelUserBtn = document.getElementById(
+          "ausermanagement-cancelUserBtn"
+        );
+        const ausermanagementEditModalClose = document.getElementById(
+          "ausermanagement-editModalClose"
+        );
+        const ausermanagementAddUserBtn = document.getElementById(
+          "ausermanagement-addUserBtn"
+        );
+
+        function ausermanagementOpenEditModal(mode, row = null) {
+          ausermanagementEditModalTitle.textContent =
+            mode === "edit" ? "Sửa người dùng" : "Thêm người dùng";
+          if (row) {
+            ausermanagementUserCodeInput.value = row.cells[0].textContent;
+            ausermanagementUserNameInput.value = row.cells[1].textContent;
+            ausermanagementUserEmailInput.value = row.cells[2].textContent;
+            ausermanagementUserRoleSelect.value = row.cells[3].textContent;
+            ausermanagementUserPasswordInput.value = "";
+            ausermanagementUserAddressInput.value = row.cells[7].textContent;
+            ausermanagementUserStatusSelect.value = row.cells[4]
+              .querySelector(".ausermanagement-status-badge")
+              .classList.contains("ausermanagement-status-active")
+              ? "active"
+              : "inactive";
+          } else {
+            ausermanagementUserCodeInput.value = "";
+            ausermanagementUserNameInput.value = "";
+            ausermanagementUserEmailInput.value = "";
+            ausermanagementUserRoleSelect.value = "Nhân viên";
+            ausermanagementUserPasswordInput.value = "";
+            ausermanagementUserAddressInput.value = "";
+            ausermanagementUserStatusSelect.value = "active";
+          }
+          ausermanagementEditModal.style.display = "flex";
+        }
+
+        function ausermanagementCloseEditModal() {
+          ausermanagementEditModal.style.display = "none";
+        }
+
+        ausermanagementAddUserBtn.addEventListener("click", () =>
+          ausermanagementOpenEditModal("add")
+        );
+        ausermanagementCancelUserBtn.addEventListener(
+          "click",
+          ausermanagementCloseEditModal
+        );
+        ausermanagementEditModalClose.addEventListener(
+          "click",
+          ausermanagementCloseEditModal
+        );
+        ausermanagementSaveUserBtn.addEventListener("click", () => {
+          alert("Chức năng lưu chỉ là demo, không lưu thực tế.");
+          ausermanagementCloseEditModal();
+        });
+
+        // View modal handling
+        const ausermanagementViewModal = document.getElementById(
+          "ausermanagement-viewUserModal"
+        );
+        const ausermanagementViewUserCode = document.getElementById(
+          "ausermanagement-viewUserCode"
+        );
+        const ausermanagementViewUserName = document.getElementById(
+          "ausermanagement-viewUserName"
+        );
+        const ausermanagementViewUserEmail = document.getElementById(
+          "ausermanagement-viewUserEmail"
+        );
+        const ausermanagementViewUserRole = document.getElementById(
+          "ausermanagement-viewUserRole"
+        );
+        const ausermanagementViewUserStatus = document.getElementById(
+          "ausermanagement-viewUserStatus"
+        );
+        const ausermanagementViewUserCreated = document.getElementById(
+          "ausermanagement-viewUserCreated"
+        );
+        const ausermanagementViewUserAddress = document.getElementById(
+          "ausermanagement-viewUserAddress"
+        );
+        const ausermanagementActivityHistoryBody = document.getElementById(
+          "ausermanagement-activityHistoryBody"
+        );
+        const ausermanagementCloseViewBtn = document.getElementById(
+          "ausermanagement-closeViewBtn"
+        );
+        const ausermanagementViewModalClose = document.getElementById(
+          "ausermanagement-viewModalClose"
+        );
+
+        function ausermanagementOpenViewModal(row) {
+          ausermanagementViewUserCode.textContent = row.cells[0].textContent;
+          ausermanagementViewUserName.textContent = row.cells[1].textContent;
+          ausermanagementViewUserEmail.textContent = row.cells[2].textContent;
+          ausermanagementViewUserRole.textContent = row.cells[3].textContent;
+          ausermanagementViewUserStatus.textContent = row.cells[4].textContent;
+          ausermanagementViewUserCreated.textContent = row.cells[5].textContent;
+          ausermanagementViewUserAddress.textContent = row.cells[7].textContent;
+
+          const activityData = row.cells[8].querySelector(
+            ".ausermanagement-activity-data"
+          );
+          const activities = activityData
+            ? Array.from(
+                activityData.querySelectorAll(".ausermanagement-activity-item")
+              ).map((item) => {
+                const [id, time, action] = item.textContent.split("|");
+                return { id, time, action };
+              })
+            : [];
+
+          ausermanagementActivityHistoryBody.innerHTML =
+            activities.length > 0
+              ? activities
+                  .map(
+                    (activity) => `
+                    <tr>
+                        <td>${activity.id}</td>
+                        <td>${activity.time}</td>
+                        <td>${activity.action}</td>
+                    </tr>
+                `
+                  )
+                  .join("")
+              : '<tr><td colspan="3">Không có hoạt động nào</td></tr>';
+
+          ausermanagementViewModal.style.display = "flex";
+        }
+
+        function ausermanagementCloseViewModal() {
+          ausermanagementViewModal.style.display = "none";
+        }
+
+        ausermanagementCloseViewBtn.addEventListener(
+          "click",
+          ausermanagementCloseViewModal
+        );
+        ausermanagementViewModalClose.addEventListener(
+          "click",
+          ausermanagementCloseViewModal
+        );
+
+        // Pagination
+        const ausermanagementItemsPerPage = 5;
+        let ausermanagementCurrentPage = 1;
+        const ausermanagementUserTableBody = document.getElementById(
+          "ausermanagement-userTableBody"
+        );
+        const ausermanagementRows = Array.from(
+          ausermanagementUserTableBody.querySelectorAll("tr")
+        );
+
+        function ausermanagementRenderTable(filteredRows) {
+          const start =
+            (ausermanagementCurrentPage - 1) * ausermanagementItemsPerPage;
+          const end = start + ausermanagementItemsPerPage;
+          ausermanagementRows.forEach((row, index) => {
+            row.style.display =
+              filteredRows.includes(row) && index >= start && index < end
+                ? ""
+                : "none";
+          });
+          ausermanagementRenderPagination(filteredRows.length);
+        }
+
+        function ausermanagementRenderPagination(totalItems) {
+          const totalPages = Math.ceil(
+            totalItems / ausermanagementItemsPerPage
+          );
+          const ausermanagementPaginationControls = document.getElementById(
+            "ausermanagement-paginationControls"
+          );
+          ausermanagementPaginationControls.innerHTML = Array.from(
+            { length: totalPages },
+            (_, i) => `
+                    <button class="ausermanagement-pagination-btn ${
+                      ausermanagementCurrentPage === i + 1
+                        ? "ausermanagement-active"
+                        : ""
+                    }">${i + 1}</button>
+                `
+          ).join("");
+          document
+            .querySelectorAll(".ausermanagement-pagination-btn")
+            .forEach((btn, index) => {
+              btn.addEventListener("click", () => {
+                ausermanagementCurrentPage = index + 1;
+                ausermanagementRenderTable(ausermanagementApplyFilters());
+              });
+            });
+        }
+
+        // Search and filter
+        const ausermanagementSearchInput = document.getElementById(
+          "ausermanagement-searchInput"
+        );
+        const ausermanagementRoleFilter = document.getElementById(
+          "ausermanagement-roleFilter"
+        );
+        const ausermanagementStatusFilter = document.getElementById(
+          "ausermanagement-statusFilter"
+        );
+
+        function ausermanagementApplyFilters() {
+          const searchTerm = ausermanagementSearchInput.value.toLowerCase();
+          const role = ausermanagementRoleFilter.value;
+          const status = ausermanagementStatusFilter.value;
+
+          return ausermanagementRows.filter((row) => {
+            const name = row.cells[1].textContent.toLowerCase();
+            const email = row.cells[2].textContent.toLowerCase();
+            const rowRole = row.cells[3].textContent;
+            const rowStatus = row.cells[4]
+              .querySelector(".ausermanagement-status-badge")
+              .classList.contains("ausermanagement-status-active")
+              ? "active"
+              : "inactive";
+            const searchMatch =
+              name.includes(searchTerm) || email.includes(searchTerm);
+            const roleMatch = !role || rowRole === role;
+            const statusMatch = !status || rowStatus === status;
+            return searchMatch && roleMatch && statusMatch;
+          });
+        }
+
+        ausermanagementSearchInput.addEventListener("input", () => {
+          ausermanagementCurrentPage = 1;
+          ausermanagementRenderTable(ausermanagementApplyFilters());
+        });
+
+        ausermanagementRoleFilter.addEventListener("change", () => {
+          ausermanagementCurrentPage = 1;
+          ausermanagementRenderTable(ausermanagementApplyFilters());
+        });
+
+        ausermanagementStatusFilter.addEventListener("change", () => {
+          ausermanagementCurrentPage = 1;
+          ausermanagementRenderTable(ausermanagementApplyFilters());
+        });
+
+        // Table actions
+        ausermanagementUserTableBody.addEventListener("click", (e) => {
+          const row = e.target.closest("tr");
+          if (!row) return;
+
+          if (e.target.classList.contains("ausermanagement-edit-btn")) {
+            ausermanagementOpenEditModal("edit", row);
+          } else if (e.target.classList.contains("ausermanagement-view-btn")) {
+            ausermanagementOpenViewModal(row);
+          } else if (
+            e.target.classList.contains("ausermanagement-delete-btn")
+          ) {
+            alert("Chức năng xóa chỉ là demo, không xóa thực tế.");
+          }
+        });
+
+        // Initial render
+        ausermanagementRenderTable(ausermanagementRows);
+      });
+    </script>
+  </body>
+</html>
