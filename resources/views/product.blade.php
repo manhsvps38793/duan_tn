@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('body')
+
+
     <div class="pruductall">
         <div class="grid wide container">
             <div class="row">
@@ -138,7 +140,7 @@
                                         }
                                     </style>
                                     <div class="product-sort-mobile">
-                                        <h2 class="page-title">Tất cả sản phẩm</h2>
+                                        <a href="/products" style="text-decoration: none; color: black;"><h2 class="page-title">Tất cả sản phẩm</h2></a>
                                             <div class="relative">
                                                 <p class="sort-title">Sắp xếp theo: </p>
                                                 <div class="dropdown-container">

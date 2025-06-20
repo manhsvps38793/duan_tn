@@ -6,7 +6,9 @@ use App\Models\Products;
 use App\Models\product_variants;
 use App\Models\sizes;
 use App\Models\colors;
+use App\Models\News;
 use App\Models\reviews;
+use App\Models\Product_categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,11 +19,17 @@ class PageController extends Controller
         $products_sale = Products::with(['images', 'variants'])->where('products.sale', '>', 30)->take(8)->get();
         $products_is_featured = Products::with(['images', 'variants'])->where('is_featured', '>', 0)->take(8)->get();
         $product_categories = DB::table('Product_categories')->select()->get();
+        $news = news::where('views', '>', 200)->take(6)->get();
+        $product_new = Product_categories::with(['products' => function($query) {
+        $query->take(8); // lấy 8 sản phẩm đầu cho mỗi danh mục
+    }])->get();
 
         $data = [
             'products_sale' => $products_sale,
             'product_categories' => $product_categories,
             'products_is_featured' => $products_is_featured,
+            'news' => $news,
+            'product_new' => $product_new
         ];
 
         return view('home', $data);

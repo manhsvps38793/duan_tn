@@ -106,9 +106,16 @@
                             @auth
                                 {{-- Đã đăng nhập --}}
                                 <li>
-                                    <form method="POST" action="{{ route('logout') }}">
+                                    <style>
+                                        .form-logout>.btn-logout{
+                                            border: none;
+                                            background-color: white;
+                                            cursor: pointer;
+                                        }
+                                    </style>
+                                    <form class="form-logout" method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit">Đăng xuất</button>
+                                        <button class="btn-logout" type="submit">Đăng xuất</button>
                                     </form>
                                 </li>
                             @endauth

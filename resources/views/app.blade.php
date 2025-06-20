@@ -18,6 +18,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:wght@100..900&family=Oxanium:wght@200..800&display=swap"
         rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.8.1/lottie.min.js"></script>
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @stack('styles')
@@ -142,8 +144,6 @@
             const sliderConfigs = [
                 { selector: '.product-list', item: 5 },
                 { selector: '.list-cat', item: 5 },
-                { selector: '.product-list-bestseller', item: 5 },
-                { selector: '.product-list-recommend', item: 5 },
                 { selector: '.product-list-sale', item: 3, auto: true, speed: 1000, pause: 5000 }
             ];
 
@@ -222,6 +222,27 @@
             alert('Vui lòng nhập từ khóa tìm kiếm!');
         }
     });
+    </script>
+
+    {{-- cuar sp moi --}}
+    <script>
+        const tabs = document.querySelectorAll('.tab');
+        const tabItems = document.querySelectorAll('.tab-item');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Xóa class active khỏi tất cả tab và nội dung
+                tabs.forEach(t => t.classList.remove('active'));
+                tabItems.forEach(item => item.classList.remove('active'));
+
+                // Thêm active vào tab hiện tại
+                tab.classList.add('active');
+
+                // Hiện nội dung tương ứng
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
     </script>
 
     @stack('scripts')

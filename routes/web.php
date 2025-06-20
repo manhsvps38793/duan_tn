@@ -6,8 +6,6 @@ use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
 
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\VerificationController;
-
 use App\Models\Cart;
 
 use App\Http\Controllers\NewController;
@@ -17,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Http;
+
 
 
 Route::get('about', function () {
@@ -30,6 +30,7 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 Route::get('cart', function () {
     return view('cart');
 });
+
 // Route::get('login', function () {
 //     return view('login');
 // });
@@ -55,16 +56,15 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
 
-    Route::get('infouser', function () {
-        return view('info_user');
-    })->name('user');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('infouser', [UserInfoController::class, 'showUserInfo'])->name('user');
     Route::post('/user/update-info', [UserInfoController::class, 'updateUserInfo'])->middleware('auth');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
+
+    // Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 
 });
 
@@ -83,6 +83,7 @@ Route::get('payment', function () {
 // Route::get('news', function () {
 //     return view('news');
 // });
+
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
 });
@@ -115,9 +116,6 @@ Route::get('/search', [ProductController::class, 'search'])->name('search');
 
 
 
-Route::get('newdetail', function () {
-    return view('new_detail');
-});
 
 
 // page -> home
@@ -127,7 +125,6 @@ Route::get('/detail/{id}', [PageController::class, 'detail']);
 // detail-color-sizesize
 
 Route::get('/get-variant-quantity', [PageController::class, 'getVariantQuantity'])->name('getVariantQuantity');
-
 
 // cart
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
@@ -154,3 +151,6 @@ Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove']
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');
+
+
+
