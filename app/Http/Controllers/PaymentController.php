@@ -51,9 +51,9 @@ class PaymentController extends Controller
                     'receiver_name' => $user->name ?? 'Người nhận',
                     'phone' => $user->phone ?? '0000000000',
                     'email' => $user->email,
-                    'province' => 1, // ID mặc định của tỉnh/thành phố
-                    'district' => 1, // ID mặc định của quận/huyện
-                    'ward' => 1,     // ID mặc định của phường/xã
+                    'province' => 'Tỉnh/Thành phố',
+                    'district' => 'Quận/Huyện', 
+                    'ward' => 'Phường/Xã',    
                     'address' => 'Địa chỉ mặc định',
                     'is_default' => 1
                 ]);

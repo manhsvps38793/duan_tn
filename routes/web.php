@@ -112,7 +112,7 @@ Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity']
 // update variant
 Route::put('/cart/update-variant/{variantId}', [CartController::class, 'updateVariant'])->name('cart.updateVariant');
 
-// thanh toán 
+// thanh toán
 Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
@@ -120,8 +120,9 @@ Route::get('/payment/result', [PaymentController::class, 'result'])->name('payme
 
 
 
-Route::get('/news', [NewController::class, 'show_new']);
-Route::get('/new_detail/{id}', [NewController::class, 'new_detail']);
+Route::get('news', [NewController::class, 'show_new']);
+Route::get('new_detail/{id}', [NewController::class, 'new_detail']);
+Route::get('news_all', [NewController::class, 'news_all']);
 
 Route::get('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');

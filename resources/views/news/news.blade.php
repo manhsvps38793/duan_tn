@@ -6,7 +6,6 @@
     <section id="featured" class="news-featured-section">
         <div class="news-container">
             <h2 class="news-section-title">Bài viết nổi bật</h2>
-
             <div class="news-featured-grid">
                 <!-- Article 1 -->
                 @foreach ($newListView as $newListView)
@@ -37,16 +36,14 @@
                         </div>
                     </a>
                 @endforeach
-
-
-
             </div>
         </div>
+
     </section>
 
 
 
-<!-- Stores Section -->
+    <!-- Stores Section -->
     <section class="news-stores-section">
         <div class="news-container">
             <h2 class="news-section-title">Tất cả bài viết</h2>
@@ -84,20 +81,63 @@
                 @endforeach
 
                 {{-- Hiển thị nút phân trang --}}
-                <div class="chuyentrang">
-                    {{ $newList->links(('pagination')) }}
-                </div>
+                {{-- <div class="chuyentrang">
+                    {{ $newList->links('pagination') }}
+                </div> --}}
 
-
-
+            </div>
+            <style>
+                .new-more {
+                    text-align: center;
+                    padding: 30px 0px
+                }
+                .new-more a {
+                    color: #000;
+                    text-decoration: none;
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    display: inline-block;
+                    transition: var(--news-transition);
+                    position: relative;
+                }
+                .new-more a:hover {
+                    transform: translateY(-3px);
+                }
+            </style>
+            <div class="new-more">
+                <a href="/news_all">
+                    <span>Xem tất cả bài viết >></span>
+                </a>
             </div>
         </div>
     </section>
 
 
+<!-- Trending Section -->
+    <section id="trending" class="news-trending-section">
+        <div class="news-container">
+            <h2 class="news-section-title">Đang thịnh hành</h2>
+
+            <div class="news-trending-container">
+                <div class="news-trending-main">
+                    <div class="news-trending-image">
+                        <img src="{{ asset('img/' . $highlightNews->image) }}" alt="Fashion week">
+                    </div>
+                    <div class="news-trending-content">
+                        <span class="news-trending-category">{{ $highlightNews->new_category->name }}</span>
+                        <h3 class="news-trending-title">{{ $highlightNews->title }}
+                        </h3>
+                        <p class="news-trending-excerpt">{{ $highlightNews->description }}</p>
+                        <a href="new_detail/{{ $highlightNews->id }}" class="news-btn news-btn-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- More Articles Section -->
-    <section class="news-more-articles-section">
+    <section class="news-featured-section">
         <div class="news-container">
             <h2 class="news-section-title">Bài viết mới nhất</h2>
 
@@ -137,28 +177,6 @@
 
 
 
-            </div>
-        </div>
-    </section>
-
-    <!-- Trending Section -->
-    <section id="trending" class="news-trending-section">
-        <div class="news-container">
-            <h2 class="news-section-title">Đang thịnh hành</h2>
-
-            <div class="news-trending-container">
-                <div class="news-trending-main">
-                    <div class="news-trending-image">
-                        <img src="{{ asset('img/' . $highlightNews->image) }}" alt="Fashion week">
-                    </div>
-                    <div class="news-trending-content">
-                        <span class="news-trending-category">{{ $highlightNews->new_category->name }}</span>
-                        <h3 class="news-trending-title">{{ $highlightNews->title }}
-                        </h3>
-                        <p class="news-trending-excerpt">{{ $highlightNews->description }}</p>
-                        <a href="new_detail/{{ $highlightNews->id }}" class="news-btn news-btn-primary">Xem chi tiết</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
