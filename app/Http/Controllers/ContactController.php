@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactReplyMail;
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
@@ -17,6 +18,7 @@ class ContactController extends Controller
             'subject' => 'nullable',
             'message' => 'required',
         ]);
+        Contact::create($data);
 
         // xl chomail adminadmin
         Mail::send('emails.contact', ['data' => $data], function ($message) use ($data) {
