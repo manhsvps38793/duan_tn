@@ -7,6 +7,26 @@
         <button type="submit">Đăng xuất</button>
     </form>
     @endauth --}}
+
+
+
+    <a href="{{route('tryon.form')}}">
+        <div class="avatar2" id="avatar2">
+            <i class="fas fa-robot"></i>
+        </div>
+    </a>
+    <div class="avatar" id="avatar">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="box-ai" id="box-ai">
+        @include('chat')
+    </div>
+
+
+
+
+
+
     <div class="index-slider-container" id="slider">
         <div class="index-progress-bar"></div>
         <div class="index-slider-track-container">
@@ -56,6 +76,9 @@
             <button class="nav-dot"></button>
         </div>
     </div>
+
+
+    {{-- bắt đầu slider --}}
 
     {{-- kết thúc slider --}}
 
@@ -117,7 +140,8 @@
                                 </a></h3>
                         </div>
                         <div class="item-price item-price-sales">
-                            <span style="color: red;padding-right: 10px;">{{ number_format($productssale->price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
+                            <span
+                                style="color: red;padding-right: 10px;">{{ number_format($productssale->price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
                             <span><del>{{$productssale->original_price}}đ</del></span>
                         </div>
                     </li>
@@ -264,26 +288,26 @@
 
         <div class="row">
             @foreach ($news as $news)
-                         <div class="col l-4 m-6 c-12">
-                <div class="post-item">
-                    <div class="post-img">
-                        <img src="{{asset('/img/'. $news->image)}}" alt="">
+                <div class="col l-4 m-6 c-12">
+                    <div class="post-item">
+                        <div class="post-img">
+                            <img src="{{asset('/img/' . $news->image)}}" alt="">
+                        </div>
+                        <div class="post-time">
+                            {{ \Carbon\Carbon::parse($news->posted_date)->format('d/m/Y') }}
+                        </div>
+                        <div class="post-name">
+                            <h2>{{$news->title}}</h2>
+                        </div>
+                        <div class="post-content">
+                            <p>{{$news->description}}</p>
+                        </div>
+                        <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                     </div>
-                    <div class="post-time">
-                        {{ \Carbon\Carbon::parse($news->posted_date)->format('d/m/Y') }}
-                    </div>
-                    <div class="post-name">
-                        <h2>{{$news->title}}</h2>
-                    </div>
-                    <div class="post-content">
-                        <p>{{$news->description}}</p>
-                    </div>
-                    <button>Đọc tiếp <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                 </div>
-            </div>
             @endforeach
-   
-            
+
+
         </div>
     </div>
 
@@ -333,5 +357,26 @@
                     alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
                 });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const boxAvt = document.querySelector('.avatar'); // Sửa lại cho đúng id
+            const boxAi = document.getElementById('box-ai');
+
+            boxAvt.addEventListener('click', function () {
+                boxAvt.style.display = 'none';
+                boxAi.style.display = 'block';
+            });
+
+
+            // Nếu bạn có nút đóng box chat, thêm đoạn này:
+            const closeBtn = document.querySelector('.close-chat');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    boxAi.style.display = 'none';
+                    boxAvt.style.display = 'flex'; // hoặc 'block'
+                });
+            }
+        });
     </script>
 @endsection

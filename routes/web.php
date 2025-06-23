@@ -39,6 +39,10 @@ Route::get('/auth/facebook', [SocialLoginController::class, 'redirectToFacebook'
 Route::get('/auth/facebook/callback', [SocialLoginController::class, 'handleFacebookCallback']);
 // đăng ký
 Route::post('/register', [LoginController::class, 'register'])->name('register');
+// quên mật khẩu
+Route::get('/password/reset/{id}/{hash}', [LoginController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [LoginController::class, 'ForgotPassword'])->name('password.update');
+Route::post('/password/update', [LoginController::class, 'updatePassword'])->name('password.forgot');
 // check mail
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
     ->name('verification.verify')
@@ -119,7 +123,6 @@ Route::post('/cart/apply-voucher', [CartController::class, 'applyVoucher'])->nam
 Route::get('/cart/remove/{variantId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity'])->name('cart.update');
 // update variant
-Route::put('/cart/update-variant/{variantId}', [CartController::class, 'updateVariant'])->name('cart.updateVariant');
 
 // thanh toán 
 Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
@@ -141,3 +144,7 @@ Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishl
 Route::get('/try-on', [TryOnController::class, 'showForm'])->name('tryon.form');
 Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process');
 
+// ai box chat
+Route::get('/a', function (Request $request) {
+    return view('a', ['request' => $request]);
+});

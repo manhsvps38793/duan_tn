@@ -131,4 +131,60 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+    public function ForgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ], [
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email không tồn tại trong hệ thống.'])->withInput();
+        }
+
+        // Tạo link đặt lại mật khẩu (dùng route có sẵn hoặc tự tạo)
+        $resetUrl = URL::temporarySignedRoute(
+            'password.reset', // Đảm bảo bạn có route này
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        try {
+            \Mail::to($user->email)->send(new \App\Mail\ForgotPasswordMail($user, $resetUrl));
+        } catch (\Exception $e) {
+            \Log::error('Mail Error: ' . $e->getMessage());
+            return back()->withErrors(['email' => 'Không gửi được email. Vui lòng thử lại sau.']);
+        }
+
+        return back()->with('status', 'Đã gửi hướng dẫn đặt lại mật khẩu đến email của bạn.');
+    }
+    public function showResetForm(Request $request, $id, $hash)
+    {
+        // Kiểm tra link hợp lệ
+        if (!$request->hasValidSignature()) {
+            abort(403, 'Link không hợp lệ hoặc đã hết hạn.');
+        }
+        $user = User::findOrFail($id);
+        if (sha1($user->email) !== $hash) {
+            abort(403, 'Link không hợp lệ.');
+        }
+        return view('emails.auth.reset-password', ['user' => $user]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:users,id',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+        $user = User::findOrFail($request->id);
+        $user->password = \Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('showlogin')->with('status', 'Đặt lại mật khẩu thành công! Bạn có thể đăng nhập.');
+    }
 }
