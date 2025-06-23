@@ -161,38 +161,38 @@
     <section class="section-cat" style="padding-bottom: 10px; background-color: white; position: relative; z-index: 10;">
         <div class=" grid wide container">
 
-            <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
-            <ul class="list-cat">
-                {{-- product-category --}}
-                @foreach ($product_categories as $b)
+             <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
+        <ul class="list-cat">
 
-                    <li class="item-category">
-                        <img class="category-img" src="img/aothun.webp" alt="">
-                        <div class="detail-cat">
-                            <h2 class="category-name">{{$b->name}}</h2>
-                            <a href="#"><button>Xem ngay</button></a>
-                        </div>
-                    </li>
-
-                @endforeach
-                {{-- --}}
-            </ul>
-        </div>
-    </section>
-
+{{-- product-category --}}
+            @foreach ($product_categories as $product_categories)
+                <li class="item-category">
+                    <img class="category-img" src="./img/aothun.webp" alt="">
+                    <div class="detail-cat">
+                        <h2 class="category-name">{{$product_categories->name}}</h2>
+                        <a href="#"><button>Xem ngay</button></a>
+                    </div>
+                </li>
+            @endforeach
+            {{--  --}}
+        </ul>
+    </div>
+     </section>
     <!-- san pham pho bien -->
     <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
             <h2 class="section-title">Sản phẩm nổi bật</h2>
             <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                <a class="see-all" href="/productFeatured" style="color: black; text-decoration: none;">Xem tất cả</a><i
                     class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
 
-        {{-- ds sp mới --}}
+
         <section class="product-thun">
             <div class="grid wide container">
+                {{-- product is_featured --}}
+                <div class="row product_featured">
                 <div class="row">
 
                     {{-- product is_featured --}}
@@ -226,11 +226,83 @@
                             </div>
                         </div>
                     @endforeach
+
+                </div>
+                {{--  --}}
+
                     {{-- --}}
                 </div>
-
             </div>
         </section>
+    </section>
+
+    {{-- ds sp mới --}}
+    <section class="new-design">
+        <div class="grid wide container">
+            <div style="padding: 0px 0px;">
+                <h2 class="section-title">Sản phẩm mới</h2>
+            </div>
+            <div class="tab-header">
+                {{-- load hết danh mục ra đây --}}
+                <ul class="tabs">
+
+                    @foreach ($product_new as $index => $category)
+                        <li class="tab {{ $index == 0 ? 'active' : '' }}" data-tab="tab{{ $loop->iteration }}">
+                            {{$category->name}}
+                        </li>
+                    @endforeach
+                </ul>
+                {{-- <hr style="max-width: 60% auto"> --}}
+            </div>
+
+            <div class="tab-content">
+                @foreach ($product_new as $index => $category)
+                <div id="tab{{ $loop->iteration }}" class="tab-item {{ $index == 0 ? 'active' : '' }}">
+                    <div class="breard" style="display: flex; justify-content: space-between; align-item: center; padding: 20px 0;">
+                        {{-- <h2 style="font-weight:normal">{{ $category->name }} - Hot Trends 2025</h2> --}}
+                        <h3>Các thiết kế mới được M A G cập nhật liên tục và đa dạng mẫu mã</h3>
+                        <a class="see-all" href="/products?category[]={{ $category->id }}" style="color: black; text-decoration: none;">
+                            Xem tất cả <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    {{-- load dssp --}}
+                    <div class="row product-list-n-d">
+                        @forelse ($category->products as $product)
+                            <div class="col l-3 m-6 c-6">
+                                <div class="item">
+                                <div class="item-img">
+                                    <span class="item-giam">-{{ $product->sale }}%</span>
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+
+                                    <a href="{{asset('/detail/'. $product->id)}}">
+                                        <img src="{{ asset($product->images->first()->path) }}" alt="{{ $product->name }}">
+                                    </a>
+                                </div>
+                                <div class="item-name">
+                                    <h3>
+                                        <a href="{{asset('/detail/'. $product->id)}}">
+                                            {{ $product->name }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="item-price">
+                                    <span style="color: red;padding-right: 10px;">
+                                        {{ number_format($product->price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                                    </span>
+                                    <span><del>{{ number_format($product->price, 0, ',', '.') }}đ</del></span>
+                                </div>
+                            </div>
+                            </div>
+                        @empty
+                            <p style="padding: 10px;">Chưa có sản phẩm</p>
+                        @endforelse
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
     </section>
     <section class="about-mag">
         <div class="grid wide container">
@@ -268,8 +340,13 @@
                     <div class="box-log">
                         <div class="text-content">
                             <h3 class="text">Trở thành thành viên của M A G ngay hôm nay !!</h3>
-                            <h2 class="text">Nhận ngay voucher freeship cho đơn hàng đầu tiên</h2>
-                            <button class="btn-log">Đăng ký ngay</button>
+                            <h2 class="text">Tận hưởng ưu đãi mua sắm hằng ngày</h2>
+
+                            <div style="display: flex; align-item:center; justify-content: center; gap: 10px  ">
+                                <input class="input-email" style="width: 300px; height: 41px; padding: 10px; border: none;" type="text" placeholder="Nhập email nhận ưu đãi ">
+                                <button class="btn-log">Gửi</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>

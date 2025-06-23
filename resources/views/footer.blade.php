@@ -25,12 +25,12 @@
             <div class="footer-col">
                 <h3>Danh mục</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Áo thun</a></li>
-                    <li><a href="#">Áo Polo</a></li>
-                    <li><a href="#">Áo sơ mi</a></li>
-                    <li><a href="#">Áo khoác</a></li>
-                    <li><a href="#">Quần</a></li>
-                    <li><a href="#">Phụ kiện</a></li>
+                    <li><a href="/products?category%5B%5D=1">Áo thun</a></li>
+                    <li><a href="/products?category%5B%5D=2">Áo sơ mi</a></li>
+                    <li><a href="/products?category%5B%5D=3">Áo khoác</a></li>
+                    <li><a href="/products?category%5B%5D=4">Áo Polo</a></li>
+                    <li><a href="/products?category%5B%5D=5">Quần</a></li>
+                    <li><a href="/products?category%5B%5D=6">Phụ kiện</a></li>
                 </ul>
             </div>
 

@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Cửa Hàng Thời Trang</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --secondary-color: #f9fafb;
+        --accent-color: #f43f5e;
+        --success-color: #22c55e;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --dark-color: #1f2a44;
+        --light-color: #ffffff;
+        --border-color: #e5e7eb;
+        --text-color: #374151;
+        --text-muted: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+      }
+
+      .aindex-body {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        line-height: 1.5;
+      }
+
+      .aindex-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .aindex-sidebar {
+        width: 280px;
+        background-color: var(--light-color);
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease;
+      }
+
+      .aindex-sidebar-header {
+        padding: 0 1.5rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .aindex-sidebar-header h2 {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .aindex-sidebar-header h2 i {
+        font-size: 1.5rem;
+      }
+
+      .aindex-sidebar-section {
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+
+      .aindex-sidebar-section h3 {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        letter-spacing: 0.05em;
+      }
+
+      .aindex-sidebar-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .aindex-sidebar-item i {
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1rem;
+      }
+
+      .aindex-sidebar-item:hover {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        transform: translateX(0.25rem);
+      }
+
+      .aindex-sidebar-item.aindex-active {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      .aindex-main-content {
+        flex: 1;
+        padding: 2rem;
+        background-color: var(--secondary-color);
+      }
+
+      .aindex-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .aindex-search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-color);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+
+      .aindex-search-bar:hover {
+        box-shadow: var(--shadow-md);
+      }
+
+      .aindex-search-bar input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        background: transparent;
+      }
+
+      .aindex-search-bar i {
+        color: var(--text-muted);
+        margin-right: 0.5rem;
+      }
+
+      .aindex-user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .aindex-notification-bell {
+        position: relative;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .aindex-notification-bell:hover {
+        color: var(--primary-color);
+      }
+
+      .aindex-profile-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+
+      .aindex-dashboard-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .aindex-dashboard-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+
+      .aindex-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .aindex-metric-card {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+      }
+
+      .aindex-metric-card:hover {
+        transform: translateY(-0.25rem);
+        box-shadow: var(--shadow-md);
+      }
+
+      .aindex-metric-title {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .aindex-metric-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--dark-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .aindex-metric-change {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .aindex-metric-change.aindex-up {
+        color: var(--success-color);
+      }
+
+      .aindex-metric-change.aindex-down {
+        color: var(--danger-color);
+      }
+
+      .aindex-metric-change i {
+        margin-right: 0.25rem;
+      }
+
+      .aindex-chart-section {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .aindex-chart-card {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .aindex-chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .aindex-chart-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
+      .aindex-chart-period {
+        background-color: var(--secondary-color);
+        border-radius: 1rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .aindex-chart-container {
+        height: 320px;
+        position: relative;
+      }
+
+      .aindex-top-products {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .aindex-product-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+        transition: background-color 0.2s ease;
+      }
+
+      .aindex-product-item:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .aindex-product-item:last-child {
+        border-bottom: none;
+      }
+
+      .aindex-product-image {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 0.5rem;
+        background-color: var(--border-color);
+        margin-right: 1rem;
+      }
+
+      .aindex-product-info {
+        flex: 1;
+      }
+
+      .aindex-product-name {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .aindex-product-category {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .aindex-product-stats {
+        text-align: right;
+      }
+
+      .aindex-product-price {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .aindex-product-sales {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+
+      .aindex-data-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .aindex-data-card {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .aindex-data-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .aindex-data-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--dark-color);
+      }
+
+      .aindex-data-action {
+        color: var(--primary-color);
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .aindex-data-action:hover {
+        color: var(--accent-color);
+      }
+
+      .aindex-data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .aindex-data-table th {
+        text-align: left;
+        padding: 0.75rem 0;
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .aindex-data-table td {
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.85rem;
+      }
+
+      .aindex-data-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .aindex-comment-user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .aindex-comment-avatar {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        margin-right: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .aindex-comment-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .aindex-comment-content {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+        line-height: 1.4;
+      }
+
+      .aindex-comment-time {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .aindex-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+      }
+
+      .aindex-btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .aindex-btn-primary:hover {
+        background-color: #4338ca;
+      }
+
+      .aindex-btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+      }
+
+      .aindex-btn-outline:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .aindex-status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .aindex-status-active {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: var(--success-color);
+      }
+
+      .aindex-status-inactive {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger-color);
+      }
+
+      @media (max-width: 1024px) {
+        .aindex-sidebar {
+          width: 80px;
+        }
+
+        .aindex-sidebar-header h2 span,
+        .aindex-sidebar-item span,
+        .aindex-sidebar-section h3 {
+          display: none;
+        }
+
+        .aindex-sidebar-item {
+          justify-content: center;
+        }
+
+        .aindex-chart-section {
+          grid-template-columns: 1fr;
+        }
+
+        .aindex-data-section {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .aindex-container {
+          flex-direction: column;
+        }
+
+        .aindex-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .aindex-main-content {
+          padding: 1rem;
+        }
+
+        .aindex-search-bar {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="aindex-body">
+      <div class="aindex-container">
+        <div class="aindex-sidebar">
+          <div class="aindex-sidebar-header">
+            <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+          </div>
+
+          <div class="aindex-sidebar-section">
+            <h3>Bảng điều khiển</h3>
+            <a href="#" class="aindex-sidebar-item aindex-active">
+              <i class="fas fa-home"></i>
+              <span>Trang chủ</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-box-open"></i>
+              <span>Sản phẩm</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-shopping-bag"></i>
+              <span>Đơn hàng</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-percentage"></i>
+              <span>Khuyến mãi</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-chart-bar"></i>
+              <span>Báo cáo</span>
+            </a>
+          </div>
+
+          <div class="aindex-sidebar-section">
+            <h3>Công cụ</h3>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-warehouse"></i>
+              <span>Quản lý kho</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-images"></i>
+              <span>Hình ảnh sản phẩm</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-users"></i>
+              <span>Khách hàng</span>
+            </a>
+          </div>
+
+          <div class="aindex-sidebar-section">
+            <h3>Hệ thống</h3>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-cog"></i>
+              <span>Cài đặt</span>
+            </a>
+            <a href="#" class="aindex-sidebar-item">
+              <i class="fas fa-headset"></i>
+              <span>Hỗ trợ</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="aindex-main-content">
+          <div class="aindex-header">
+            <div class="aindex-search-bar">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng..." />
+            </div>
+            <div class="aindex-user-profile">
+              <div class="aindex-notification-bell">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="aindex-profile-avatar">QT</div>
+            </div>
+          </div>
+
+          <h1 class="aindex-dashboard-title">Tổng quan cửa hàng</h1>
+          <p class="aindex-dashboard-subtitle">
+            Theo dõi và phân tích hiệu suất kinh doanh
+          </p>
+
+          <div class="aindex-metrics-grid">
+            <div class="aindex-metric-card">
+              <div class="aindex-metric-title">
+                <span>Doanh thu hôm nay</span>
+                <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="aindex-metric-value">5.250.000đ</div>
+              <div class="aindex-metric-change aindex-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+12% so với hôm qua</span>
+              </div>
+            </div>
+
+            <div class="aindex-metric-card">
+              <div class="aindex-metric-title">
+                <span>Tổng đơn hàng</span>
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="aindex-metric-value">24</div>
+              <div class="aindex-metric-change aindex-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+8% so với hôm qua</span>
+              </div>
+            </div>
+
+            <div class="aindex-metric-card">
+              <div class="aindex-metric-title">
+                <span>Sản phẩm bán ra</span>
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="aindex-metric-value">58</div>
+              <div class="aindex-metric-change aindex-down">
+                <i class="fas fa-arrow-down"></i>
+                <span>-5% so với hôm qua</span>
+              </div>
+            </div>
+
+            <div class="aindex-metric-card">
+              <div class="aindex-metric-title">
+                <span>Khách hàng mới</span>
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="aindex-metric-value">14</div>
+              <div class="aindex-metric-change aindex-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+20% so với hôm qua</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="aindex-chart-section">
+            <div class="aindex-chart-card">
+              <div class="aindex-chart-header">
+                <h3 class="aindex-chart-title">Doanh thu tuần này</h3>
+                <span class="aindex-chart-period">7 ngày gần nhất</span>
+              </div>
+              <div class="aindex-chart-container">
+                <canvas id="revenueChart"></canvas>
+              </div>
+            </div>
+
+            <div class="aindex-top-products">
+              <div class="aindex-chart-header">
+                <h3 class="aindex-chart-title">Sản phẩm bán chạy</h3>
+                <span class="aindex-chart-period">Top 3 tuần này</span>
+              </div>
+
+              <div class="aindex-product-item">
+                <div class="aindex-product-image"></div>
+                <div class="aindex-product-info">
+                  <div class="aindex-product-name">Áo thun nam cổ tròn</div>
+                  <div class="aindex-product-category">Áo thun</div>
+                </div>
+                <div class="aindex-product-stats">
+                  <div class="aindex-product-price">250.000đ</div>
+                  <div class="aindex-product-sales">Đã bán: 42</div>
+                </div>
+              </div>
+
+              <div class="aindex-product-item">
+                <div class="aindex-product-image"></div>
+                <div class="aindex-product-info">
+                  <div class="aindex-product-name">Quần jeans nữ ống rộng</div>
+                  <div class="aindex-product-category">Quần jeans</div>
+                </div>
+                <div class="aindex-product-stats">
+                  <div class="aindex-product-price">350.000đ</div>
+                  <div class="aindex-product-sales">Đã bán: 28</div>
+                </div>
+              </div>
+
+              <div class="aindex-product-item">
+                <div class="aindex-product-image"></div>
+                <div class="aindex-product-info">
+                  <div class="aindex-product-name">Váy liền công sở</div>
+                  <div class="aindex-product-category">Váy</div>
+                </div>
+                <div class="aindex-product-stats">
+                  <div class="aindex-product-price">450.000đ</div>
+                  <div class="aindex-product-sales">Đã bán: 19</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="aindex-data-section">
+            <div class="aindex-data-card">
+              <div class="aindex-data-header">
+                <h3 class="aindex-data-title">Đơn hàng gần đây</h3>
+                <span class="aindex-data-action">Xem tất cả</span>
+              </div>
+
+              <table class="aindex-data-table">
+                <thead>
+                  <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#DH-2456</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>750.000đ</td>
+                    <td>
+                      <span class="aindex-status-badge aindex-status-active"
+                        >Đã giao</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#DH-2455</td>
+                    <td>Trần Thị B</td>
+                    <td>1.250.000đ</td>
+                    <td>
+                      <span class="aindex-status-badge aindex-status-active"
+                        >Đang giao</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#DH-2454</td>
+                    <td>Lê Văn C</td>
+                    <td>550.000đ</td>
+                    <td>
+                      <span class="aindex-status-badge aindex-status-inactive"
+                        >Chờ xử lý</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#DH-2453</td>
+                    <td>Phạm Thị D</td>
+                    <td>950.000đ</td>
+                    <td>
+                      <span class="aindex-status-badge aindex-status-active"
+                        >Đã thanh toán</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="aindex-data-card">
+              <div class="aindex-data-header">
+                <h3 class="aindex-data-title">Bình luận mới</h3>
+                <span class="aindex-data-action">Xem tất cả</span>
+              </div>
+
+              <table class="aindex-data-table">
+                <thead>
+                  <tr>
+                    <th>Bình luận</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="aindex-comment-user">
+                        <div class="aindex-comment-avatar">NT</div>
+                        <div class="aindex-comment-name">Ngọc Trinh</div>
+                      </div>
+                      <div class="aindex-comment-content">
+                        Áo đẹp, chất liệu tốt, rất thoải mái. Sẽ ủng hộ shop dài
+                        lâu!
+                      </div>
+                      <div class="aindex-comment-time">30 phút trước</div>
+                    </td>
+                    <td>
+                      <button class="aindex-btn aindex-btn-primary">
+                        Phản hồi
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="aindex-comment-user">
+                        <div class="aindex-comment-avatar">TL</div>
+                        <div class="aindex-comment-name">Thanh Long</div>
+                      </div>
+                      <div class="aindex-comment-content">
+                        Quần hơi rộng so với size chart, shop có thể đổi size
+                        không?
+                      </div>
+                      <div class="aindex-comment-time">2 giờ trước</div>
+                    </td>
+                    <td>
+                      <button class="aindex-btn aindex-btn-primary">
+                        Phản hồi
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Revenue Chart
+        const revenueCtx = document
+          .getElementById("revenueChart")
+          .getContext("2d");
+        const revenueChart = new Chart(revenueCtx, {
+          type: "line",
+          data: {
+            labels: [
+              "Thứ 2",
+              "Thứ 3",
+              "Thứ 4",
+              "Thứ 5",
+              "Thứ 6",
+              "Thứ 7",
+              "Chủ nhật",
+            ],
+            datasets: [
+              {
+                label: "Doanh thu",
+                data: [
+                  3200000, 4200000, 3800000, 5100000, 4800000, 5500000, 5250000,
+                ],
+                borderColor: "#4f46e5",
+                backgroundColor: "rgba(79, 70, 229, 0.1)",
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: "white",
+                pointBorderColor: "#4f46e5",
+                pointBorderWidth: 2,
+              },
+              {
+                label: "Sản phẩm bán ra",
+                data: [35, 42, 38, 48, 45, 52, 58],
+                borderColor: "#22c55e",
+                backgroundColor: "rgba(34, 197, 94, 0.1)",
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: "white",
+                pointBorderColor: "#22c55e",
+                pointBorderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "top",
+                labels: {
+                  usePointStyle: true,
+                  padding: 20,
+                  font: {
+                    size: 12,
+                    family: "Inter",
+                    weight: "500",
+                  },
+                },
+              },
+              tooltip: {
+                mode: "index",
+                intersect: false,
+                backgroundColor: "rgba(31, 42, 68, 0.9)",
+                titleFont: {
+                  size: 14,
+                  weight: "600",
+                },
+                bodyFont: {
+                  size: 12,
+                },
+                padding: 12,
+                cornerRadius: 6,
+                boxPadding: 6,
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: "rgba(229, 231, 235, 0.5)",
+                  borderDash: [3, 3],
+                },
+                ticks: {
+                  font: {
+                    size: 12,
+                  },
+                  callback: function (value) {
+                    if (value >= 1000000) {
+                      return value / 1000000 + "M";
+                    }
+                    return value;
+                  },
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  font: {
+                    size: 12,
+                  },
+                },
+              },
+            },
+            elements: {
+              point: {
+                radius: 4,
+                hoverRadius: 8,
+                hoverBorderWidth: 3,
+              },
+            },
+          },
+        });
+
+        // Sidebar active item
+        const sidebarItems = document.querySelectorAll(".aindex-sidebar-item");
+        sidebarItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            sidebarItems.forEach((i) => i.classList.remove("aindex-active"));
+            this.classList.add("aindex-active");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

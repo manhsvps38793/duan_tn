@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('body')
+
+
     <div class="pruductall">
         <div class="grid wide container">
             <div class="row">
@@ -138,7 +140,7 @@
                                         }
                                     </style>
                                     <div class="product-sort-mobile">
-                                        <h2 class="page-title">Tất cả sản phẩm</h2>
+                                        <a href="/products" style="text-decoration: none; color: black;"><h2 class="page-title">Tất cả sản phẩm</h2></a>
                                             <div class="relative">
                                                 <p class="sort-title">Sắp xếp theo: </p>
                                                 <div class="dropdown-container">
@@ -204,7 +206,7 @@
                                                         @foreach ($categories as $category)
                                                             <div class="category-option">
                                                                 <input type="checkbox" id="mobile_category{{ $category->id }}" name="category[]" value="{{ $category->id }}"
-                                                                    {{ in_array($category->id, (array)request()->input('category')) ? 'checked' : '' }}>
+                                                                    {{ request()->input('category') == $category->id ? 'checked' : '' }}>
                                                                 <label for="mobile_category{{ $category->id }}">{{ $category->name }}</label>
                                                             </div>
                                                         @endforeach
@@ -242,39 +244,45 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px">
-                                        @foreach ($productAll as $productItem)
-                                            <div class="col l-4 m-6 c-6">
-                                                <div class="item product-pading-size">
-                                                    <div class="item-img">
-                                                        <span class="item-giam">-{{ $productItem->sale }}%</span>
-                                                        <div class="item-icon">
-                                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        @if ($productAll->isEmpty())
+                                            <div class="col l-12 m-12 c-12">
+                                                <p style="text-align: center; font-size: 18px; color: #888;">Không có lựa chọn phù hợp.</p>
+                                            </div>
+                                        @else
+                                            @foreach ($productAll as $productItem)
+                                                <div class="col l-4 m-6 c-6">
+                                                    <div class="item product-pading-size">
+                                                        <div class="item-img">
+                                                            <span class="item-giam">-{{ $productItem->sale }}%</span>
+                                                            <div class="item-icon">
+                                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                            </div>
+                                                            <a href="{{ asset('/detail/' . $productItem->id) }}">
+                                                                @if ($productItem->thumbnail && $productItem->thumbnail->path)
+                                                                    <img src="{{ asset($productItem->thumbnail->path) }}" alt="Ảnh" width="150">
+                                                                @else
+                                                                    <img src="{{ asset('img/kocoanh.png') }}" alt="no ảnh ok like" width="150">
+                                                                @endif
+                                                            </a>
                                                         </div>
-                                                         <a href="{{asset('/detail/'. $productItem->id)}}">
-                                                            @if ($productItem->thumbnail && $productItem->thumbnail->path)
-                                                                <img src="{{ asset( $productItem->thumbnail->path) }}" alt="Ảnh" width="150">
-                                                            @else
-                                                                <img src="{{ asset('img/kocoanh.png') }}" alt="no ảnh ok like" width="150">
-                                                            @endif
-                                                        </a>
-                                                    </div>
 
-                                                    <div class="item-name">
-                                                        <h3><a href="">{{ $productItem->name }}</a></h3>
-                                                    </div>
+                                                        <div class="item-name">
+                                                            <h3><a href="">{{ $productItem->name }}</a></h3>
+                                                        </div>
 
-                                                    <div class="item-price">
-                                                        <span style="color: red; padding-right: 10px;">
-                                                            {{ number_format($productItem->original_price * (1 - $productItem->sale / 100)) }}đ
-                                                        </span>
-                                                        <span>
-                                                            <del>{{ number_format($productItem->original_price) }}đ</del>
-                                                        </span>
-
+                                                        <div class="item-price">
+                                                            <span style="color: red; padding-right: 10px;">
+                                                                {{ number_format($productItem->original_price * (1 - $productItem->sale / 100)) }}đ
+                                                            </span>
+                                                            <span>
+                                                                <del>{{ number_format($productItem->original_price) }}đ</del>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
+
                                     </div>
                                 </div>
                             </section>
@@ -290,175 +298,151 @@
     </div>
 
     <script src="{{asset('main.js')}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
-    <script>
-        // lọc sản phẩm
-        const sortButton = document.getElementById('sortButton');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const selectedValue = document.getElementById('selectedValue');
-        const dropdownItems = document.querySelectorAll('.dropdown-item');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
+<script>
+    // Xử lý sắp xếp sản phẩm
+    const sortButton = document.getElementById('sortButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const selectedValue = document.getElementById('selectedValue');
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
 
-        // Show/hide menu on button click
-        sortButton.addEventListener('click', () => {
-            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    // Xử lý form lọc sản phẩm
+    document.querySelector('.product-filter-container').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Hiển thị loading
+        const loader = document.createElement('div');
+        loader.className = 'loading-overlay';
+        loader.innerHTML = '<div class="loading-spinner"></div>';
+        document.body.appendChild(loader);
+
+        try {
+            // Lấy URL hiện tại và các tham số
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+
+            // Xóa các tham số lọc cũ
+            params.delete('category[]');
+            params.delete('size');
+            params.delete('price');
+            params.delete('page'); // Xóa phân trang khi lọc mới
+
+            // Thêm danh mục được chọn
+            const checkedCategories = Array.from(
+                document.querySelectorAll('.category-options input[type="checkbox"]:checked')
+            ).map(checkbox => checkbox.value);
+
+            checkedCategories.forEach(category => {
+                params.append('category[]', category);
+            });
+
+            // Thêm size nếu được chọn
+            const size = document.querySelector('input[name="size"]:checked')?.value;
+            if (size) params.set('size', size);
+
+            // Thêm khoảng giá nếu được chọn
+            const price = document.querySelector('input[name="price"]:checked')?.value;
+            if (price) params.set('price', price);
+
+            // Cập nhật URL và chuyển hướng
+            url.search = params.toString();
+            window.location.href = url.toString();
+        } catch (error) {
+            console.error('Lỗi khi áp dụng bộ lọc:', error);
+            document.querySelector('.loading-overlay')?.remove();
+        }
+    });
+
+    // Show/hide menu sắp xếp
+    sortButton.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Xử lý chọn option sắp xếp
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', () => {
+            dropdownItems.forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+            selectedValue.textContent = item.dataset.value;
+            dropdownMenu.style.display = 'none';
+        });
+    });
+
+    // Đóng menu khi click bên ngoài
+    document.addEventListener('click', (event) => {
+        if (!sortButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.style.display = 'none';
+        }
+    });
+
+    // Xử lý filter mobile
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
+        const mobileFilterContent = document.querySelector('.mobile-filter-content');
+        const filterCount = document.querySelector('.product-filter-count');
+
+        // Toggle mobile filter
+        if (mobileFilterToggle) {
+            mobileFilterToggle.addEventListener('click', function () {
+                mobileFilterContent.classList.toggle('active');
+                const icon = this.querySelector('.fa-chevron-down');
+                icon.classList.toggle('fa-rotate-180');
+            });
+        }
+
+        // Xử lý active size option
+        const sizeOptions = document.querySelectorAll('.filter-options .filter-option');
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', function (e) {
+                if (e.target.tagName === 'INPUT') return;
+
+                sizeOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
         });
 
-        // Handle item selection
-        dropdownItems.forEach(item => {
-            item.addEventListener('click', () => {
-                dropdownItems.forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
-                selectedValue.textContent = item.dataset.value;
-                dropdownMenu.style.display = 'none';
+        // Xử lý active price option
+        const priceOptions = document.querySelectorAll('.price-options .price-option');
+        priceOptions.forEach(option => {
+            option.addEventListener('click', function (e) {
+                if (e.target.tagName === 'INPUT') return;
+
+                priceOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                this.querySelector('input[type="radio"]').checked = true;
             });
         });
+    });
+</script>
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!sortButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.style.display = 'none';
-            }
-        });
+<style>
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.7);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Lấy các phần tử DOM
-            const mobileFilterToggle = document.querySelector('.mobile-filter-toggle');
-            const mobileFilterContent = document.querySelector('.mobile-filter-content');
-            const desktopFilter = document.querySelector('.product-filter-desktop');
-            const filterCount = document.querySelector('.product-filter-count');
+    .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #000000;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
 
-            // Sao chép nội dung filter từ desktop sang mobile
-
-
-            // Xử lý toggle mobile filter
-            if (mobileFilterToggle) {
-                mobileFilterToggle.addEventListener('click', function () {
-                    mobileFilterContent.classList.toggle('active');
-                    const icon = this.querySelector('.fa-chevron-down');
-                    icon.classList.toggle('fa-rotate-180');
-                });
-            }
-
-            // Biến lưu trữ các lựa chọn filter
-            let selectedFilters = {
-                categories: [],
-                sizes: [],
-                colors: [],
-                price: null
-            };
-
-            // Hàm cập nhật số lượng filter đã chọn
-            function updateFilterCount() {
-                let count = 0;
-
-                // Đếm danh mục
-                count += selectedFilters.categories.length;
-
-                // Đếm size
-                count += selectedFilters.sizes.length;
-
-                // Đếm màu
-                count += selectedFilters.colors.length;
-
-                // Đếm giá
-                if (selectedFilters.price) count += 1;
-
-                filterCount.textContent = count;
-                filterCount.style.display = count > 0 ? 'flex' : 'none';
-            }
-
-            // Khôi phục trạng thái filter từ URL
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Khôi phục danh mục
-            const selectedCategories = urlParams.getAll('category[]');
-            selectedCategories.forEach(categoryId => {
-                const checkbox = document.querySelector(`input[name="category[]"][value="${categoryId}"]`);
-                if (checkbox) {
-                    checkbox.checked = true;
-                    selectedFilters.categories.push(checkbox.nextElementSibling.textContent);
-                }
-            });
-
-            // Khôi phục size
-            const selectedSize = urlParams.get('size');
-            if (selectedSize) {
-                const sizeOption = document.querySelector(`input[name="size"][value="${selectedSize}"]`);
-                if (sizeOption) {
-                    sizeOption.checked = true;
-                    sizeOption.closest('.filter-option').classList.add('active');
-                    selectedFilters.sizes = [sizeOption.nextElementSibling.textContent];
-                }
-            }
-
-            // Khôi phục giá
-            const selectedPrice = urlParams.get('price');
-            if (selectedPrice) {
-                const priceOption = document.querySelector(`input[name="price"][value="${selectedPrice}"]`);
-                if (priceOption) {
-                    priceOption.checked = true;
-                    priceOption.closest('.price-option').classList.add('active');
-                    selectedFilters.price = priceOption.nextElementSibling.textContent;
-                }
-            }
-
-            // Cập nhật số lượng filter
-            updateFilterCount();
-
-            // Xử lý lọc danh mục
-            const categoryCheckboxes = document.querySelectorAll('.category-options input[type="checkbox"]');
-            categoryCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    const category = this.nextElementSibling.textContent;
-
-                    if (this.checked) {
-                        if (!selectedFilters.categories.includes(category)) {
-                            selectedFilters.categories.push(category);
-                        }
-                    } else {
-                        selectedFilters.categories = selectedFilters.categories.filter(item => item !== category);
-                    }
-
-                    updateFilterCount();
-                });
-            });
-
-            // Xử lý lọc size
-            const sizeOptions = document.querySelectorAll('.filter-options .filter-option');
-            sizeOptions.forEach(option => {
-                option.addEventListener('click', function (e) {
-                    if (e.target.tagName === 'INPUT') return;
-
-                    sizeOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const radio = this.querySelector('input[type="radio"]');
-                    radio.checked = true;
-
-                    // Cập nhật selectedFilters
-                    selectedFilters.sizes = [this.querySelector('label').textContent];
-                    updateFilterCount();
-                });
-            });
-
-            // Xử lý lọc giá
-            const priceOptions = document.querySelectorAll('.price-options .price-option');
-            priceOptions.forEach(option => {
-                option.addEventListener('click', function (e) {
-                    if (e.target.tagName === 'INPUT') return;
-
-                    priceOptions.forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const radio = this.querySelector('input[type="radio"]');
-                    radio.checked = true;
-
-                    // Cập nhật selectedFilters
-                    selectedFilters.price = this.querySelector('label').textContent;
-                    updateFilterCount();
-                });
-            });
-        });
-    </script>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 @endsection

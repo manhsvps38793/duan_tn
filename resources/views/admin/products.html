@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sản Phẩm - Cửa Hàng Thời Trang</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --secondary-color: #f9fafb;
+        --accent-color: #f43f5e;
+        --success-color: #22c55e;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --dark-color: #1f2a44;
+        --light-color: #ffffff;
+        --border-color: #e5e7eb;
+        --text-color: #374151;
+        --text-muted: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+      }
+
+      body {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        line-height: 1.5;
+      }
+
+      .aproducts-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .aproducts-sidebar {
+        width: 250px;
+        background-color: var(--light-color);
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease;
+      }
+
+      .aproducts-sidebar-header {
+        padding: 0 1.5rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+      }
+
+      .aproducts-sidebar-header h2 {
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .aproducts-sidebar-header h2 i {
+        font-size: 1.4rem;
+      }
+
+      .aproducts-sidebar-section {
+        margin-bottom: 1.5rem;
+        padding: 0 1.5rem;
+      }
+
+      .aproducts-sidebar-section h3 {
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.05em;
+      }
+
+      .aproducts-sidebar-item {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .aproducts-sidebar-item i {
+        width: 1.25rem;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .aproducts-sidebar-item:hover {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        transform: translateX(0.25rem);
+      }
+
+      .aproducts-sidebar-item.aproducts-active {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      .aproducts-main-content {
+        flex: 1;
+        padding: 1.5rem;
+        background-color: var(--secondary-color);
+      }
+
+      .aproducts-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+      }
+
+      .aproducts-search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-color);
+        border-radius: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        width: 100%;
+        max-width: 300px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+
+      .aproducts-search-bar:hover {
+        box-shadow: var(--shadow-md);
+      }
+
+      .aproducts-search-bar input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 0.4rem;
+        font-size: 0.85rem;
+        background: transparent;
+      }
+
+      .aproducts-search-bar i {
+        color: var(--text-muted);
+        margin-right: 0.4rem;
+        font-size: 0.9rem;
+      }
+
+      .aproducts-user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .aproducts-notification-bell {
+        position: relative;
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .aproducts-notification-bell:hover {
+        color: var(--primary-color);
+      }
+
+      .aproducts-profile-avatar {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+
+      .aproducts-page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--dark-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .aproducts-page-subtitle {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .aproducts-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+      }
+
+      .aproducts-filter-group {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .aproducts-filter-group select,
+      .aproducts-filter-group input[type="number"] {
+        padding: 0.4rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        background-color: var(--light-color);
+        width: 120px;
+      }
+
+      .aproducts-btn {
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.375rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+      }
+
+      .aproducts-btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .aproducts-btn-primary:hover {
+        background-color: #4338ca;
+      }
+
+      .aproducts-btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+      }
+
+      .aproducts-btn-outline:hover {
+        background-color: var(--secondary-color);
+      }
+
+      .aproducts-data-card {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .aproducts-data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .aproducts-data-table th,
+      .aproducts-data-table td {
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.85rem;
+      }
+
+      .aproducts-data-table th {
+        text-align: left;
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .aproducts-data-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .aproducts-data-table th:nth-child(1),
+      .aproducts-data-table td:nth-child(1) {
+        width: 5%;
+      } /* Image */
+      .aproducts-data-table th:nth-child(2),
+      .aproducts-data-table td:nth-child(2) {
+        width: 15%;
+      } /* Name */
+      .aproducts-data-table th:nth-child(3),
+      .aproducts-data-table td:nth-child(3) {
+        width: 10%;
+      } /* Category */
+      .aproducts-data-table th:nth-child(4),
+      .aproducts-data-table td:nth-child(4) {
+        width: 10%;
+      } /* Price */
+      .aproducts-data-table th:nth-child(5),
+      .aproducts-data-table td:nth-child(5) {
+        width: 8%;
+      } /* Sale */
+      .aproducts-data-table th:nth-child(6),
+      .aproducts-data-table td:nth-child(6) {
+        width: 8%;
+      } /* Stock */
+      .aproducts-data-table th:nth-child(7),
+      .aproducts-data-table td:nth-child(7) {
+        width: 15%;
+      } /* Variants */
+      .aproducts-data-table th:nth-child(8),
+      .aproducts-data-table td:nth-child(8) {
+        width: 8%;
+      } /* Status */
+      .aproducts-data-table th:nth-child(9),
+      .aproducts-data-table td:nth-child(9) {
+        width: 15%;
+      } /* Description */
+      .aproducts-data-table th:nth-child(10),
+      .aproducts-data-table td:nth-child(10) {
+        width: 10%;
+      } /* Actions */
+
+      .aproducts-product-image {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        object-fit: cover;
+      }
+
+      .aproducts-status-badge {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+
+      .aproducts-status-active {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: var(--success-color);
+      }
+
+      .aproducts-status-inactive {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger-color);
+      }
+
+      .aproducts-sale-badge {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+        background-color: rgba(245, 158, 11, 0.1);
+        color: var(--warning-color);
+      }
+
+      .aproducts-description {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .aproducts-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .aproducts-modal-content {
+        background-color: var(--light-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        width: 100%;
+        max-width: 700px;
+        box-shadow: var(--shadow-md);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .aproducts-modal-content h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .aproducts-form-group {
+        margin-bottom: 1rem;
+      }
+
+      .aproducts-form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+      }
+
+      .aproducts-form-group input,
+      .aproducts-form-group select,
+      .aproducts-form-group textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+      }
+
+      .aproducts-form-group textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .aproducts-image-preview {
+        width: 80px;
+        height: 80px;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+        object-fit: cover;
+        display: none;
+      }
+
+      .aproducts-variant-group {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        background-color: var(--secondary-color);
+        border-radius: 0.375rem;
+        max-height: 150px;
+        overflow-y: auto;
+      }
+
+      .aproducts-variant-item {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        align-items: center;
+      }
+
+      .aproducts-variant-item input {
+        flex: 1;
+      }
+
+      .aproducts-modal-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+
+      .aproducts-pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .aproducts-pagination-btn {
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--border-color);
+        background-color: var(--light-color);
+        cursor: pointer;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+      }
+
+      .aproducts-pagination-btn:hover {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .aproducts-pagination-btn.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .aproducts-variants-list {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+      }
+
+      .aproducts-variants-list span {
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      @media (max-width: 1024px) {
+        .aproducts-sidebar {
+          width: 70px;
+        }
+
+        .aproducts-sidebar-header h2 span,
+        .aproducts-sidebar-item span,
+        .aproducts-sidebar-section h3 {
+          display: none;
+        }
+
+        .aproducts-sidebar-item {
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .aproducts-container {
+          flex-direction: column;
+        }
+
+        .aproducts-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+
+        .aproducts-main-content {
+          padding: 1rem;
+        }
+
+        .aproducts-search-bar,
+        .aproducts-filter-group select,
+        .aproducts-filter-group input {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .aproducts-filter-group {
+          flex-direction: column;
+        }
+
+        .aproducts-data-table th:nth-child(9),
+        .aproducts-data-table td:nth-child(9) {
+          display: none; /* Hide description on mobile */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="aproducts-container">
+      <div class="aproducts-sidebar">
+        <div class="aproducts-sidebar-header">
+          <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+        </div>
+
+        <div class="aproducts-sidebar-section">
+          <h3>Bảng điều khiển</h3>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-home"></i>
+            <span>Trang chủ</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item aproducts-active">
+            <i class="fas fa-box-open"></i>
+            <span>Sản phẩm</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Đơn hàng</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-percentage"></i>
+            <span>Khuyến mãi</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Báo cáo</span>
+          </a>
+        </div>
+
+        <div class="aproducts-sidebar-section">
+          <h3>Công cụ</h3>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-warehouse"></i>
+            <span>Quản lý kho</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-images"></i>
+            <span>Hình ảnh sản phẩm</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-users"></i>
+            <span>Khách hàng</span>
+          </a>
+        </div>
+
+        <div class="aproducts-sidebar-section">
+          <h3>Hệ thống</h3>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-cog"></i>
+            <span>Cài đặt</span>
+          </a>
+          <a href="#" class="aproducts-sidebar-item">
+            <i class="fas fa-headset"></i>
+            <span>Hỗ trợ</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="aproducts-main-content">
+        <div class="aproducts-header">
+          <div class="aproducts-search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm sản phẩm hoặc mô tả..."
+            />
+          </div>
+          <div class="aproducts-user-profile">
+            <div class="aproducts-notification-bell">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="aproducts-profile-avatar">QT</div>
+          </div>
+        </div>
+
+        <h1 class="aproducts-page-title">Quản lý sản phẩm</h1>
+        <p class="aproducts-page-subtitle">
+          Xem và chỉnh sửa danh sách sản phẩm của cửa hàng
+        </p>
+
+        <div class="aproducts-actions">
+          <div class="aproducts-filter-group">
+            <select id="categoryFilter">
+              <option value="">Tất cả danh mục</option>
+              <option>Áo thun</option>
+              <option>Quần jeans</option>
+              <option>Váy</option>
+              <option>Áo sơ mi</option>
+              <option>Áo khoác</option>
+              <option>Quần tây</option>
+              <option>Áo hoodie</option>
+              <option>Áo polo</option>
+              <option>Quần short</option>
+            </select>
+            <select id="statusFilter">
+              <option value="">Tất cả trạng thái</option>
+              <option value="Còn hàng">Còn hàng</option>
+              <option value="Hết hàng">Hết hàng</option>
+            </select>
+            <select id="saleFilter">
+              <option value="">Tất cả giảm giá</option>
+              <option value="Có giảm giá">Có giảm giá</option>
+              <option value="Không giảm giá">Không giảm giá</option>
+            </select>
+            <input
+              type="number"
+              id="minPrice"
+              placeholder="Giá tối thiểu"
+              min="0"
+            />
+            <input
+              type="number"
+              id="maxPrice"
+              placeholder="Giá tối đa"
+              min="0"
+            />
+          </div>
+          <button
+            class="aproducts-btn aproducts-btn-primary"
+            onclick="openModal()"
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+
+        <div class="aproducts-data-card">
+          <table class="aproducts-data-table">
+            <thead>
+              <tr>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Danh mục</th>
+                <th>Giá</th>
+                <th>Sale</th>
+                <th>Kho</th>
+                <th>Biến thể</th>
+                <th>Trạng thái</th>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr
+                data-id="1"
+                data-variants='[{"size":"M","color":"Trắng","quantity":50},{"size":"L","color":"Đen","quantity":70}]'
+                data-sale="10"
+                data-price="250000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo thun nam cổ tròn"
+                  />
+                </td>
+                <td>Áo thun nam cổ tròn</td>
+                <td>Áo thun</td>
+                <td>250.000đ</td>
+                <td><span class="aproducts-sale-badge">10%</span></td>
+                <td>120</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Trắng: 50</span>
+                  <span>L/Đen: 70</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo thun nam chất cotton thoáng mát, phù hợp mặc hàng ngày.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(1)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(1)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="2"
+                data-variants='[{"size":"S","color":"Xanh","quantity":40},{"size":"M","color":"Đen","quantity":40}]'
+                data-sale="0"
+                data-price="350000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Quần jeans nữ ống rộng"
+                  />
+                </td>
+                <td>Quần jeans nữ ống rộng</td>
+                <td>Quần jeans</td>
+                <td>350.000đ</td>
+                <td>
+                  <span class="aproducts-sale-badge">Không giảm giá</span>
+                </td>
+                <td>80</td>
+                <td class="aproducts-variants-list">
+                  <span>S/Xanh: 40</span>
+                  <span>M/Đen: 40</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Quần jeans ống rộng thời trang, chất liệu bền đẹp.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(2)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(2)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="3"
+                data-variants='[{"size":"M","color":"Xám","quantity":30},{"size":"L","color":"Xanh","quantity":25}]'
+                data-sale="15"
+                data-price="300000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo sơ mi nam"
+                  />
+                </td>
+                <td>Áo sơ mi nam</td>
+                <td>Áo sơ mi</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">15%</span></td>
+                <td>55</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Xám: 30</span>
+                  <span>L/Xanh: 25</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo sơ mi nam lịch lãm, phù hợp công sở.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(3)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(3)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="4"
+                data-variants='[{"size":"S","color":"Hồng","quantity":20},{"size":"M","color":"Trắng","quantity":30}]'
+                data-sale="20"
+                data-price="450000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Váy maxi"
+                  />
+                </td>
+                <td>Váy maxi</td>
+                <td>Váy</td>
+                <td>450.000đ</td>
+                <td><span class="aproducts-sale-badge">20%</span></td>
+                <td>50</td>
+                <td class="aproducts-variants-list">
+                  <span>S/Hồng: 20</span>
+                  <span>M/Trắng: 30</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Váy maxi nhẹ nhàng, phù hợp dạo phố hoặc đi biển.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(4)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(4)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="5"
+                data-variants='[{"size":"M","color":"Đen","quantity":15},{"size":"L","color":"Nâu","quantity":20}]'
+                data-sale="0"
+                data-price="400000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Áo khoác denim"
+                  />
+                </td>
+                <td>Áo khoác denim</td>
+                <td>Áo khoác</td>
+                <td>400.000đ</td>
+                <td>
+                  <span class="aproducts-sale-badge">Không giảm giá</span>
+                </td>
+                <td>35</td>
+                <td class="aproducts-variants-list">
+                  <span>M/Đen: 15</span>
+                  <span>L/Nâu: 20</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-active"
+                    >Còn hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Áo khoác denim phong cách, chất liệu dày dặn.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(5)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(5)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr
+                data-id="6"
+                data-variants='[{"size":"S","color":"Xanh navy","quantity":0},{"size":"M","color":"Đen","quantity":0}]'
+                data-sale="0"
+                data-price="320000"
+              >
+                <td>
+                  <img
+                    class="aproducts-product-image"
+                    src="https://via.placeholder.com/48"
+                    alt="Quần tây nam"
+                  />
+                </td>
+                <td>Quần tây nam</td>
+                <td>Quần tây</td>
+                <td>320.000đ</td>
+                <td>
+                  <span class="aproducts-sale-badge">Không giảm giá</span>
+                </td>
+                <td>0</td>
+                <td class="aproducts-variants-list">
+                  <span>S/Xanh navy: 0</span>
+                  <span>M/Đen: 0</span>
+                </td>
+                <td>
+                  <span class="aproducts-status-badge aproducts-status-inactive"
+                    >Hết hàng</span
+                  >
+                </td>
+                <td class="aproducts-description">
+                  Quần tây nam thanh lịch, phù hợp sự kiện trang trọng.
+                </td>
+                <td>
+                  <button
+                    class="aproducts-btn aproducts-btn-primary"
+                    onclick="editProduct(6)"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="deleteProduct(6)"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="aproducts-pagination" id="pagination"></div>
+        </div>
+
+        <div class="aproducts-modal" id="productModal">
+          <div class="aproducts-modal-content">
+            <h2 id="modalTitle">Thêm sản phẩm mới</h2>
+            <div class="aproducts-form-group">
+              <label>Hình ảnh sản phẩm</label>
+              <input type="file" id="productImage" accept="image/*" />
+              <img
+                id="imagePreview"
+                class="aproducts-image-preview"
+                src="#"
+                alt="Image Preview"
+              />
+            </div>
+            <div class="aproducts-form-group">
+              <label>Tên sản phẩm</label>
+              <input
+                type="text"
+                id="productName"
+                placeholder="Nhập tên sản phẩm"
+              />
+            </div>
+            <div class="aproducts-form-group">
+              <label>Danh mục</label>
+              <select id="productCategory">
+                <option>Áo thun</option>
+                <option>Quần jeans</option>
+                <option>Váy</option>
+                <option>Áo sơ mi</option>
+                <option>Áo khoác</option>
+                <option>Quần tây</option>
+                <option>Áo hoodie</option>
+                <option>Áo polo</option>
+                <option>Quần short</option>
+              </select>
+            </div>
+            <div class="aproducts-form-group">
+              <label>Giá</label>
+              <input
+                type="number"
+                id="productPrice"
+                placeholder="Nhập giá sản phẩm"
+                min="0"
+              />
+            </div>
+            <div class="aproducts-form-group">
+              <label>Sale (%)</label>
+              <input
+                type="number"
+                id="productSale"
+                placeholder="Nhập phần trăm giảm giá (0 nếu không giảm)"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="aproducts-form-group">
+              <label>Số lượng trong kho</label>
+              <input
+                type="number"
+                id="productStock"
+                placeholder="Nhập số lượng"
+                min="0"
+              />
+            </div>
+            <div class="aproducts-form-group">
+              <label>Mô tả</label>
+              <textarea
+                id="productDescription"
+                placeholder="Nhập mô tả sản phẩm"
+              ></textarea>
+            </div>
+            <div class="aproducts-form-group">
+              <label>Biến thể</label>
+              <div class="aproducts-variant-group" id="variantContainer">
+                <div class="aproducts-variant-item">
+                  <input
+                    type="text"
+                    placeholder="Kích thước"
+                    class="variant-size"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Màu sắc"
+                    class="variant-color"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Số lượng"
+                    class="variant-quantity"
+                    min="0"
+                  />
+                  <button
+                    class="aproducts-btn aproducts-btn-outline"
+                    onclick="removeVariant(this)"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+              <button
+                class="aproducts-btn aproducts-btn-primary"
+                onclick="addVariant()"
+              >
+                Thêm biến thể
+              </button>
+            </div>
+            <div class="aproducts-modal-actions">
+              <button
+                class="aproducts-btn aproducts-btn-outline"
+                onclick="closeModal()"
+              >
+                Hủy
+              </button>
+              <button
+                class="aproducts-btn aproducts-btn-primary"
+                onclick="saveProduct()"
+              >
+                Lưu
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="aproducts-modal" id="confirmModal">
+          <div class="aproducts-modal-content">
+            <h2>Xác nhận chuyển trang</h2>
+            <p>
+              Bạn có chắc muốn chuyển sang trang khác? Các thay đổi chưa lưu sẽ
+              bị mất.
+            </p>
+            <div class="aproducts-modal-actions">
+              <button
+                class="aproducts-btn aproducts-btn-outline"
+                onclick="closeConfirmModal()"
+              >
+                Hủy
+              </button>
+              <button
+                class="aproducts-btn aproducts-btn-primary"
+                id="confirmNavigateBtn"
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let pendingNavigation = null;
+      let currentPage = 1;
+      const productsPerPage = 5;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebarItems = document.querySelectorAll(
+          ".aproducts-sidebar-item"
+        );
+        sidebarItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (
+              document.getElementById("productModal").style.display === "flex"
+            ) {
+              pendingNavigation = { type: "sidebar", element: this };
+              openConfirmModal();
+            } else {
+              sidebarItems.forEach((i) =>
+                i.classList.remove("aproducts-active")
+              );
+              this.classList.add("aproducts-active");
+              window.location.href = this.getAttribute("href");
+            }
+          });
+        });
+
+        // Image preview handler
+        document
+          .getElementById("productImage")
+          .addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                const preview = document.getElementById("imagePreview");
+                preview.src = e.target.result;
+                preview.style.display = "block";
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+        // Filter and pagination handlers
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const statusFilter = document.getElementById("statusFilter");
+        const saleFilter = document.getElementById("saleFilter");
+        const minPrice = document.getElementById("minPrice");
+        const maxPrice = document.getElementById("maxPrice");
+
+        function applyFiltersAndPaginate() {
+          const searchTerm = searchInput.value.toLowerCase();
+          const selectedCategory = categoryFilter.value;
+          const selectedStatus = statusFilter.value;
+          const selectedSale = saleFilter.value;
+          const minPriceValue = parseFloat(minPrice.value) || 0;
+          const maxPriceValue = parseFloat(maxPrice.value) || Infinity;
+
+          const products = Array.from(
+            document.querySelectorAll("#productTableBody tr")
+          );
+          const filteredProducts = products.filter((product) => {
+            const name = product.cells[1].textContent.toLowerCase();
+            const description = product.cells[8].textContent.toLowerCase();
+            const category = product.cells[2].textContent;
+            const price = parseFloat(product.getAttribute("data-price"));
+            const sale = parseFloat(product.getAttribute("data-sale"));
+            const status = product.cells[7].textContent;
+
+            const matchesSearch =
+              searchTerm === "" ||
+              name.includes(searchTerm) ||
+              description.includes(searchTerm);
+            const matchesCategory =
+              selectedCategory === "" || category === selectedCategory;
+            const matchesStatus =
+              selectedStatus === "" || status === selectedStatus;
+            const matchesSale =
+              selectedSale === "" ||
+              (selectedSale === "Có giảm giá" && sale > 0) ||
+              (selectedSale === "Không giảm giá" && sale === 0);
+            const matchesPrice =
+              price >= minPriceValue && price <= maxPriceValue;
+
+            return (
+              matchesSearch &&
+              matchesCategory &&
+              matchesStatus &&
+              matchesSale &&
+              matchesPrice
+            );
+          });
+
+          // Update pagination
+          const totalPages = Math.ceil(
+            filteredProducts.length / productsPerPage
+          );
+          updatePagination(totalPages);
+
+          // Show products for current page
+          filteredProducts.forEach((product, index) => {
+            const pageIndex = Math.floor(index / productsPerPage) + 1;
+            product.style.display = pageIndex === currentPage ? "" : "none";
+          });
+        }
+
+        function updatePagination(totalPages) {
+          const pagination = document.getElementById("pagination");
+          pagination.innerHTML = "";
+          for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.className = `aproducts-pagination-btn ${
+              i === currentPage ? "active" : ""
+            }`;
+            btn.textContent = i;
+            btn.addEventListener("click", () => {
+              currentPage = i;
+              applyFiltersAndPaginate();
+            });
+            pagination.appendChild(btn);
+          }
+        }
+
+        searchInput.addEventListener("input", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+        categoryFilter.addEventListener("change", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+        statusFilter.addEventListener("change", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+        saleFilter.addEventListener("change", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+        minPrice.addEventListener("input", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+        maxPrice.addEventListener("input", () => {
+          currentPage = 1;
+          applyFiltersAndPaginate();
+        });
+
+        // Initial filter and pagination
+        applyFiltersAndPaginate();
+      });
+
+      function openModal() {
+        document.getElementById("productModal").style.display = "flex";
+        document.getElementById("modalTitle").textContent = "Thêm sản phẩm mới";
+        document.getElementById("productName").value = "";
+        document.getElementById("productCategory").value = "Áo thun";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("productSale").value = "0";
+        document.getElementById("productStock").value = "";
+        document.getElementById("productDescription").value = "";
+        document.getElementById("imagePreview").style.display = "none";
+        document.getElementById("productImage").value = "";
+        const variantContainer = document.getElementById("variantContainer");
+        variantContainer.innerHTML = `
+                <div class="aproducts-variant-item">
+                    <input type="text" placeholder="Kích thước" class="variant-size">
+                    <input type="text" placeholder="Màu sắc" class="variant-color">
+                    <input type="number" placeholder="Số lượng" class="variant-quantity" min="0">
+                    <button class="aproducts-btn aproducts-btn-outline" onclick="removeVariant(this)">X</button>
+                </div>
+            `;
+      }
+
+      function closeModal() {
+        document.getElementById("productModal").style.display = "none";
+      }
+
+      function openConfirmModal() {
+        document.getElementById("confirmModal").style.display = "flex";
+      }
+
+      function closeConfirmModal() {
+        document.getElementById("confirmModal").style.display = "none";
+        pendingNavigation = null;
+      }
+
+      function addVariant() {
+        const variantContainer = document.getElementById("variantContainer");
+        const variantItem = document.createElement("div");
+        variantItem.className = "aproducts-variant-item";
+        variantItem.innerHTML = `
+                <input type="text" placeholder="Kích thước" class="variant-size">
+                <input type="text" placeholder="Màu sắc" class="variant-color">
+                <input type="number" placeholder="Số lượng" class="variant-quantity" min="0">
+                <button class="aproducts-btn aproducts-btn-outline" onclick="removeVariant(this)">X</button>
+            `;
+        variantContainer.appendChild(variantItem);
+      }
+
+      function removeVariant(button) {
+        if (document.querySelectorAll(".aproducts-variant-item").length > 1) {
+          button.parentElement.remove();
+        }
+      }
+
+      function saveProduct() {
+        // Placeholder for Laravel backend integration
+        // Simulate adding a new product to demonstrate pagination
+        const productTableBody = document.getElementById("productTableBody");
+        const newId = productTableBody.children.length + 1;
+        const newRow = document.createElement("tr");
+        newRow.setAttribute("data-id", newId);
+        newRow.setAttribute("data-sale", "0");
+        newRow.setAttribute("data-price", "300000");
+        newRow.setAttribute(
+          "data-variants",
+          '[{"size":"M","color":"Xanh","quantity":10}]'
+        );
+        newRow.innerHTML = `
+                <td><img class="aproducts-product-image" src="https://via.placeholder.com/48" alt="Sản phẩm mới"></td>
+                <td>Sản phẩm mới</td>
+                <td>Áo thun</td>
+                <td>300.000đ</td>
+                <td><span class="aproducts-sale-badge">Không giảm giá</span></td>
+                <td>10</td>
+                <td class="aproducts-variants-list"><span>M/Xanh: 10</span></td>
+                <td><span class="aproducts-status-badge aproducts-status-active">Còn hàng</span></td>
+                <td class="aproducts-description">Sản phẩm mới thêm vào.</td>
+                <td>
+                    <button class="aproducts-btn aproducts-btn-primary" onclick="editProduct(${newId})">Sửa</button>
+                    <button class="aproducts-btn aproducts-btn-outline" onclick="deleteProduct(${newId})">Xóa</button>
+                </td>
+            `;
+        productTableBody.appendChild(newRow);
+        currentPage = 1; // Reset to first page
+        applyFiltersAndPaginate();
+        closeModal();
+      }
+
+      function editProduct(id) {
+        // Placeholder for Laravel backend integration
+        openModal();
+        document.getElementById("modalTitle").textContent = "Sửa sản phẩm";
+      }
+
+      function deleteProduct(id) {
+        // Placeholder for Laravel backend integration
+        if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
+          const product = document.querySelector(`tr[data-id="${id}"]`);
+          if (product) {
+            product.remove();
+            currentPage = 1; // Reset to first page
+            applyFiltersAndPaginate();
+          }
+        }
+      }
+
+      document
+        .getElementById("confirmNavigateBtn")
+        .addEventListener("click", () => {
+          if (pendingNavigation && pendingNavigation.type === "sidebar") {
+            const sidebarItems = document.querySelectorAll(
+              ".aproducts-sidebar-item"
+            );
+            sidebarItems.forEach((i) => i.classList.remove("aproducts-active"));
+            pendingNavigation.element.classList.add("aproducts-active");
+            window.location.href =
+              pendingNavigation.element.getAttribute("href");
+          }
+          closeConfirmModal();
+          closeModal();
+        });
+    </script>
+  </body>
+</html>

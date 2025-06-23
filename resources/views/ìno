@@ -1,0 +1,298 @@
+@extends('app')
+
+@section('body')
+    <div class="user-info-body">
+        <div class="user-info-container">
+            <div class="user-info-profile-content">
+                <section class="user-info-profile-section">
+                    <div class="user-info-section-header">
+                        <h2 class="user-info-section-title"><i class="fas fa-user-circle"></i> Thông tin cá nhân</h2>
+                        <button class="user-info-edit-btn" data-section="personal"><i class="fas fa-edit"></i> Chỉnh
+                            sửa</button>
+                    </div>
+                    <div class="user-info-section-content">
+                        <div class="user-info-grid">
+                            <div class="user-info-row">
+                                <span class="user-info-label"><i class="fas fa-user"></i> Họ và tên:</span>
+                                <span class="user-info-value"
+                                    id="user-info-fullname-value">{{ $user->name ?? 'Chưa cập nhật' }}</span>
+                            </div>
+                            <div class="user-info-row">
+                                <span class="user-info-label"><i class="fas fa-envelope"></i> Email:</span>
+                                <span class="user-info-value"
+                                    id="user-info-email-value">{{ $user->email ?? 'Chưa cập nhật' }}</span>
+                            </div>
+                            <div class="user-info-row">
+                                <span class="user-info-label"><i class="fas fa-phone"></i> Số điện thoại:</span>
+                                <span class="user-info-value" id="user-info-phone-value">
+                                    0{{ $user->phone ?? 'Chưa cập nhật' }}</span>
+                            </div>
+                            {{-- <div class="user-info-row">
+                                <span class="user-info-label"><i class="fas fa-birthday-cake"></i> Đổi mật khẩu:</span>
+                                <input class="user-info-value" id="user-info-birthday-value" type="button" value="Đổi mật khẩu">
+                            </div> --}}
+                        </div>
+                    </div>
+                </section>
+
+                <section class="user-info-profile-section">
+                    <div class="user-info-section-header">
+                        <h2 class="user-info-section-title"><i class="fas fa-map-marker-alt"></i> Địa chỉ</h2>
+                        <button class="user-info-edit-btn" data-section="address"><i class="fas fa-plus"></i> Thêm địa
+                            chỉ</button>
+                    </div>
+                    <div class="user-info-section-content">
+                        @foreach ($addresses as $addresses)
+                            <div class="user-info-address-list" id="user-info-address-list">
+                                <div class="user-info-address-item" data-address-id="{{ $addresses->id }}">
+                                    <span class="user-info-value">{{ $addresses->address ?? 'Chưa cập nhật' }} / {{ $addresses->ward ?? 'Chưa cập nhật' }} / {{ $addresses->district ?? 'Chưa cập nhật' }} <br> {{ $addresses->province ?? 'Chưa cập nhật' }}</span>
+                                    <div class="user-info-address-actions">
+                                        <button class="user-info-address-edit-btn" data-address-id="{{ $addresses->id }}"><i
+                                                class="fas fa-edit"></i> Sửa</button>
+                                        <button class="user-info-address-delete-btn"
+                                            data-address-id="{{ $addresses->id }}"><i class="fas fa-trash"></i> Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+                <section class="user-info-profile-section user-info-orders-section">
+                    <div class="user-info-section-header">
+                        <h2 class="user-info-section-title"><i class="fas fa-shopping-bag"></i> Đơn hàng gần đây</h2>
+                    </div>
+                    <div class="user-info-section-content">
+                        <div class="user-info-orders-list">
+                            <div class="user-info-order-item">
+                                <div class="user-info-order-header">
+                                    <span class="user-info-order-id">#DH12345</span>
+                                    <span class="user-info-order-date">15/05/2023</span>
+                                    <span class="user-info-order-status user-info-order-status-delivered">Đã giao</span>
+                                </div>
+                                <div class="user-info-order-details">
+                                    <div class="user-info-order-products">
+                                        Áo thun nam (x1), Quần jean (x2)
+                                    </div>
+                                    <div class="user-info-order-total">
+                                        1,250,000₫
+                                    </div>
+                                </div>
+                                <div class="user-info-order-actions">
+                                    <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i
+                                            class="fas fa-eye"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+
+                            <div class="user-info-order-item">
+                                <div class="user-info-order-header">
+                                    <span class="user-info-order-id">#DH12344</span>
+                                    <span class="user-info-order-date">10/05/2023</span>
+                                    <span class="user-info-order-status user-info-order-status-shipping">Đang giao</span>
+                                </div>
+                                <div class="user-info-order-details">
+                                    <div class="user-info-order-products">
+                                        Giày thể thao (x1), Tất (x3)
+                                    </div>
+                                    <div class="user-info-order-total">
+                                        850,000₫
+                                    </div>
+                                </div>
+                                <div class="user-info-order-actions">
+                                    <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i
+                                            class="fas fa-eye"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+
+                            <div class="user-info-order-item">
+                                <div class="user-info-order-header">
+                                    <span class="user-info-order-id">#DH12340</span>
+                                    <span class="user-info-order-date">05/05/2023</span>
+                                    <span class="user-info-order-status user-info-order-status-cancelled">Đã hủy</span>
+                                </div>
+                                <div class="user-info-order-details">
+                                    <div class="user-info-order-products">
+                                        Ba lô du lịch (x1), Mũ lưỡi trai (x2)
+                                    </div>
+                                    <div class="user-info-order-total">
+                                        620,000₫
+                                    </div>
+                                </div>
+                                <div class="user-info-order-actions">
+                                    <a style="text-decoration: none" class="user-info-order-detail-btn" href="info-ctdh"><i
+                                            class="fas fa-eye"></i> Xem chi tiết</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Edit Personal Info Modal -->
+        <div class="user-info-modal" id="user-info-personal-modal">
+            <div class="user-info-modal-content">
+                <button class="user-info-close-btn" aria-label="Close">×</button>
+                <h2 class="user-info-modal-title">Chỉnh sửa thông tin cá nhân</h2>
+
+                <form action="{{'/suainfo/' . $user->id}}" method="post" id="user-info-personal-form">
+                    @csrf
+                    <div class="user-info-form-group">
+                        <div class="user-info-input-group">
+                            <label for="user-info-edit-fullname" class="user-info-input-label">Họ và tên:</label>
+                            <input type="text" id="user-info-edit-fullname" name="fullname"
+                                placeholder="{{ $user->name ?? 'Chưa cập nhật' }}" class="user-info-input">
+                        </div>
+                        <div class="user-info-input-group">
+                            <label for="user-info-edit-email" class="user-info-input-label">Email:</label>
+                            <input type="email" id="user-info-edit-email" name="email"
+                                placeholder="{{ $user->email ?? 'Chưa cập nhật' }}" class="user-info-input">
+                        </div>
+                        <div class="user-info-input-group">
+                            <label for="user-info-edit-phone" class="user-info-input-label">Số điện thoại:</label>
+                            <input type="tel" id="user-info-edit-phone" name="phone"
+                                placeholder="0{{ $user->phone ?? 'Chưa cập nhật' }}" class="user-info-input">
+                        </div>
+                    </div>
+
+                    <div class="user-info-form-actions">
+                        <button type="button" class="user-info-cancel-btn">Hủy</button>
+                        <button type="submit" class="user-info-save-btn">
+                            <span class="user-info-btn-text">Lưu thay đổi</span>
+                            <span class="user-info-spinner" style="display: none;"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Address Modal -->
+        <div class="user-info-modal" id="user-info-address-modal">
+            <div class="user-info-modal-content">
+                <button class="user-info-close-btn" aria-label="Close">×</button>
+                <h2 class="user-info-modal-title" id="address-modal-title">Thêm địa chỉ mới</h2>
+
+                <form action="{{'/themaddress/'. $user->id}}" method="post" id="user-info-address-form">
+                    @csrf
+                    <div class="user-info-form-group">
+                        <div class="user-info-input-group">
+                            <label for="user-info-edit-address" class="user-info-input-label">Địa chỉ:</label>
+                            <textarea id="user-info-edit-address" name="address" rows="3" placeholder="Nhập địa chỉ của bạn"
+                                class="user-info-textarea"></textarea>
+                            <input type="hidden" id="user-info-edit-address-id" name="address_id">
+                        </div>
+                    </div>
+
+                    <div class="user-info-form-actions">
+                        <button type="button" class="user-info-cancel-btn">Hủy</button>
+                        <button type="button" class="user-info-add-address-btn" id="user-info-add-address-btn" style="display: none;">Thêm địa chỉ mới</button>
+                        <button type="submit" class="user-info-save-btn">
+                            <span class="user-info-btn-text">Lưu thay đổi</span>
+                            <span class="user-info-spinner" style="display: none;"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="user-info-toast" id="user-info-toast">
+            <i class="fas fa-check-circle user-info-toast-icon"></i>
+            <span class="user-info-toast-message">Cập nhật thông tin thành công!</span>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const personalModal = document.getElementById('user-info-personal-modal');
+            const addressModal = document.getElementById('user-info-address-modal');
+            const addressIdInput = document.getElementById('user-info-edit-address-id');
+            const addressTextarea = document.getElementById('user-info-edit-address');
+            const addAddressBtn = document.getElementById('user-info-add-address-btn');
+            const addressModalTitle = document.getElementById('address-modal-title');
+
+            // Helper functions
+            const showModal = (modal) => {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const hideModal = (modal) => {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            };
+
+            const resetAddressForm = () => {
+                if (addressIdInput) addressIdInput.value = '';
+                if (addressTextarea) addressTextarea.value = '';
+                addAddressBtn.style.display = 'none';
+            };
+
+            // Event handlers
+            const handlePersonalEditClick = () => {
+                showModal(personalModal);
+            };
+
+            const handleAddAddressClick = () => {
+                resetAddressForm();
+                addressModalTitle.textContent = 'Thêm địa chỉ mới';
+                showModal(addressModal);
+            };
+
+            const handleAddressEditClick = (button) => {
+                const addressItem = button.closest('.user-info-address-item');
+                const addressId = addressItem?.dataset.addressId;
+                const addressText = addressItem?.querySelector('.user-info-value')?.textContent.trim() || '';
+
+                if (addressIdInput && addressId) addressIdInput.value = addressId;
+                if (addressTextarea) addressTextarea.value = addressText;
+
+                addressModalTitle.textContent = 'Chỉnh sửa địa chỉ';
+                addAddressBtn.style.display = 'inline-flex';
+                showModal(addressModal);
+            };
+
+            // Event listeners
+            document.querySelectorAll('.user-info-edit-btn[data-section="personal"]').forEach(button => {
+                button.addEventListener('click', handlePersonalEditClick);
+            });
+
+            document.querySelectorAll('.user-info-edit-btn[data-section="address"]').forEach(button => {
+                button.addEventListener('click', handleAddAddressClick);
+            });
+
+            document.querySelectorAll('.user-info-address-edit-btn').forEach(button => {
+                button.addEventListener('click', () => handleAddressEditClick(button));
+            });
+
+            // Close buttons
+            document.querySelectorAll('.user-info-close-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.user-info-modal');
+                    hideModal(modal);
+                });
+            });
+
+            // Cancel buttons
+            document.querySelectorAll('.user-info-cancel-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.user-info-modal');
+                    hideModal(modal);
+                });
+            });
+
+            // Add new address button in address modal
+            addAddressBtn.addEventListener('click', function() {
+                resetAddressForm();
+                addressModalTitle.textContent = 'Thêm địa chỉ mới';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target.classList.contains('user-info-modal')) {
+                    hideModal(event.target);
+                }
+            });
+        });
+    </script>
+@endsection
