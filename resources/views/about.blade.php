@@ -23,29 +23,37 @@
     </section>
 
     <section class="about_sec">
-        <h2>Triết Lý Thiết Kế</h2>
-        <div class="philosophy-section">
-            <div class="philosophy-card">
-                <h3>Minimalism</h3>
-                <p>Là một phong cách trong nghệ thuật, thiết kế, và thậm chí trong lối sống, tập trung vào việc đơn giản hóa
-                    mọi thứ, giảm thiểu sự phức tạp. Ý tưởng chính là chỉ sử dụng những yếu tố cần thiết và loại bỏ sự dư
-                    thừa. Chủ nghĩa tối giản có thể áp dụng cho các tác phẩm nghệ thuật, nội thất, trang phục hoặc thậm chí
-                    là cách sống.</p>
+    <h2>Triết Lý Thiết Kế</h2>
+    <div class="philosophy-section">
+        <div class="philosophy-card">
+            <div class="philosophy-image">
+                <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Minimalism Design">
             </div>
-            <div class="philosophy-card">
-                <h3>Artistic</h3>
-                <p>Mang tính nghệ thuật, liên quan đến sáng tạo, thẩm mỹ hoặc các biểu hiện nghệ thuật. Từ này mô tả những
-                    thứ đẹp mắt, có sự sáng tạo, hoặc thể hiện cảm xúc và suy nghĩ của con người qua hình thức nghệ thuật
-                    (như tranh vẽ, âm nhạc, văn học, điêu khắc, v.v.).</p>
-            </div>
-            <div class="philosophy-card">
-                <h3>Glamorous</h3>
-                <p>Mô tả sự quyến rũ, sang trọng, và nổi bật. Một cái gì đó "glamorous" thường mang lại cảm giác lôi cuốn,
-                    đẳng cấp, và có vẻ ngoài rất thu hút, thường là trong bối cảnh thời trang, điện ảnh, hoặc các sự kiện
-                    lớn.</p>
-            </div>
+            <h3>Minimalism</h3>
+            <p>Là một phong cách trong nghệ thuật, thiết kế, và thậm chí trong lối sống, tập trung vào việc đơn giản hóa
+                mọi thứ, giảm thiểu sự phức tạp. Ý tưởng chính là chỉ sử dụng những yếu tố cần thiết và loại bỏ sự dư
+                thừa.</p>
         </div>
-    </section>
+        <div class="philosophy-card">
+            <div class="philosophy-image">
+                <img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Artistic Design">
+            </div>
+            <h3>Artistic</h3>
+            <p>Mang tính nghệ thuật, liên quan đến sáng tạo, thẩm mỹ hoặc các biểu hiện nghệ thuật. Từ này mô tả những
+                thứ đẹp mắt, có sự sáng tạo, hoặc thể hiện cảm xúc và suy nghĩ của con người qua hình thức nghệ thuật.</p>
+        </div>
+        <div class="philosophy-card">
+            <div class="philosophy-image">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Glamorous Design">
+            </div>
+            <h3>Glamorous</h3>
+            <p>Mô tả sự quyến rũ, sang trọng, và nổi bật. Một cái gì đó "glamorous" thường mang lại cảm giác lôi cuốn,
+                đẳng cấp, và có vẻ ngoài rất thu hút, thường là trong bối cảnh thời trang, điện ảnh, hoặc các sự kiện
+                lớn.</p>
+        </div>
+    </div>
+</section>
+
 
     <section class="about_sec">
         <h2>Lý Do Thành Lập</h2>

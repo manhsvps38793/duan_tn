@@ -36,20 +36,20 @@
                         <label for="fullname" class="tt-label">Họ và tên</label>
                         <input type="text" id="fullname"
                             value="{{ old('fullname', Auth::check() ? Auth::user()->name : '') }}" name="fullname"
-                            class="tt-input" required>
+                            class="tt-input" {{Auth::check() ? 'disabled' : ''}}  required>
                     </div>
 
                     <div class="tt-form-row">
                         <div class="tt-form-group">
                             <label for="email" class="tt-label">Email</label>
                             <input type="email" id="email" name="email" class="tt-input"
-                                value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" required>
+                                value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" {{Auth::check() ? 'disabled' : ''}} required>
                         </div>
 
                         <div class="tt-form-group">
                             <label for="phone" class="tt-label">Số điện thoại</label>
                             <input type="tel" id="phone" name="phone" class="tt-input"
-                                value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}" required>
+                                value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}" {{Auth::check() ? 'disabled' : ''}} required>
                         </div>
                     </div>
 
@@ -85,9 +85,21 @@
                         {{-- <input type="text" id="address" class="tt-input" required> --}}
 
                         @if(Auth::check())
-                            <input type="text" id="address" class="tt-input"
-                                value="{{ Auth::user()->addresses->first()->address ?? ''}}, {{ Auth::user()->addresses->first()->ward ?? ''}}, {{ Auth::user()->addresses->first()->district ?? ''}}, {{ Auth::user()->addresses->first()->province }}"
-                                name="address" required>
+                            <select id="address" name="address" class="tt-input" required>
+                                @forelse($address as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->address }}, {{ $item->ward }}, {{ $item->district }}, {{ $item->province }}
+                                    </option>
+                                @empty
+                                    <option value="">Chưa có địa chỉ, vui lòng thêm mới</option>
+                                @endforelse
+                            </select>
+                            <a href="{{route('user')}}">Thêm địa chỉ mới</a>
+                                <div class="alert alert-warning">
+                                    <strong>Lưu ý:</strong>Vui lòng cập nhật địa chỉ chính xác để thanh toán!
+                                    để thanh toán.
+                                </div>
+
                         @else
                             <input type="text" id="address" name="address" class="tt-input" required>
 
@@ -158,7 +170,9 @@
                         <span>Tổng cộng:</span>
                         <span>{{ number_format($total) }}đ</span>
                     </div>
-
+                    @if (session('error'))
+                        <div class="alert alert-danger" style="margin: 10px 0; color: red;">{{ session('error') }}</div>
+                    @endif
                     <button type="submit" class="tt-checkout-btn">HOÀN TẤT ĐƠN HÀNG</button>
 
                     <div class="tt-terms">
@@ -180,7 +194,7 @@
                 citySelect.name = 'city';
                 districtSelect.name = 'district';
                 wardSelect.name = 'ward';
-                
+
                 fetch('https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1')
                     .then(response => response.json())
                     .then(data => {
@@ -193,10 +207,14 @@
                                 citySelect.appendChild(option);
                             });
 
-                            @if (Auth::check() && $address ?? null)
+                            @if (!Auth::check() && isset($address) && $address->isNotEmpty())  
+                                @php
+                                    $defaultAddress = $address->firstWhere('is_default', true) ?? $address->first();
+                                @endphp
                                 citySelect.value = '{{ $address->province }}';
                                 districtSelect.value = '{{ $address->district }}';
                                 wardSelect.value = '{{ $address->ward }}';
+
                                 citySelect.dispatchEvent(new Event('change'));
                                 setTimeout(() => {
                                     districtSelect.value = '{{ $address->district }}';
@@ -205,8 +223,10 @@
                                         wardSelect.value = '{{ $address->ward }}';
                                     }, 500);
                                 }, 500);
+                            @else
+                                console.warn("Không có địa chỉ hợp lệ hoặc người dùng chưa đăng nhập.");
                             @endif
-                                                                        } else {
+                                                        } else {
                             console.error('Expected an array but got:', provinces);
                         }
                     })

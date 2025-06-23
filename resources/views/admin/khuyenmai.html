@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Khuyến Mãi - Cửa Hàng Thời Trang</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --secondary-color: #f9fafb;
+        --success-color: #22c55e;
+        --danger-color: #ef4444;
+        --light-color: #ffffff;
+        --border-color: #e5e7eb;
+        --text-color: #374151;
+        --text-muted: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+      }
+      .apromotions-container {
+        display: flex;
+        min-height: 100vh;
+      }
+      .apromotions-sidebar {
+        width: 280px;
+        background-color: var(--light-color);
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease;
+      }
+      .apromotions-sidebar-header {
+        padding: 0 1.5rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+      .apromotions-sidebar-header h2 {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .apromotions-sidebar-header h2 i {
+        font-size: 1.5rem;
+      }
+      .apromotions-sidebar-section {
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+      .apromotions-sidebar-section h3 {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .apromotions-sidebar-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .apromotions-sidebar-item i {
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1rem;
+      }
+      .apromotions-sidebar-item:hover {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        transform: translateX(0.25rem);
+      }
+      .apromotions-sidebar-item.apromotions-active {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+      .apromotions-main-content {
+        flex: 1;
+        padding: 2rem;
+        background-color: var(--secondary-color);
+      }
+      .apromotions-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+      .apromotions-search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-color);
+        border-radius: 0.5rem;
+        padding: 0.5rem 1rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+      .apromotions-search-bar:hover {
+        box-shadow: var(--shadow-md);
+      }
+      .apromotions-search-bar input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        background: transparent;
+      }
+      .apromotions-search-bar i {
+        color: var(--text-muted);
+        margin-right: 0.5rem;
+      }
+      .apromotions-user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .apromotions-notification-bell {
+        position: relative;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+      .apromotions-notification-bell:hover {
+        color: var(--primary-color);
+      }
+      .apromotions-profile-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+      .apromotions-page-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+      }
+      .apromotions-page-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+      .apromotions-actions-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1.5rem;
+      }
+      .apromotions-form-group {
+        margin-bottom: 1.25rem;
+      }
+      .apromotions-form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+      }
+      .apromotions-form-group input,
+      .apromotions-form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        font-size: 0.9rem;
+      }
+      .apromotions-form-group select[multiple] {
+        height: 120px;
+        padding: 0.5rem;
+      }
+      .apromotions-form-group select[multiple] option {
+        padding: 0.5rem;
+      }
+      .apromotions-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+      }
+      .apromotions-btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      .apromotions-btn-primary:hover {
+        background-color: #4338ca;
+      }
+      .apromotions-btn-danger {
+        background-color: var(--danger-color);
+        color: white;
+      }
+      .apromotions-btn-danger:hover {
+        background-color: #dc2626;
+      }
+      .apromotions-btn-secondary {
+        background-color: var(--border-color);
+        color: var(--text-color);
+      }
+      .apromotions-btn-secondary:hover {
+        background-color: #d1d5db;
+      }
+      .apromotions-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+      .apromotions-modal-content {
+        background: var(--light-color);
+        padding: 2rem;
+        border-radius: 0.5rem;
+        width: 100%;
+        max-width: 600px;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .apromotions-modal-content h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+      .apromotions-modal-close {
+        position: sticky;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        float: right;
+      }
+      .apromotions-modal-close:hover {
+        color: var(--primary-color);
+      }
+      .apromotions-promotion-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        background: var(--light-color);
+        box-shadow: var(--shadow-sm);
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+      .apromotions-promotion-table th,
+      .apromotions-promotion-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .apromotions-promotion-table th {
+        background: var(--secondary-color);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+      }
+      .apromotions-promotion-table td {
+        font-size: 0.9rem;
+      }
+      .apromotions-promotion-table tr.visible {
+        display: table-row;
+      }
+      .apromotions-promotion-table .product-cell {
+        max-width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .apromotions-promotion-table .product-cell:hover::after {
+        content: attr(data-full);
+        position: absolute;
+        background: var(--light-color);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        z-index: 10;
+        max-width: 300px;
+        white-space: normal;
+      }
+      .apromotions-promotion-table tr:hover {
+        background: rgba(79, 70, 229, 0.05);
+      }
+      .apromotions-promotion-table .status-active {
+        color: var(--success-color);
+        font-weight: 500;
+      }
+      .apromotions-promotion-table .status-inactive {
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      .apromotions-promotion-table .actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .apromotions-promotion-table .actions button {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+      .apromotions-pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .apromotions-pagination-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.375rem;
+        background: var(--light-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .apromotions-pagination-btn:hover {
+        background: var(--primary-color);
+        color: white;
+      }
+      .apromotions-pagination-btn.active {
+        background: var(--primary-color);
+        color: white;
+        font-weight: 600;
+      }
+      .apromotions-pagination-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+      .apromotions-modal-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+      }
+      .error-message {
+        color: var(--danger-color);
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+        display: none;
+      }
+      @media (max-width: 1024px) {
+        .apromotions-sidebar {
+          width: 80px;
+        }
+        .apromotions-sidebar-header h2 span,
+        .apromotions-sidebar-item span,
+        .apromotions-sidebar-section h3 {
+          display: none;
+        }
+        .apromotions-sidebar-item {
+          justify-content: center;
+        }
+        .apromotions-promotion-table {
+          font-size: 0.8rem;
+        }
+        .apromotions-promotion-table th,
+        .apromotions-promotion-table td {
+          padding: 0.75rem;
+        }
+        .apromotions-promotion-table .product-cell {
+          max-width: 100px;
+        }
+      }
+      @media (max-width: 768px) {
+        .apromotions-container {
+          flex-direction: column;
+        }
+        .apromotions-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+        .apromotions-main-content {
+          padding: 1rem;
+        }
+        .apromotions-search-bar {
+          max-width: 100%;
+        }
+        .apromotions-modal-content {
+          width: 90%;
+          max-height: 80vh;
+        }
+        .apromotions-promotion-table {
+          display: block;
+          overflow-x: auto;
+        }
+        .apromotions-promotion-table th,
+        .apromotions-promotion-table td {
+          min-width: 120px;
+        }
+        .apromotions-actions-container {
+          justify-content: center;
+        }
+        .apromotions-promotion-table .product-cell {
+          max-width: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="apromotions-container">
+      <div class="apromotions-sidebar">
+        <div class="apromotions-sidebar-header">
+          <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+        </div>
+        <div class="apromotions-sidebar-section">
+          <h3>Bảng điều khiển</h3>
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-home"></i><span>Trang chủ</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-box-open"></i><span>Sản phẩm</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item apromotions-active"
+            ><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a
+          >
+        </div>
+        <div class="apromotions-sidebar-section">
+          <h3>Công cụ</h3>
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-warehouse"></i><span>Quản lý kho</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-images"></i><span>Hình ảnh sản phẩm</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-users"></i><span>Khách hàng</span></a
+          >
+        </div>
+        <div class="apromotions-sidebar-section">
+          <h3>Hệ thống</h3>
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-cog"></i><span>Cài đặt</span></a
+          >
+          <a href="#" class="apromotions-sidebar-item"
+            ><i class="fas fa-headset"></i><span>Hỗ trợ</span></a
+          >
+        </div>
+      </div>
+      <div class="apromotions-main-content">
+        <div class="apromotions-header">
+          <div class="apromotions-search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm khuyến mãi..."
+            />
+          </div>
+          <div class="apromotions-user-profile">
+            <div class="apromotions-notification-bell">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="apromotions-profile-avatar">QT</div>
+          </div>
+        </div>
+        <h1 class="apromotions-page-title">Quản lý khuyến mãi</h1>
+        <p class="apromotions-page-subtitle">
+          Tạo và quản lý các chương trình khuyến mãi
+        </p>
+        <div class="apromotions-actions-container">
+          <button
+            class="apromotions-btn apromotions-btn-primary"
+            id="createPromotionBtn"
+          >
+            Tạo khuyến mãi
+          </button>
+        </div>
+        <table class="apromotions-promotion-table" id="promotionTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên chương trình</th>
+              <th>Mã khuyến mãi</th>
+              <th>Giảm giá</th>
+              <th>Ngày bắt đầu</th>
+              <th>Ngày kết thúc</th>
+              <th>Sản phẩm</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="promotionList">
+            <tr>
+              <td>1</td>
+              <td>Khuyến mãi VIP</td>
+              <td>VIP2025</td>
+              <td>40%</td>
+              <td>2025-06-25</td>
+              <td>2025-07-05</td>
+              <td class="product-cell" data-full="Áo thun, Quần jeans">
+                Áo thun, Quần jeans
+              </td>
+              <td class="status-active">Kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="1"
+                  data-products="1,2"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="1"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Khuyến mãi lễ hội</td>
+              <td>FEST2025</td>
+              <td>35%</td>
+              <td>2025-06-28</td>
+              <td>2025-07-10</td>
+              <td class="product-cell" data-full="Áo khoác, Giày thể thao">
+                Áo khoác, Giày thể thao
+              </td>
+              <td class="status-inactive">Không kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="2"
+                  data-products="3,4"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="2"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Khuyến mãi hè</td>
+              <td>SUMMER2025</td>
+              <td>25%</td>
+              <td>2025-07-01</td>
+              <td>2025-08-01</td>
+              <td class="product-cell" data-full="Váy maxi, Sandal">
+                Váy maxi, Sandal
+              </td>
+              <td class="status-active">Kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="3"
+                  data-products="5,7"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="3"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Khuyến mãi Black Friday</td>
+              <td>BF2025</td>
+              <td>50%</td>
+              <td>2025-11-20</td>
+              <td>2025-11-30</td>
+              <td class="product-cell" data-full="Túi xách, Đồng hồ">
+                Túi xách, Đồng hồ
+              </td>
+              <td class="status-inactive">Không kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="4"
+                  data-products="6,8"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="4"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Khuyến mãi Tết</td>
+              <td>TET2026</td>
+              <td>30%</td>
+              <td>2026-01-15</td>
+              <td>2026-02-05</td>
+              <td class="product-cell" data-full="Áo dài, Giày cao gót">
+                Áo dài, Giày cao gót
+              </td>
+              <td class="status-inactive">Không kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="5"
+                  data-products="9,10"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="5"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Khuyến mãi sinh nhật</td>
+              <td>BDAY2025</td>
+              <td>20%</td>
+              <td>2025-06-10</td>
+              <td>2025-12-31</td>
+              <td class="product-cell" data-full="Phụ kiện, Mũ">
+                Phụ kiện, Mũ
+              </td>
+              <td class="status-active">Kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="6"
+                  data-products="11,12"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="6"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Khuyến mãi cuối năm</td>
+              <td>END2025</td>
+              <td>45%</td>
+              <td>2025-12-15</td>
+              <td>2025-12-31</td>
+              <td class="product-cell" data-full="Áo len, Khăn quàng">
+                Áo len, Khăn quàng
+              </td>
+              <td class="status-active">Kích hoạt</td>
+              <td class="actions">
+                <button
+                  class="apromotions-btn apromotions-btn-primary edit-btn"
+                  data-id="7"
+                  data-products="13,14"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </button>
+                <button
+                  class="apromotions-btn apromotions-btn-danger delete-btn"
+                  data-id="7"
+                >
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="apromotions-pagination" id="pagination"></div>
+      </div>
+      <div class="apromotions-modal" id="promotionModal">
+        <div class="apromotions-modal-content">
+          <span class="apromotions-modal-close" id="closeModal">×</span>
+          <h2 id="modalTitle">Tạo chương trình khuyến mãi</h2>
+          <div class="apromotions-form-group">
+            <label>Tên chương trình</label>
+            <input
+              type="text"
+              id="promotionName"
+              placeholder="Nhập tên chương trình"
+              required
+            />
+            <span class="error-message" id="promotionNameError"
+              >Vui lòng nhập tên chương trình</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Mã khuyến mãi</label>
+            <input
+              type="text"
+              id="promotionCode"
+              placeholder="Nhập mã khuyến mãi"
+              required
+            />
+            <span class="error-message" id="promotionCodeError"
+              >Vui lòng nhập mã khuyến mãi</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Giảm giá (%)</label>
+            <input
+              type="number"
+              id="promotionDiscount"
+              placeholder="Nhập phần trăm giảm giá"
+              min="0"
+              max="100"
+              required
+            />
+            <span class="error-message" id="promotionDiscountError"
+              >Vui lòng nhập giá trị từ 0 đến 100</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Ngày bắt đầu</label>
+            <input type="date" id="promotionStartDate" required />
+            <span class="error-message" id="promotionStartDateError"
+              >Vui lòng chọn ngày bắt đầu</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Ngày kết thúc</label>
+            <input type="date" id="promotionEndDate" required />
+            <span class="error-message" id="promotionEndDateError"
+              >Vui lòng chọn ngày kết thúc</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Sản phẩm áp dụng</label>
+            <select id="promotionProducts" multiple required>
+              <option value="1">Áo thun</option>
+              <option value="2">Quần jeans</option>
+              <option value="3">Áo khoác</option>
+              <option value="4">Giày thể thao</option>
+              <option value="5">Váy maxi</option>
+              <option value="6">Túi xách</option>
+              <option value="7">Sandal</option>
+              <option value="8">Đồng hồ</option>
+              <option value="9">Áo dài</option>
+              <option value="10">Giày cao gót</option>
+              <option value="11">Phụ kiện</option>
+              <option value="12">Mũ</option>
+              <option value="13">Áo len</option>
+              <option value="14">Khăn quàng</option>
+            </select>
+            <span class="error-message" id="promotionProductsError"
+              >Vui lòng chọn ít nhất một sản phẩm</span
+            >
+          </div>
+          <div class="apromotions-form-group">
+            <label>Trạng thái</label>
+            <select id="promotionStatus" required>
+              <option value="active">Kích hoạt</option>
+              <option value="inactive">Không kích hoạt</option>
+            </select>
+          </div>
+          <div class="apromotions-modal-actions">
+            <button
+              class="apromotions-btn apromotions-btn-primary"
+              id="submitPromotion"
+            >
+              Tạo
+            </button>
+            <button
+              class="apromotions-btn apromotions-btn-secondary"
+              id="cancelModal"
+            >
+              Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="apromotions-modal" id="deleteModal">
+        <div class="apromotions-modal-content">
+          <span class="apromotions-modal-close" id="closeDeleteModal">×</span>
+          <h2>Xác nhận xóa</h2>
+          <p id="deleteMessage">Bạn có chắc muốn xóa khuyến mãi này?</p>
+          <div class="apromotions-modal-actions">
+            <button
+              class="apromotions-btn apromotions-btn-danger"
+              id="confirmDelete"
+            >
+              Xóa
+            </button>
+            <button
+              class="apromotions-btn apromotions-btn-secondary"
+              id="cancelDelete"
+            >
+              Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebarItems = document.querySelectorAll(
+          ".apromotions-sidebar-item"
+        );
+        const createPromotionBtn =
+          document.getElementById("createPromotionBtn");
+        const promotionModal = document.getElementById("promotionModal");
+        const closeModal = document.getElementById("closeModal");
+        const cancelModal = document.getElementById("cancelModal");
+        const submitPromotion = document.getElementById("submitPromotion");
+        const deleteModal = document.getElementById("deleteModal");
+        const closeDeleteModal = document.getElementById("closeDeleteModal");
+        const cancelDelete = document.getElementById("cancelDelete");
+        const confirmDelete = document.getElementById("confirmDelete");
+        const promotionList = document.getElementById("promotionList");
+        const pagination = document.getElementById("pagination");
+        const searchInput = document.getElementById("searchInput");
+        const promotionRows = promotionList.querySelectorAll("tr");
+
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        let editingPromotionId = null;
+
+        // Xử lý active sidebar item
+        sidebarItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            sidebarItems.forEach((i) =>
+              i.classList.remove("apromotions-active")
+            );
+            this.classList.add("apromotions-active");
+          });
+        });
+
+        // Hàm validate form
+        function validateForm() {
+          let isValid = true;
+          const name = document.getElementById("promotionName").value.trim();
+          const code = document.getElementById("promotionCode").value.trim();
+          const discount = document.getElementById("promotionDiscount").value;
+          const startDate = document.getElementById("promotionStartDate").value;
+          const endDate = document.getElementById("promotionEndDate").value;
+          const products = Array.from(
+            document.getElementById("promotionProducts").selectedOptions
+          ).map((opt) => opt.value);
+
+          document.getElementById("promotionNameError").style.display = name
+            ? "none"
+            : "block";
+          document.getElementById("promotionCodeError").style.display = code
+            ? "none"
+            : "block";
+          document.getElementById("promotionDiscountError").style.display =
+            discount >= 0 && discount <= 100 ? "none" : "block";
+          document.getElementById("promotionStartDateError").style.display =
+            startDate ? "none" : "block";
+          document.getElementById("promotionEndDateError").style.display =
+            endDate ? "none" : "block";
+          document.getElementById("promotionProductsError").style.display =
+            products.length > 0 ? "none" : "block";
+
+          if (
+            !name ||
+            !code ||
+            !(discount >= 0 && discount <= 100) ||
+            !startDate ||
+            !endDate ||
+            products.length === 0
+          ) {
+            isValid = false;
+          }
+
+          return isValid;
+        }
+
+        // Mở modal tạo/chỉnh sửa
+        function openModal(isEdit = false, promotion = null) {
+          promotionModal.style.display = "flex";
+          document.getElementById("modalTitle").textContent = isEdit
+            ? "Chỉnh sửa chương trình khuyến mãi"
+            : "Tạo chương trình khuyến mãi";
+          editingPromotionId = isEdit ? promotion.id : null;
+
+          if (isEdit) {
+            document.getElementById("promotionName").value = promotion.name;
+            document.getElementById("promotionCode").value = promotion.code;
+            document.getElementById("promotionDiscount").value = parseInt(
+              promotion.discount
+            );
+            document.getElementById("promotionStartDate").value =
+              promotion.startDate;
+            document.getElementById("promotionEndDate").value =
+              promotion.endDate;
+            document.getElementById("promotionStatus").value = promotion.status;
+            const productSelect = document.getElementById("promotionProducts");
+            Array.from(productSelect.options).forEach((option) => {
+              option.selected = promotion.products.includes(option.value);
+            });
+            document.getElementById("submitPromotion").textContent = "Cập nhật";
+          } else {
+            document.getElementById("promotionName").value = "";
+            document.getElementById("promotionCode").value = "";
+            document.getElementById("promotionDiscount").value = "";
+            document.getElementById("promotionStartDate").value = "";
+            document.getElementById("promotionEndDate").value = "";
+            document.getElementById("promotionProducts").value = [];
+            document.getElementById("promotionStatus").value = "active";
+            document.getElementById("submitPromotion").textContent = "Tạo";
+          }
+          // Đảm bảo modal cuộn về đầu
+          document.querySelector(".apromotions-modal-content").scrollTop = 0;
+        }
+
+        function closeModalFunc() {
+          promotionModal.style.display = "none";
+          editingPromotionId = null;
+          document
+            .querySelectorAll(".error-message")
+            .forEach((error) => (error.style.display = "none"));
+        }
+
+        createPromotionBtn.addEventListener("click", () => openModal());
+        closeModal.addEventListener("click", closeModalFunc);
+        cancelModal.addEventListener("click", closeModalFunc);
+        promotionModal.addEventListener("click", (e) => {
+          if (e.target === promotionModal) closeModalFunc();
+        });
+
+        // Modal submit
+        submitPromotion.addEventListener("click", () => {
+          if (!validateForm()) return;
+          alert(
+            `Chức năng ${
+              editingPromotionId ? "chỉnh sửa" : "tạo"
+            } khuyến mãi chưa được triển khai vì dữ liệu tĩnh.`
+          );
+          closeModalFunc();
+        });
+
+        // Mở/đóng modal xóa
+        function openDeleteModal(id) {
+          deleteModal.style.display = "flex";
+          document.getElementById(
+            "deleteMessage"
+          ).textContent = `Bạn có chắc muốn xóa khuyến mãi ID ${id}?`;
+          confirmDelete.dataset.id = id;
+        }
+
+        function closeDeleteModalFunc() {
+          deleteModal.style.display = "none";
+        }
+
+        closeDeleteModal.addEventListener("click", closeDeleteModalFunc);
+        cancelDelete.addEventListener("click", closeDeleteModalFunc);
+        deleteModal.addEventListener("click", (e) => {
+          if (e.target === deleteModal) closeDeleteModalFunc();
+        });
+
+        confirmDelete.addEventListener("click", () => {
+          alert(
+            "Chức năng xóa khuyến mãi chưa được triển khai vì dữ liệu tĩnh."
+          );
+          closeDeleteModalFunc();
+        });
+
+        // Xử lý nút sửa và xóa
+        promotionRows.forEach((row) => {
+          const editBtn = row.querySelector(".edit-btn");
+          const deleteBtn = row.querySelector(".delete-btn");
+          const id = editBtn.dataset.id;
+
+          editBtn.addEventListener("click", () => {
+            const products = editBtn.dataset.products.split(",");
+            const promotion = {
+              id: id,
+              name: row.cells[1].textContent,
+              code: row.cells[2].textContent,
+              discount: row.cells[3].textContent.replace("%", ""),
+              startDate: row.cells[4].textContent,
+              endDate: row.cells[5].textContent,
+              products: products,
+              status: row.cells[7].classList.contains("status-active")
+                ? "active"
+                : "inactive",
+            };
+            openModal(true, promotion);
+          });
+
+          deleteBtn.addEventListener("click", () => openDeleteModal(id));
+        });
+
+        // Tìm kiếm khuyến mãi
+        searchInput.addEventListener("input", () => {
+          const searchTerm = searchInput.value.toLowerCase();
+          let visibleRows = 0;
+
+          promotionRows.forEach((row) => {
+            const name = row.cells[1].textContent.toLowerCase();
+            const code = row.cells[2].textContent.toLowerCase();
+            const products = row.cells[6].textContent.toLowerCase();
+            if (
+              searchTerm === "" ||
+              name.includes(searchTerm) ||
+              code.includes(searchTerm) ||
+              products.includes(searchTerm)
+            ) {
+              row.style.display = "";
+              visibleRows++;
+            } else {
+              row.style.display = "none";
+            }
+          });
+
+          console.log(
+            `Search term: "${searchTerm}", Visible rows: ${visibleRows}`
+          );
+          currentPage = 1;
+          renderPromotions(currentPage, visibleRows);
+          renderPagination(visibleRows);
+        });
+
+        // Hiển thị các hàng khuyến mãi theo trang
+        function renderPromotions(page, visibleRows) {
+          console.log(
+            `Rendering page ${page}, Total visible rows: ${visibleRows}`
+          );
+          const start = (page - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+          let visibleCount = 0;
+
+          promotionRows.forEach((row) => {
+            if (row.style.display !== "none") {
+              if (visibleCount >= start && visibleCount < end) {
+                row.classList.add("visible");
+                console.log(`Showing row ID: ${row.cells[0].textContent}`);
+              } else {
+                row.classList.remove("visible");
+              }
+              visibleCount++;
+            } else {
+              row.classList.remove("visible");
+            }
+          });
+
+          if (visibleRows === 0) {
+            promotionList.innerHTML =
+              '<tr><td colspan="9" style="text-align: center;">Không tìm thấy khuyến mãi nào.</td></tr>';
+            console.log("No promotions found, displaying empty message");
+          } else if (
+            promotionList.innerHTML.includes("Không tìm thấy khuyến mãi nào") &&
+            visibleRows > 0
+          ) {
+            // Restore original rows if search is cleared
+            location.reload(); // Temporary fix for static data; in a dynamic system, repopulate from data source
+          }
+        }
+
+        // Hiển thị phân trang
+        function renderPagination(visibleRows) {
+          pagination.innerHTML = "";
+          const totalPages = Math.ceil(visibleRows / itemsPerPage);
+          const maxVisiblePages = 5;
+          const halfVisible = Math.floor(maxVisiblePages / 2);
+          let startPage = Math.max(1, currentPage - halfVisible);
+          let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+          if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+          }
+
+          console.log(
+            `Total pages: ${totalPages}, Start page: ${startPage}, End page: ${endPage}`
+          );
+          for (let i = startPage; i <= endPage; i++) {
+            const btn = document.createElement("button");
+            btn.className = "apromotions-pagination-btn";
+            btn.textContent = i;
+            if (i === currentPage) btn.classList.add("active");
+            btn.addEventListener("click", () => {
+              currentPage = i;
+              console.log(`Switching to page ${currentPage}`);
+              renderPromotions(currentPage, visibleRows);
+              renderPagination(visibleRows);
+            });
+            pagination.appendChild(btn);
+          }
+        }
+
+        // Khởi tạo giao diện
+        const initialVisibleRows = promotionRows.length;
+        console.log(`Initial visible rows: ${initialVisibleRows}`);
+        promotionRows.forEach((row) => {
+          row.style.display = ""; // Ensure all rows are initially visible for pagination
+        });
+        renderPromotions(currentPage, initialVisibleRows);
+        renderPagination(initialVisibleRows);
+      });
+    </script>
+  </body>
+</html>

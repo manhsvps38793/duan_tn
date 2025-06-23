@@ -9,7 +9,7 @@ class NewController extends Controller
 {
     public function show_new()
     {
-        $newList = News::paginate(6);  // 6 bài mỗi trang
+        $newList = News::paginate(3);  // 6 bài mỗi trang
 
         $newListView = News::orderBy('views', 'desc')->take(3)->get();
 
@@ -26,7 +26,7 @@ class NewController extends Controller
             "newestNew" => $newestNew,
             "highlightNews" => $highlightNews,
         ];
-        return view('news', $data);
+        return view('news/news', $data);
     }
 
 
@@ -41,6 +41,16 @@ class NewController extends Controller
             $new_detail->save();
         }
         $data =  ["new_detail" => $new_detail];
-        return view('new_detail', $data);
+        return view('news/new_detail', $data);
+    }
+
+
+
+    public function news_all()
+    {
+        $news_all = News::paginate(6);
+
+        $data =  ["news_all" => $news_all];
+        return view('news/news_all', $data);
     }
 }

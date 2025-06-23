@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin Tức - Cửa Hàng Thời Trang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --secondary-color: #f9fafb;
+            --light-color: #ffffff;
+            --border-color: #e5e7eb;
+            --text-color: #374151;
+            --text-muted: #6b7280;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--secondary-color); color: var(--text-color); overflow-y: auto; }
+        .adnews-container { display: flex; min-height: 100vh; }
+        .adnews-sidebar { width: 280px; background-color: var(--light-color); padding: 1.5rem 0; box-shadow: var(--shadow-sm); position: sticky; top: 0; height: 100vh; transition: var(--transition); }
+        .adnews-sidebar-header { padding: 0 1.5rem 1rem; border-bottom: 1px solid var(--border-color); margin-bottom: 1rem; }
+        .adnews-sidebar-header h2 { color: var(--primary-color); font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
+        .adnews-sidebar-header h2 i { font-size: 1.5rem; }
+        .adnews-sidebar-section { margin-bottom: 1.5rem; padding: 0 1.5rem; }
+        .adnews-sidebar-section h3 { color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .adnews-sidebar-item { padding: 0.75rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.75rem; border-radius: 0.5rem; margin-bottom: 0.25rem; transition: var(--transition); color: var(--text-color); text-decoration: none; font-weight: 500; }
+        .adnews-sidebar-item i { width: 1.5rem; text-align: center; font-size: 1rem; }
+        .adnews-sidebar-item:hover { background-color: var(--secondary-color); color: var(--primary-color); transform: translateX(0.25rem); }
+        .adnews-sidebar-item.adnews-active { background-color: rgba(79, 70, 229, 0.1); color: var(--primary-color); font-weight: 600; }
+        .adnews-main-content { flex: 1; padding: 1.5rem; background-color: var(--secondary-color); position: relative; z-index: 1; }
+        .adnews-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+            gap: 1rem; 
+            background: var(--primary-gradient); 
+            padding: 0.75rem; 
+            border-radius: 0.75rem; 
+            color: white; 
+            width: 100%; 
+            box-sizing: border-box; 
+            flex-wrap: wrap; 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+        }
+        .adnews-search-bar { 
+            display: flex; 
+            align-items: center; 
+            background-color: var(--light-color); 
+            border-radius: 0.5rem; 
+            padding: 0.5rem 1rem; 
+            max-width: 250px; 
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition); 
+            flex-grow: 1; 
+        }
+        .adnews-search-bar:hover { box-shadow: var(--shadow-md); }
+        .adnews-search-bar input { border: none; outline: none; flex: 1; padding: 0.5rem; font-size: 0.9rem; background: transparent; }
+        .adnews-search-bar i { color: var(--text-muted); margin-right: 0.5rem; }
+        .adnews-user-profile { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            flex-shrink: 0; 
+        }
+        .adnews-notification-bell { position: relative; font-size: 1.25rem; color: white; cursor: pointer; transition: var(--transition); }
+        .adnews-notification-bell:hover { color: var(--success-color); }
+        .adnews-notification-bell::after { 
+            content: '3'; 
+            position: absolute; 
+            top: -0.5rem; 
+            right: -0.5rem; 
+            background-color: var(--danger-color); 
+            color: white; 
+            border-radius: 50%; 
+            font-size: 0.7rem; 
+            width: 1rem; 
+            height: 1rem; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .adnews-profile-avatar { 
+            width: 2.5rem; 
+            height: 2.5rem; 
+            border-radius: 50%; 
+            background-color: var(--light-color); 
+            color: var(--primary-color); 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 1rem; 
+        }
+        .adnews-page-title { font-size: 1.75rem; font-weight: 700; color: var(--text-color); margin-bottom: 0.5rem; }
+        .adnews-page-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .adnews-tab-nav { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); overflow-x: auto; }
+        .adnews-tab-btn { 
+            padding: 0.5rem 1rem; 
+            border: none; 
+            background: none; 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            transition: var(--transition); 
+            position: relative; 
+        }
+        .adnews-tab-btn.adnews-active { color: var(--primary-color); }
+        .adnews-tab-btn.adnews-active::after { 
+            content: ''; 
+            position: absolute; 
+            bottom: -1px; 
+            left: 0; 
+            width: 100%; 
+            height: 2px; 
+            background: var(--primary-gradient); 
+        }
+        .adnews-tab-btn:hover { color: var(--primary-color); }
+        .adnews-tab-content { 
+            display: none; 
+            background-color: var(--light-color); 
+            border-radius: 0.75rem; 
+            padding: 1.5rem; 
+            box-shadow: var(--shadow-sm); 
+            animation: fadeIn 0.3s ease; 
+        }
+        .adnews-tab-content.adnews-active { display: block; }
+        .adnews-actions { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+            gap: 1rem; 
+            flex-wrap: wrap; 
+        }
+        .adnews-filters { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .adnews-filter-group { display: flex; align-items: center; gap: 0.5rem; }
+        .adnews-filter-group label { font-size: 0.85rem; font-weight: 500; }
+        .adnews-filter-group select, .adnews-filter-group input { 
+            padding: 0.5rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 0.375rem; 
+            font-size: 0.9rem; 
+        }
+        .adnews-btn { 
+            padding: 0.5rem 1rem; 
+            border-radius: 0.375rem; 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            margin-right: 0.5rem; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .adnews-btn-primary { background: var(--primary-gradient); color: white; border: none; }
+        .adnews-btn-primary:hover { background: linear-gradient(135deg, #4338ca, #6d28d9); }
+        .adnews-btn-secondary { 
+            background-color: var(--light-color); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+        }
+        .adnews-btn-secondary:hover { background-color: #f3f4f6; }
+        .adnews-btn-outline { 
+            background-color: transparent; 
+            color: var(--danger-color); 
+            border: 1px solid var(--danger-color); 
+        }
+        .adnews-btn-outline:hover { background-color: rgba(239, 68, 68, 0.1); }
+        .adnews-btn-toggle { background-color: var(--success-color); color: white; }
+        .adnews-btn-toggle:hover { background-color: #16a34a; }
+        .adnews-btn.adnews-loading::after { 
+            content: ''; 
+            position: absolute; 
+            width: 16px; 
+            height: 16px; 
+            border: 2px solid white; 
+            border-top: 2px solid transparent; 
+            border-radius: 50%; 
+            animation: spin 0.8s linear infinite; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+        }
+        .adnews-data-card { 
+            background-color: var(--light-color); 
+            border-radius: 0.75rem; 
+            padding: 1.5rem; 
+            box-shadow: var(--shadow-sm); 
+        }
+        .adnews-data-table { width: 100%; border-collapse: collapse; }
+        .adnews-data-table th { 
+            text-align: left; 
+            padding: 0.75rem; 
+            font-weight: 500; 
+            color: var(--text-muted); 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .adnews-data-table td { 
+            padding: 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+            font-size: 0.85rem; 
+        }
+        .adnews-data-table tr:last-child td { border-bottom: none; }
+        .adnews-thumbnail { 
+            width: 50px; 
+            height: 50px; 
+            object-fit: cover; 
+            border-radius: 0.375rem; 
+        }
+        .adnews-status-badge { 
+            display: inline-block; 
+            padding: 0.25rem 0.5rem; 
+            border-radius: 1rem; 
+            font-size: 0.75rem; 
+            font-weight: 500; 
+        }
+        .adnews-status-published { 
+            background-color: rgba(34, 197, 94, 0.1); 
+            color: var(--success-color); 
+        }
+        .adnews-status-draft { 
+            background-color: rgba(239, 68, 68, 0.1); 
+            color: var(--danger-color); 
+        }
+        .adnews-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+        }
+        .adnews-modal-content { 
+            background-color: var(--light-color); 
+            border-radius: 0.75rem; 
+            padding: 2rem; 
+            width: 100%; 
+            max-width: 700px; 
+            box-shadow: var(--shadow-md); 
+            max-height: 90vh; 
+            overflow-y: auto; 
+        }
+        .adnews-modal-content h2 { 
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            margin-bottom: 1.5rem; 
+        }
+        .adnews-form-group { margin-bottom: 1rem; position: relative; }
+        .adnews-form-group label { 
+            display: block; 
+            font-size: 0.85rem; 
+            font-weight: 500; 
+            margin-bottom: 0.5rem; 
+        }
+        .adnews-form-group input, 
+        .adnews-form-group textarea, 
+        .adnews-form-group select { 
+            width: 100%; 
+            padding: 0.5rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 0.375rem; 
+            font-size: 0.9rem; 
+            transition: var(--transition); 
+        }
+        .adnews-form-group input:focus, 
+        .adnews-form-group select:focus, 
+        .adnews-form-group textarea:focus { 
+            border-color: var(--primary-color); 
+            outline: none; 
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); 
+        }
+        .adnews-form-group textarea { resize: vertical; min-height: 150px; }
+        .adnews-form-group.adnews-error input, 
+        .adnews-form-group.adnews-error select, 
+        .adnews-form-group.adnews-error textarea { 
+            border-color: var(--danger-color); 
+        }
+        .adnews-form-group.adnews-error::after { 
+            content: attr(data-error); 
+            color: var(--danger-color); 
+            font-size: 0.75rem; 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+        }
+        .adnews-image-preview { 
+            width: 100%; 
+            max-width: 200px; 
+            height: auto; 
+            border-radius: 0.375rem; 
+            margin-top: 0.5rem; 
+            display: none; 
+        }
+        .adnews-modal-actions { 
+            display: flex; 
+            gap: 1rem; 
+            justify-content: flex-end; 
+            margin-top: 1.5rem; 
+        }
+        .adnews-pagination { 
+            display: flex; 
+            justify-content: center; 
+            gap: 0.5rem; 
+            margin-top: 1.5rem; 
+        }
+        .adnews-pagination-btn { 
+            padding: 0.5rem 1rem; 
+            border: 1px solid var(--border-color); 
+            border-radius: 0.375rem; 
+            background-color: var(--light-color); 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            transition: var(--transition); 
+        }
+        .adnews-pagination-btn:hover { 
+            background-color: var(--primary-color); 
+            color: white; 
+            border-color: var(--primary-color); 
+        }
+        .adnews-pagination-btn.adnews-active { 
+            background-color: var(--primary-color); 
+            color: white; 
+            border-color: var(--primary-color); 
+        }
+        .adnews-table-container { overflow-x: auto; }
+        .adnews-tooltip { position: relative; }
+        .adnews-tooltip:hover::after { 
+            content: attr(data-tooltip); 
+            position: absolute; 
+            bottom: 100%; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: var(--text-color); 
+            color: white; 
+            padding: 0.25rem 0.5rem; 
+            border-radius: 0.25rem; 
+            font-size: 0.75rem; 
+            white-space: nowrap; 
+            z-index: 10; 
+        }
+        .adnews-form-actions { 
+            display: flex; 
+            gap: 0.5rem; 
+            margin-top: 1.5rem; 
+        }
+        .adnews-category-list { margin-top: 1rem; }
+        .adnews-category-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 0.5rem; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .adnews-checkbox-group { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 1rem; 
+        }
+        .adnews-checkbox-group label { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+            font-weight: normal; 
+        }
+        .adnews-checkbox-group input { width: auto; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        @media (max-width: 1024px) {
+            .adnews-sidebar { width: 80px; }
+            .adnews-sidebar-header h2 span, 
+            .adnews-sidebar-item span, 
+            .adnews-sidebar-section h3 { display: none; }
+            .adnews-sidebar-item { justify-content: center; }
+            .adnews-sidebar-item i { margin: 0; }
+        }
+        @media (max-width: 768px) {
+            .adnews-container { flex-direction: column; }
+            .adnews-sidebar { width: 100%; height: auto; position: relative; }
+            .adnews-main-content { padding: 1rem; }
+            .adnews-search-bar, 
+            .adnews-filter-group { max-width: 100%; }
+            .adnews-actions { flex-direction: column; align-items: flex-start; }
+            .adnews-tab-nav { flex-wrap: wrap; }
+            .adnews-tab-btn { flex: 1; text-align: center; }
+            .adnews-header { flex-direction: column; align-items: flex-start; padding: 0.5rem; }
+            .adnews-search-bar { max-width: 100%; }
+            .adnews-user-profile { align-self: flex-end; }
+        }
+    </style>
+</head>
+<body>
+    <div class="adnews-container">
+        <div class="adnews-sidebar">
+            <div class="adnews-sidebar-header">
+                <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Bảng điều khiển</h3>
+                <a href="index.html" class="adnews-sidebar-item"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+                <a href="products.html" class="adnews-sidebar-item"><i class="fas fa-box-open"></i><span>Sản phẩm</span></a>
+                <a href="orders.html" class="adnews-sidebar-item"><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a>
+                <a href="promotions.html" class="adnews-sidebar-item"><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a>
+                <a href="reports.html" class="adnews-sidebar-item"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Công cụ</h3>
+                <a href="inventory.html" class="adnews-sidebar-item"><i class="fas fa-warehouse"></i><span>Quản lý kho</span></a>
+                <a href="images.html" class="adnews-sidebar-item"><i class="fas fa-images"></i><span>Hình ảnh sản phẩm</span></a>
+                <a href="customers.html" class="adnews-sidebar-item"><i class="fas fa-users"></i><span>Khách hàng</span></a>
+                <a href="users.html" class="adnews-sidebar-item"><i class="fas fa-user-cog"></i><span>Quản lý người dùng</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Nội dung</h3>
+                <a href="news.html" class="adnews-sidebar-item adnews-active"><i class="fas fa-newspaper"></i><span>Tin tức</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Hệ thống</h3>
+                <a href="settings.html" class="adnews-sidebar-item"><i class="fas fa-cog"></i><span>Cài đặt</span></a>
+                <a href="support.html" class="adnews-sidebar-item"><i class="fas fa-headset"></i><span>Hỗ trợ</span></a>
+            </div>
+        </div>
+        <div class="adnews-main-content">
+            <div class="adnews-header">
+                <div class="adnews-search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Tìm kiếm tin tức..." id="adnews-searchInput">
+                </div>
+                <div class="adnews-user-profile">
+                    <div class="adnews-notification-bell adnews-tooltip" data-tooltip="Thông báo"><i class="fas fa-bell"></i></div>
+                    <div class="adnews-profile-avatar">QT</div>
+                </div>
+            </div>
+            <h1 class="adnews-page-title">Quản lý tin tức</h1>
+            <p class="adnews-page-subtitle">Tạo, chỉnh sửa và quản lý bài viết tin tức cho cửa hàng</p>
+            <div class="adnews-tab-nav">
+                <button class="adnews-tab-btn adnews-active" data-tab="adnews-list">Danh sách tin tức</button>
+                <button class="adnews-tab-btn" data-tab="adnews-stats">Thống kê</button>
+                <button class="adnews-tab-btn" data-tab="adnews-settings">Cài đặt tin tức</button>
+            </div>
+            <div class="adnews-tab-content adnews-active" id="adnews-list">
+                <div class="adnews-actions">
+                    <div class="adnews-filters">
+                        <div class="adnews-filter-group">
+                            <label>Danh mục <i class="fas fa-list"></i></label>
+                            <select id="adnews-categoryFilter">
+                                <option value="">Tất cả</option>
+                                <option value="Khuyến mãi">Khuyến mãi</option>
+                                <option value="Bộ sưu tập">Bộ sưu tập</option>
+                                <option value="Tin tức chung">Tin tức chung</option>
+                            </select>
+                        </div>
+                        <div class="adnews-filter-group">
+                            <label>Trạng thái <i class="fas fa-info-circle"></i></label>
+                            <select id="adnews-statusFilter">
+                                <option value="">Tất cả</option>
+                                <option value="Đã xuất bản">Đã xuất bản</option>
+                                <option value="Bản nháp">Bản nháp</option>
+                            </select>
+                        </div>
+                        <div class="adnews-filter-group">
+                            <label>Ngày <i class="fas fa-calendar"></i></label>
+                            <input type="date" id="adnews-dateFilter">
+                        </div>
+                        <div class="adnews-filter-group">
+                            <label>Tác giả <i class="fas fa-user"></i></label>
+                            <select id="adnews-authorFilter">
+                                <option value="">Tất cả</option>
+                                <option value="Quản Trị">Quản Trị</option>
+                                <option value="Nhân Viên">Nhân Viên</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Thêm tin tức" onclick="adnewsOpenModal('add')">Thêm tin tức</button>
+                </div>
+                <div class="adnews-data-card">
+                    <div class="adnews-table-container">
+                        <table class="adnews-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Hình</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Danh mục</th>
+                                    <th>Tác giả</th>
+                                    <th>Lượt xem</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Ngày sửa</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adnews-newsTableBody">
+                                <tr data-id="1" data-title="Bộ sưu tập Thu Đông 2025" data-category="Bộ sưu tập" data-author="Quản Trị" data-date="2025-06-07" data-status="Đã xuất bản" data-excerpt="Giới thiệu bộ sưu tập mới." data-content="Nội dung chi tiết về bộ sưu tập..." data-tags="thời trang, thu đông" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Bộ sưu tập Thu Đông 2025</td>
+                                    <td>Bộ sưu tập</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,200</td>
+                                    <td>07/06/2025</td>
+                                    <td>08/06/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(1)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 1)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(1)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(1, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="2" data-title="Khuyến mãi mùa lễ hội" data-category="Khuyến mãi" data-author="Nhân Viên" data-date="2025-06-05" data-status="Bản nháp" data-excerpt="Ưu đãi lớn mùa lễ." data-content="Chi tiết khuyến mãi..." data-tags="khuyến mãi, lễ hội" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Khuyến mãi mùa lễ hội</td>
+                                    <td>Khuyến mãi</td>
+                                    <td>Nhân Viên</td>
+                                    <td>800</td>
+                                    <td>05/06/2025</td>
+                                    <td>06/06/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-draft">Bản nháp</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(2)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 2)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(2)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Xuất bản" onclick="adnewsTogglePublish(2, 'publish')">Xuất bản</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="3" data-title="Xu hướng thời trang 2025" data-category="Tin tức chung" data-author="Quản Trị" data-date="2025-06-03" data-status="Đã xuất bản" data-excerpt="Khám phá xu hướng mới." data-content="Chi tiết xu hướng 2025..." data-tags="xu hướng, thời trang" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Xu hướng thời trang 2025</td>
+                                    <td>Tin tức chung</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,500</td>
+                                    <td>03/06/2025</td>
+                                    <td>04/06/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(3)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 3)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(3)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(3, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="4" data-title="Black Friday Sale" data-category="Khuyến mãi" data-author="Nhân Viên" data-date="2025-06-01" data-status="Bản nháp" data-excerpt="Ưu đãi Black Friday." data-content="Chi tiết sale..." data-tags="black friday, khuyến mãi" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Black Friday Sale</td>
+                                    <td>Khuyến mãi</td>
+                                    <td>Nhân Viên</td>
+                                    <td>600</td>
+                                    <td>01/06/2025</td>
+                                    <td>02/06/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-draft">Bản nháp</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(4)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 4)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(4)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Xuất bản" onclick="adnewsTogglePublish(4, 'publish')">Xuất bản</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="5" data-title="Summer Collection 2025" data-category="Bộ sưu tập" data-author="Quản Trị" data-date="2025-05-30" data-status="Đã xuất bản" data-excerpt="Bộ sưu tập mùa hè mới." data-content="Chi tiết bộ sưu tập mùa hè..." data-tags="thời trang, mùa hè" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Summer Collection 2025</td>
+                                    <td>Bộ sưu tập</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,100</td>
+                                    <td>30/05/2025</td>
+                                    <td>31/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(5)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 5)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(5)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(5, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="6" data-title="Mid-Year Sale" data-category="Khuyến mãi" data-author="Nhân Viên" data-date="2025-05-28" data-status="Bản nháp" data-excerpt="Ưu đãi giữa năm." data-content="Chi tiết khuyến mãi giữa năm..." data-tags="khuyến mãi, sale" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Mid-Year Sale</td>
+                                    <td>Khuyến mãi</td>
+                                    <td>Nhân Viên</td>
+                                    <td>700</td>
+                                    <td>28/05/2025</td>
+                                    <td>29/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-draft">Bản nháp</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(6)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 6)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(6)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Xuất bản" onclick="adnewsTogglePublish(6, 'publish')">Xuất bản</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="7" data-title="Spring Trends 2025" data-category="Tin tức chung" data-author="Quản Trị" data-date="2025-05-25" data-status="Đã xuất bản" data-excerpt="Xu hướng mùa xuân." data-content="Chi tiết xu hướng mùa xuân..." data-tags="xu hướng, mùa xuân" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Spring Trends 2025</td>
+                                    <td>Tin tức chung</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,300</td>
+                                    <td>25/05/2025</td>
+                                    <td>26/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(7)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 7)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(7)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(7, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="8" data-title="End of Season Sale" data-category="Khuyến mãi" data-author="Nhân Viên" data-date="2025-05-20" data-status="Bản nháp" data-excerpt="Sale cuối mùa." data-content="Chi tiết sale cuối mùa..." data-tags="sale, khuyến mãi" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>End of Season Sale</td>
+                                    <td>Khuyến mãi</td>
+                                    <td>Nhân Viên</td>
+                                    <td>500</td>
+                                    <td>20/05/2025</td>
+                                    <td>21/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-draft">Bản nháp</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(8)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 8)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(8)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Xuất bản" onclick="adnewsTogglePublish(8, 'publish')">Xuất bản</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="9" data-title="Winter Collection Preview" data-category="Bộ sưu tập" data-author="Quản Trị" data-date="2025-05-15" data-status="Đã xuất bản" data-excerpt="Xem trước bộ sưu tập đông." data-content="Chi tiết bộ sưu tập đông..." data-tags="thời trang, mùa đông" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Winter Collection Preview</td>
+                                    <td>Bộ sưu tập</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,400</td>
+                                    <td>15/05/2025</td>
+                                    <td>16/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(9)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 9)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(9)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(9, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="10" data-title="New Year Promo" data-category="Khuyến mãi" data-author="Nhân Viên" data-date="2025-05-10" data-status="Bản nháp" data-excerpt="Khuyến mãi năm mới." data-content="Chi tiết khuyến mãi năm mới..." data-tags="khuyến mãi, năm mới" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>New Year Promo</td>
+                                    <td>Khuyến mãi</td>
+                                    <td>Nhân Viên</td>
+                                    <td>900</td>
+                                    <td>10/05/2025</td>
+                                    <td>11/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-draft">Bản nháp</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(10)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 10)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(10)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Xuất bản" onclick="adnewsTogglePublish(10, 'publish')">Xuất bản</button>
+                                    </td>
+                                </tr>
+                                <tr data-id="11" data-title="Fashion Week Highlights" data-category="Tin tức chung" data-author="Quản Trị" data-date="2025-05-05" data-status="Đã xuất bản" data-excerpt="Điểm nhấn tuần lễ thời trang." data-content="Chi tiết tuần lễ thời trang..." data-tags="thời trang, fashion week" data-image="https://via.placeholder.com/50">
+                                    <td><img src="https://via.placeholder.com/50" alt="Thumbnail" class="adnews-thumbnail"></td>
+                                    <td>Fashion Week Highlights</td>
+                                    <td>Tin tức chung</td>
+                                    <td>Quản Trị</td>
+                                    <td>1,600</td>
+                                    <td>05/05/2025</td>
+                                    <td>06/05/2025</td>
+                                    <td><span class="adnews-status-badge adnews-status-published">Đã xuất bản</span></td>
+                                    <td>
+                                        <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước" onclick="adnewsPreviewNews(11)">Xem</button>
+                                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Chỉnh sửa" onclick="adnewsOpenModal('edit', 11)">Sửa</button>
+                                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa" onclick="adnewsDeleteNews(11)">Xóa</button>
+                                        <button class="adnews-btn adnews-btn-toggle adnews-tooltip" data-tooltip="Hủy xuất bản" onclick="adnewsTogglePublish(11, 'draft')">Hủy</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="adnews-pagination" id="adnews-pagination"></div>
+            </div>
+            <div class="adnews-tab-content" id="adnews-stats">
+                <div class="adnews-data-card">
+                    <div class="adnews-table-container">
+                        <table class="adnews-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Danh mục</th>
+                                    <th>Số bài viết</th>
+                                    <th>Lượt xem tổng</th>
+                                    <th>Lượt xem trung bình</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Khuyến mãi</td>
+                                    <td>4</td>
+                                    <td>2,900</td>
+                                    <td>725</td>
+                                </tr>
+                                <tr>
+                                    <td>Bộ sưu tập</td>
+                                    <td>3</td>
+                                    <td>3,700</td>
+                                    <td>1,233</td>
+                                </tr>
+                                <tr>
+                                    <td>Tin tức chung</td>
+                                    <td>2</td>
+                                    <td>2,900</td>
+                                    <td>1,450</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="adnews-tab-content" id="adnews-settings">
+                <div class="adnews-form-group">
+                    <label>Số bài mỗi trang <i class="fas fa-list-ol"></i></label>
+                    <select id="adnews-postsPerPage">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div class="adnews-form-group adnews-checkbox-group">
+                    <label><input type="checkbox" checked> Cho phép bình luận</label>
+                    <label><input type="checkbox"> Tự động duyệt bình luận</label>
+                </div>
+                <div class="adnews-form-group">
+                    <label>Thêm danh mục mới <i class="fas fa-plus"></i></label>
+                    <input type="text" id="adnews-newCategory" placeholder="Nhập tên danh mục">
+                    <button class="adnews-btn adnews-btn-primary" onclick="adnewsAddCategory()">Thêm</button>
+                </div>
+                <div class="adnews-category-list">
+                    <div class="adnews-category-item">
+                        <span>Khuyến mãi</span>
+                        <button class="adnews-btn adnews-btn-outline" onclick="adnewsDeleteCategory('Khuyến mãi')">Xóa</button>
+                    </div>
+                    <div class="adnews-category-item">
+                        <span>Bộ sưu tập</span>
+                        <button class="adnews-btn adnews-btn-outline" onclick="adnewsDeleteCategory('Bộ sưu tập')">Xóa</button>
+                    </div>
+                    <div class="adnews-category-item">
+                        <span>Tin tức chung</span>
+                        <button class="adnews-btn adnews-btn-outline" onclick="adnewsDeleteCategory('Tin tức chung')">Xóa</button>
+                    </div>
+                </div>
+                <div class="adnews-form-actions">
+                    <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Lưu cài đặt" onclick="adnewsSaveSettings()">Lưu</button>
+                    <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Hủy" onclick="adnewsCancelSettings()">Hủy</button>
+                </div>
+            </div>
+            <div class="adnews-modal" id="adnews-newsModal">
+                <div class="adnews-modal-content">
+                    <h2 id="adnews-modalTitle">Thêm bài viết tin tức</h2>
+                    <div class="adnews-form-group">
+                        <label>Tiêu đề <i class="fas fa-heading"></i></label>
+                        <input type="text" id="adnews-newsTitle" placeholder="Nhập tiêu đề bài viết">
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Mô tả ngắn (tối đa 200 ký tự) <i class="fas fa-align-left"></i></label>
+                        <textarea id="adnews-newsExcerpt" placeholder="Nhập mô tả ngắn"></textarea>
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Nội dung <i class="fas fa-file-alt"></i></label>
+                        <textarea id="adnews-newsContent" placeholder="Nhập nội dung bài viết"></textarea>
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Danh mục <i class="fas fa-list"></i></label>
+                        <select id="adnews-newsCategory">
+                            <option value="Khuyến mãi">Khuyến mãi</option>
+                            <option value="Bộ sưu tập">Bộ sưu tập</option>
+                            <option value="Tin tức chung">Tin tức chung</option>
+                        </select>
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Trạng thái <i class="fas fa-info-circle"></i></label>
+                        <select id="adnews-newsStatus">
+                            <option value="Đã xuất bản">Đã xuất bản</option>
+                            <option value="Bản nháp">Bản nháp</option>
+                        </select>
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Tags <i class="fas fa-tags"></i></label>
+                        <input type="text" id="adnews-newsTags" placeholder="Nhập tags, cách nhau bằng dấu phẩy">
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Lịch đăng (tùy chọn) <i class="fas fa-calendar"></i></label>
+                        <input type="date" id="adnews-newsDate">
+                    </div>
+                    <div class="adnews-form-group">
+                        <label>Hình ảnh <i class="fas fa-image"></i></label>
+                        <input type="file" id="adnews-newsImage" accept="image/*">
+                        <img id="adnews-imagePreview" class="adnews-image-preview" alt="Image Preview">
+                    </div>
+                    <div class="adnews-modal-actions">
+                        <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Hủy" onclick="adnewsCloseModal()">Hủy</button>
+                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Lưu" onclick="adnewsSaveNews()">Lưu</button>
+                    </div>
+                </div>
+            </div>
+            <div class="adnews-modal" id="adnews-previewModal">
+                <div class="adnews-modal-content">
+                    <h2 id="adnews-previewTitle">Xem bài viết</h2>
+                    <img id="adnews-previewImage" class="adnews-image-preview" alt="News Image">
+                    <p id="adnews-previewExcerpt" style="margin: 1rem 0; color: var(--text-muted);"></p>
+                    <div id="adnews-previewContent" style="font-size: 0.9rem;"></div>
+                    <div class="adnews-modal-actions">
+                        <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Đóng" onclick="adnewsCloseModal('preview')">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sidebar interaction
+            document.querySelectorAll('.adnews-sidebar-item').forEach(item => {
+                item.addEventListener('click', e => {
+                    e.preventDefault();
+                    document.querySelectorAll('.adnews-sidebar-item').forEach(i => i.classList.remove('adnews-active'));
+                    item.classList.add('adnews-active');
+                });
+            });
+
+            // Tab navigation
+            document.querySelectorAll('.adnews-tab-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.adnews-tab-btn').forEach(btn => btn.classList.remove('adnews-active'));
+                    document.querySelectorAll('.adnews-tab-content').forEach(content => content.classList.remove('adnews-active'));
+                    button.classList.add('adnews-active');
+                    document.getElementById(button.dataset.tab).classList.add('adnews-active');
+                });
+            });
+
+            // Pagination
+            let adnewsCurrentPage = 1;
+            let adnewsPostsPerPage = parseInt(document.getElementById('adnews-postsPerPage').value) || 10;
+            const adnewsRows = document.querySelectorAll('#adnews-newsTableBody tr');
+            const adnewsPagination = document.getElementById('adnews-pagination');
+
+            function adnewsUpdatePagination() {
+                const totalPages = Math.ceil(adnewsRows.length / adnewsPostsPerPage);
+                adnewsPagination.innerHTML = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = `adnews-pagination-btn${i === adnewsCurrentPage ? ' adnews-active' : ''}`;
+                    btn.textContent = i;
+                    btn.addEventListener('click', () => {
+                        adnewsCurrentPage = i;
+                        adnewsUpdateTable();
+                    });
+                    adnewsPagination.appendChild(btn);
+                }
+            }
+
+            function adnewsUpdateTable() {
+                const start = (adnewsCurrentPage - 1) * adnewsPostsPerPage;
+                const end = start + adnewsPostsPerPage;
+                adnewsRows.forEach((row, index) => {
+                    row.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+                adnewsUpdatePagination();
+            }
+
+            // Filter and search
+            const adnewsSearchInput = document.getElementById('adnews-searchInput');
+            const adnewsCategoryFilter = document.getElementById('adnews-categoryFilter');
+            const adnewsStatusFilter = document.getElementById('adnews-statusFilter');
+            const adnewsDateFilter = document.getElementById('adnews-dateFilter');
+            const adnewsAuthorFilter = document.getElementById('adnews-authorFilter');
+
+            function adnewsFilterTable() {
+                const search = adnewsSearchInput.value.toLowerCase();
+                const category = adnewsCategoryFilter.value;
+                const status = adnewsStatusFilter.value;
+                const date = adnewsDateFilter.value.replace(/-/g, '/');
+                const author = adnewsAuthorFilter.value;
+
+                adnewsRows.forEach(row => {
+                    const title = row.dataset.title.toLowerCase();
+                    const rowCategory = row.dataset.category;
+                    const rowStatus = row.dataset.status;
+                    const rowDate = row.dataset.date.replace(/-/g, '/');
+                    const rowAuthor = row.dataset.author;
+
+                    const matchesSearch = title.includes(search);
+                    const matchesCategory = !category || rowCategory === category;
+                    const matchesStatus = !status || rowStatus === status;
+                    const matchesDate = !date || rowDate.includes(date);
+                    const matchesAuthor = !author || rowAuthor === author;
+
+                    row.style.display = matchesSearch && matchesCategory && matchesStatus && matchesDate && matchesAuthor ? '' : 'none';
+                });
+
+                adnewsCurrentPage = 1;
+                adnewsUpdateTable();
+            }
+
+            adnewsSearchInput.addEventListener('input', adnewsFilterTable);
+            adnewsCategoryFilter.addEventListener('change', adnewsFilterTable);
+            adnewsStatusFilter.addEventListener('change', adnewsFilterTable);
+            adnewsDateFilter.addEventListener('change', adnewsFilterTable);
+            adnewsAuthorFilter.addEventListener('change', adnewsFilterTable);
+            document.getElementById('adnews-postsPerPage').addEventListener('change', () => {
+                adnewsPostsPerPage = parseInt(document.getElementById('adnews-postsPerPage').value);
+                adnewsCurrentPage = 1;
+                adnewsUpdateTable();
+            });
+
+            // Form validation
+            window.adnewsValidateForm = function() {
+                const title = document.getElementById('adnews-newsTitle');
+                const excerpt = document.getElementById('adnews-newsExcerpt');
+                const content = document.getElementById('adnews-newsContent');
+                let hasError = false;
+
+                if (!title.value.trim()) {
+                    title.closest('.adnews-form-group').classList.add('adnews-error');
+                    title.closest('.adnews-form-group').setAttribute('data-error', 'Vui lòng nhập tiêu đề.');
+                    hasError = true;
+                } else {
+                    title.closest('.adnews-form-group').classList.remove('adnews-error');
+                }
+
+                if (!excerpt.value.trim()) {
+                    excerpt.closest('.adnews-form-group').classList.add('adnews-error');
+                    excerpt.closest('.adnews-form-group').setAttribute('data-error', 'Vui lòng nhập mô tả ngắn.');
+                    hasError = true;
+                } else if (excerpt.value.length > 200) {
+                    excerpt.closest('.adnews-form-group').classList.add('adnews-error');
+                    excerpt.closest('.adnews-form-group').setAttribute('data-error', 'Mô tả ngắn không quá 200 ký tự.');
+                    hasError = true;
+                } else {
+                    excerpt.closest('.adnews-form-group').classList.remove('adnews-error');
+                }
+
+                if (!content.value.trim()) {
+                    content.closest('.adnews-form-group').classList.add('adnews-error');
+                    content.closest('.adnews-form-group').setAttribute('data-error', 'Vui lòng nhập nội dung.');
+                    hasError = true;
+                } else {
+                    content.closest('.adnews-form-group').classList.remove('adnews-error');
+                }
+
+                return !hasError;
+            };
+
+            // Modal handling
+            window.adnewsOpenModal = function(mode, id = null) {
+                const modal = document.getElementById('adnews-newsModal');
+                const modalTitle = document.getElementById('adnews-modalTitle');
+                modalTitle.textContent = mode === 'add' ? 'Thêm bài viết tin tức' : 'Chỉnh sửa bài viết tin tức';
+                modal.style.display = 'flex';
+
+                if (mode === 'edit' && id) {
+                    const row = document.querySelector(`tr[data-id="${id}"]`);
+                    document.getElementById('adnews-newsTitle').value = row.dataset.title;
+                    document.getElementById('adnews-newsExcerpt').value = row.dataset.excerpt;
+                    document.getElementById('adnews-newsContent').value = row.dataset.content;
+                    document.getElementById('adnews-newsCategory').value = row.dataset.category;
+                    document.getElementById('adnews-newsStatus').value = row.dataset.status;
+                    document.getElementById('adnews-newsTags').value = row.dataset.tags;
+                    document.getElementById('adnews-newsDate').value = '';
+                    document.getElementById('adnews-imagePreview').src = row.dataset.image;
+                    document.getElementById('adnews-imagePreview').style.display = 'block';
+                } else {
+                    document.getElementById('adnews-newsTitle').value = '';
+                    document.getElementById('adnews-newsExcerpt').value = '';
+                    document.getElementById('adnews-newsContent').value = '';
+                    document.getElementById('adnews-newsCategory').value = 'Khuyến mãi';
+                    document.getElementById('adnews-newsStatus').value = 'Bản nháp';
+                    document.getElementById('adnews-newsTags').value = '';
+                    document.getElementById('adnews-newsDate').value = '';
+                    document.getElementById('adnews-imagePreview').style.display = 'none';
+                }
+            };
+
+            window.adnewsCloseModal = function(type = 'news') {
+                document.getElementById(type === 'preview' ? 'adnews-previewModal' : 'adnews-newsModal').style.display = 'none';
+                const formGroups = document.querySelectorAll('#adnews-newsModal .adnews-form-group');
+                formGroups.forEach(group => group.classList.remove('adnews-error'));
+            };
+
+            // Preview news
+            window.adnewsPreviewNews = function(id) {
+                const modal = document.getElementById('adnews-previewModal');
+                const previewTitle = document.getElementById('adnews-previewTitle');
+                const previewImage = document.getElementById('adnews-previewImage');
+                const previewExcerpt = document.getElementById('adnews-previewExcerpt');
+                const previewContent = document.getElementById('adnews-previewContent');
+
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                previewTitle.textContent = row.dataset.title;
+                previewImage.src = row.dataset.image;
+                previewImage.style.display = 'block';
+                previewExcerpt.textContent = row.dataset.excerpt;
+                previewContent.textContent = row.dataset.content;
+                modal.style.display = 'flex';
+            };
+
+            // Save news
+            window.adnewsSaveNews = function() {
+                if (!adnewsValidateForm()) {
+                    alert('Vui lòng điền đầy đủ các trường bắt buộc.');
+                    return;
+                }
+                const saveBtn = document.querySelector('#adnews-newsModal .adnews-btn-primary');
+                saveBtn.classList.add('adnews-loading');
+                saveBtn.disabled = true;
+                setTimeout(() => {
+                    saveBtn.classList.remove('adnews-loading');
+                    saveBtn.disabled = false;
+                    alert('Bài viết đã được lưu (demo, không lưu thực tế).');
+                    adnewsCloseModal();
+                }, 1000);
+            };
+
+            // Delete news
+            window.adnewsDeleteNews = function(id) {
+                if (confirm('Bạn có chắc muốn xóa bài viết này?')) {
+                    alert(`Bài viết ID ${id} đã được xóa (demo, không xóa thực tế).`);
+                }
+            };
+
+            // Toggle publish
+            window.adnewsTogglePublish = function(id, action) {
+                alert(`Bài viết ID ${id} đã được ${action === 'publish' ? 'xuất bản' : 'hủy xuất bản'} (demo, không thay đổi thực tế).`);
+            };
+
+            // Add category
+            window.adnewsAddCategory = function() {
+                const newCategory = document.getElementById('adnews-newCategory').value.trim();
+                if (newCategory) {
+                    alert(`Danh mục "${newCategory}" đã được thêm (demo, không lưu thực tế).`);
+                    document.getElementById('adnews-newCategory').value = '';
+                } else {
+                    alert('Vui lòng nhập tên danh mục.');
+                }
+            };
+
+            // Delete category
+            window.adnewsDeleteCategory = function(category) {
+                if (confirm(`Bạn có chắc muốn xóa danh mục "${category}"?`)) {
+                    alert(`Danh mục "${category}" đã được xóa (demo, không xóa thực tế).`);
+                }
+            };
+
+            // Save settings
+            window.adnewsSaveSettings = function() {
+                const saveBtn = document.querySelector('#adnews-settings .adnews-btn-primary');
+                saveBtn.classList.add('adnews-loading');
+                saveBtn.disabled = true;
+                setTimeout(() => {
+                    saveBtn.classList.remove('adnews-loading');
+                    saveBtn.disabled = false;
+                    alert('Cài đặt đã được lưu (demo, không lưu thực tế).');
+                }, 1000);
+            };
+
+            // Cancel settings
+            window.adnewsCancelSettings = function() {
+                alert('Đã hủy thay đổi cài đặt.');
+                document.getElementById('adnews-postsPerPage').value = '10';
+                document.querySelectorAll('#adnews-settings input[type="checkbox"]').forEach(cb => cb.checked = cb.defaultChecked);
+                document.getElementById('adnews-newCategory').value = '';
+                adnewsPostsPerPage = 10;
+                adnewsUpdateTable();
+            };
+
+            // Image preview
+            document.getElementById('adnews-newsImage').addEventListener('change', () => {
+                alert('Chức năng upload hình chỉ là demo, không lưu thực tế.');
+            });
+
+            // Initial render
+            adnewsUpdateTable();
+        });
+    </script>
+</body>
+</html>

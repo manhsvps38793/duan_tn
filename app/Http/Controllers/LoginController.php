@@ -85,12 +85,12 @@ class LoginController extends Controller
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(config('auth.verification.expire', 60)),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
+            parameters: ['id' => $user->id, 'hash' => sha1($user->email)]
         );
 
 
         try {
-            Mail::to($user->email)->send(new WelcomeMail($user, $verificationUrl));
+            Mail::to(users: $user->email)->send(new WelcomeMail($user, $verificationUrl));
         } catch (\Exception $e) {
             \Log::error('Mail Error: ' . $e->getMessage());
         }

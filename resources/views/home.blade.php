@@ -2,10 +2,10 @@
 
 @section('body')
     {{-- @auth
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit">Đăng xuất</button>
-        </form>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit">Đăng xuất</button>
+    </form>
     @endauth --}}
     <div class="index-slider-container" id="slider">
         <div class="index-progress-bar"></div>
@@ -102,18 +102,19 @@
             </div>
             <ul class="row product-list-sale">
 
-{{--product-sale ................  --}}
+                {{--product-sale ................ --}}
                 @foreach ($products_sale as $productssale)
                     <li class="item" style="background-color: white; border-radius: 7px;">
-                        <div class="item-img" >
+                        <div class="item-img">
                             <span class="item-giam">{{$productssale->sale}}%</span>
-                            <div class="item-icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <a href="{{asset('/detail/'. $productssale->id)}}"><img src="{{asset($productssale->images->first()->path)}}" alt=""></a>
+                            <div class="item-icon" id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <a href="{{asset('/detail/' . $productssale->id)}}"><img
+                                    src="{{asset($productssale->images->first()->path)}}" alt=""></a>
                         </div>
                         <div class="item-name item-name-sale">
-                            <h3><a href="{{asset('/detail/'. $productssale->id)}}">
-                                {{$productssale->name}}
-                            </a></h3>
+                            <h3><a href="{{asset('/detail/' . $productssale->id)}}">
+                                    {{$productssale->name}}
+                                </a></h3>
                         </div>
                         <div class="item-price item-price-sales">
                             <span style="color: red;padding-right: 10px;">{{ number_format($productssale->price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
@@ -121,7 +122,7 @@
                         </div>
                     </li>
                 @endforeach
-<!--  -->
+                <!--  -->
 
             </ul>
         </div>
@@ -138,13 +139,13 @@
 
              <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
         <ul class="list-cat">
-            {{-- product-category --}}
-            @foreach ($product_categories as $b)
 
+{{-- product-category --}}
+            @foreach ($product_categories as $product_categories)
                 <li class="item-category">
-                    <img class="category-img" src="img/aothun.webp" alt="">
+                    <img class="category-img" src="./img/aothun.webp" alt="">
                     <div class="detail-cat">
-                        <h2 class="category-name">{{$b->name}}</h2>
+                        <h2 class="category-name">{{$product_categories->name}}</h2>
                         <a href="#"><button>Xem ngay</button></a>
                     </div>
                 </li>
@@ -153,7 +154,6 @@
         </ul>
     </div>
      </section>
-
     <!-- san pham pho bien -->
     <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
@@ -169,6 +169,9 @@
             <div class="grid wide container">
                 {{-- product is_featured --}}
                 <div class="row product_featured">
+                <div class="row">
+
+                    {{-- product is_featured --}}
                     @foreach ($products_is_featured as $products_is_featured)
                         <div class="col l-3 m-6 c-6 ">
                             <div class="item">
@@ -178,13 +181,14 @@
                                         <i class="fa-solid fa-cart-shopping"></i>
                                     </div>
 
-                                    <a href="{{asset('/detail/'. $products_is_featured->id)}}">
-                                        <img src="{{ asset($products_is_featured->images->first()->path) }}" alt="{{ $products_is_featured->name }}">
+                                    <a href="{{asset('/detail/' . $products_is_featured->id)}}">
+                                        <img src="{{ asset($products_is_featured->images->first()->path) }}"
+                                            alt="{{ $products_is_featured->name }}">
                                     </a>
                                 </div>
                                 <div class="item-name">
                                     <h3>
-                                        <a href="{{asset('/detail/'. $products_is_featured->id)}}">
+                                        <a href="{{asset('/detail/' . $products_is_featured->id)}}">
                                             {{ $products_is_featured->name }}
                                         </a>
                                     </h3>
@@ -198,8 +202,12 @@
                             </div>
                         </div>
                     @endforeach
+
                 </div>
                 {{--  --}}
+
+                    {{-- --}}
+                </div>
             </div>
         </section>
     </section>
@@ -213,9 +221,10 @@
             <div class="tab-header">
                 {{-- load hết danh mục ra đây --}}
                 <ul class="tabs">
-                    @foreach ($product_categories as $index => $category)
+
+                    @foreach ($product_new as $index => $category)
                         <li class="tab {{ $index == 0 ? 'active' : '' }}" data-tab="tab{{ $loop->iteration }}">
-                            {{ $category->name }}
+                            {{$category->name}}
                         </li>
                     @endforeach
                 </ul>
@@ -354,4 +363,52 @@
 
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lấy tất cả các biểu tượng giỏ hàng
+            const cartIcons = document.querySelectorAll('.item-icon');
+            cartIcons.forEach(icon => {
+                icon.addEventListener('click', (e) => {
+                    e.preventDefault(); // Ngăn hành vi mặc định nếu có
+
+                    // Lấy ID sản phẩm từ liên kết chi tiết sản phẩm
+                    const productLink = icon.closest('.item').querySelector('a');
+                    const href = productLink.getAttribute('href');
+                    const productId = href.split('/').pop(); // Lấy ID từ URL (ví dụ: /detail/1 -> 1)
+
+                    // Gửi yêu cầu thêm vào giỏ hàng
+                    addToCart(productId);
+                });
+            });
+        });
+
+        function addToCart(productId) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            // Vì trang chủ không có lựa chọn biến thể, giả định số lượng là 1 và biến thể mặc định
+            fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: JSON.stringify({
+                    product_variant_id: null, // Sẽ xử lý ở backend
+                    quantity: 1,
+                    product_id: productId // Thêm product_id để backend xử lý
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message); // Hiển thị thông báo từ server
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+                });
+        }
+    </script>
 @endsection

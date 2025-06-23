@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản Lý Kho - Cửa Hàng Thời Trang</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4f46e5;
+        --danger-color: #ef4444;
+        --secondary-color: #f9fafb;
+        --light-color: #ffffff;
+        --border-color: #e5e7eb;
+        --text-color: #374151;
+        --text-muted: #6b7280;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      body {
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+      }
+      .awarehousemanagement-container {
+        display: flex;
+        min-height: 100vh;
+      }
+      .awarehousemanagement-sidebar {
+        width: 280px;
+        background-color: var(--light-color);
+        padding: 1.5rem 0;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        transition: width 0.3s ease;
+      }
+      .awarehousemanagement-sidebar-header {
+        padding: 0 1.5rem 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+      .awarehousemanagement-sidebar-header h2 {
+        color: var(--primary-color);
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .awarehousemanagement-sidebar-header h2 i {
+        font-size: 1.5rem;
+      }
+      .awarehousemanagement-sidebar-section {
+        margin-bottom: 2rem;
+        padding: 0 1.5rem;
+      }
+      .awarehousemanagement-sidebar-section h3 {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+      }
+      .awarehousemanagement-sidebar-item {
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        transition: all 0.2s ease;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .awarehousemanagement-sidebar-item i {
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1rem;
+      }
+      .awarehousemanagement-sidebar-item:hover {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        transform: translateX(0.25rem);
+      }
+      .awarehousemanagement-sidebar-item.awarehousemanagement-active {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+      .awarehousemanagement-main-content {
+        flex: 1;
+        padding: 2rem;
+        background-color: var(--secondary-color);
+      }
+      .awarehousemanagement-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .awarehousemanagement-search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--light-color);
+        border-radius: 4px;
+        padding: 4px 12px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.2s ease;
+      }
+      .awarehousemanagement-search-bar:hover {
+        box-shadow: var(--shadow-md);
+      }
+      .awarehousemanagement-search-bar input {
+        border: none;
+        outline: none;
+        flex: 1;
+        padding: 4px;
+        font-size: 14px;
+        background: transparent;
+      }
+      .awarehousemanagement-search-bar i {
+        color: var(--text-muted);
+        margin-right: 8px;
+      }
+      .awarehousemanagement-user-profile {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .awarehousemanagement-notification-bell {
+        position: relative;
+        font-size: 20px;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .awarehousemanagement-notification-bell:hover {
+        color: var(--primary-color);
+      }
+      .awarehousemanagement-notification-bell::after {
+        content: "3";
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--danger-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .awarehousemanagement-profile-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      .awarehousemanagement-page-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--text-color);
+        margin-bottom: 8px;
+      }
+      .awarehousemanagement-page-subtitle {
+        color: var(--text-muted);
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+      .awarehousemanagement-data-card {
+        background-color: var(--light-color);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 32px;
+      }
+      .awarehousemanagement-data-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .awarehousemanagement-data-table th {
+        text-align: left;
+        padding: 12px 24px;
+        font-weight: 500;
+        color: var(--text-muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .awarehousemanagement-data-table td {
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 1rem;
+      }
+      .awarehousemanagement-data-table tr:last-child td {
+        border-bottom: none;
+      }
+      .awarehousemanagement-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: all 0.2s ease;
+        margin-right: 8px;
+        position: relative;
+      }
+      .awarehousemanagement-btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+      }
+      .awarehousemanagement-btn-primary:hover {
+        background-color: #4338ca;
+      }
+      .awarehousemanagement-btn-secondary {
+        background-color: var(--light-color);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+      }
+      .awarehousemanagement-btn-secondary:hover {
+        background-color: #f3f4f6;
+      }
+      .awarehousemanagement-btn-danger {
+        background-color: var(--danger-color);
+        color: white;
+      }
+      .awarehousemanagement-btn-danger:hover {
+        background-color: #dc2626;
+      }
+      .awarehousemanagement-btn:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--text-color);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 10;
+      }
+      .awarehousemanagement-filter-bar {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .awarehousemanagement-filter-select {
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--light-color);
+        font-size: 14px;
+      }
+      .awarehousemanagement-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 0;
+      }
+      .awarehousemanagement-pagination-controls {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+      }
+      .awarehousemanagement-pagination-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: var(--light-color);
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+      }
+      .awarehousemanagement-pagination-btn:hover {
+        background: var(--secondary-color);
+      }
+      .awarehousemanagement-pagination-btn.awarehousemanagement-active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+      .awarehousemanagement-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      .awarehousemanagement-modal-content {
+        background: var(--light-color);
+        border-radius: 8px;
+        padding: 24px;
+        width: 100%;
+        max-width: 600px;
+        box-shadow: var(--shadow-md);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .awarehousemanagement-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .awarehousemanagement-modal-title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .awarehousemanagement-modal-close {
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-muted);
+      }
+      .awarehousemanagement-modal-close:hover {
+        color: var(--text-color);
+      }
+      .awarehousemanagement-modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .awarehousemanagement-modal-body label {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+      .awarehousemanagement-modal-body input,
+      .awarehousemanagement-modal-body select {
+        padding: 8px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        width: 100%;
+      }
+      .awarehousemanagement-image-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-top: 8px;
+        display: none;
+      }
+      .awarehousemanagement-variant-field {
+        display: grid;
+        grid-template-columns: 1fr 1fr 50px;
+        gap: 8px;
+        align-items: center;
+      }
+      .awarehousemanagement-variant-field input {
+        flex: 1;
+      }
+      .awarehousemanagement-variant-field button {
+        padding: 8px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .awarehousemanagement-variant-field button:hover {
+        background: #4338ca;
+      }
+      .awarehousemanagement-add-variant-btn {
+        margin-top: 8px;
+        padding: 8px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .awarehousemanagement-add-variant-btn:hover {
+        background: #4338ca;
+      }
+      .awarehousemanagement-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 24px;
+      }
+      .awarehousemanagement-price {
+        text-align: right;
+      }
+      .awarehousemanagement-variants {
+        position: relative;
+        cursor: pointer;
+      }
+      .awarehousemanagement-variants:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        top: -100%;
+        left: 0;
+        background: var(--text-color);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 10;
+        white-space: normal;
+        max-width: 200px;
+      }
+      .awarehousemanagement-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      @media (max-width: 1024px) {
+        .awarehousemanagement-sidebar {
+          width: 80px;
+        }
+        .awarehousemanagement-sidebar-header h2 span,
+        .awarehousemanagement-sidebar-item span,
+        .awarehousemanagement-sidebar-section h3 {
+          display: none;
+        }
+        .awarehousemanagement-sidebar-item {
+          justify-content: center;
+        }
+        .awarehousemanagement-sidebar-item i {
+          margin: 0;
+        }
+        .awarehousemanagement-data-table th,
+        .awarehousemanagement-data-table td {
+          font-size: 12px;
+          padding: 8px;
+        }
+      }
+      @media (max-width: 768px) {
+        .awarehousemanagement-container {
+          flex-direction: column;
+        }
+        .awarehousemanagement-sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+        }
+        .awarehousemanagement-main-content {
+          padding: 16px;
+        }
+        .awarehousemanagement-search-bar {
+          max-width: 100%;
+        }
+        .awarehousemanagement-filter-bar {
+          flex-direction: column;
+        }
+        .awarehousemanagement-modal-content {
+          margin: 16px;
+          max-width: 90%;
+        }
+        .awarehousemanagement-data-table {
+          display: block;
+          overflow-x: auto;
+        }
+        .awarehousemanagement-data-table thead {
+          display: none;
+        }
+        .awarehousemanagement-data-table tbody,
+        .awarehousemanagement-data-table tr,
+        .awarehousemanagement-data-table td {
+          display: block;
+          width: 100%;
+        }
+        .awarehousemanagement-data-table td {
+          position: relative;
+          padding-left: 50%;
+        }
+        .awarehousemanagement-data-table td::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 16px;
+          width: 45%;
+          font-weight: 600;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="awarehousemanagement-container">
+      <div class="awarehousemanagement-sidebar">
+        <div class="awarehousemanagement-sidebar-header">
+          <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+        </div>
+        <div class="awarehousemanagement-sidebar-section">
+          <h3>Bảng điều khiển</h3>
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-home"></i><span>Trang chủ</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-box-open"></i><span>Sản phẩm</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a
+          >
+        </div>
+        <div class="awarehousemanagement-sidebar-section">
+          <h3>Công cụ</h3>
+          <a
+            href="#"
+            class="awarehousemanagement-sidebar-item awarehousemanagement-active"
+            ><i class="fas fa-warehouse"></i><span>Quản lý kho</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-images"></i><span>Hình ảnh sản phẩm</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-users"></i><span>Khách hàng</span></a
+          >
+        </div>
+        <div class="awarehousemanagement-sidebar-section">
+          <h3>Hệ thống</h3>
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-cog"></i><span>Cài đặt</span></a
+          >
+          <a href="#" class="awarehousemanagement-sidebar-item"
+            ><i class="fas fa-headset"></i><span>Hỗ trợ</span></a
+          >
+        </div>
+      </div>
+      <div class="awarehousemanagement-main-content">
+        <div class="awarehousemanagement-header">
+          <div class="awarehousemanagement-search-bar">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              placeholder="Tìm kiếm sản phẩm trong kho..."
+              id="awarehousemanagement-searchInput"
+            />
+          </div>
+          <div class="awarehousemanagement-user-profile">
+            <div class="awarehousemanagement-notification-bell">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="awarehousemanagement-profile-avatar">QT</div>
+          </div>
+        </div>
+        <h1 class="awarehousemanagement-page-title">Quản lý kho</h1>
+        <p class="awarehousemanagement-page-subtitle">
+          Theo dõi và quản lý số lượng tồn kho của cửa hàng
+        </p>
+        <div class="awarehousemanagement-filter-bar">
+          <select
+            class="awarehousemanagement-filter-select"
+            id="awarehousemanagement-categoryFilter"
+          >
+            <option value="">Tất cả danh mục</option>
+            <option value="áo">Áo</option>
+            <option value="quần">Quần</option>
+            <option value="phụ kiện">Phụ kiện</option>
+          </select>
+          <button
+            class="awarehousemanagement-btn awarehousemanagement-btn-primary"
+            id="awarehousemanagement-addProductBtn"
+          >
+            Thêm sản phẩm
+          </button>
+        </div>
+        <div class="awarehousemanagement-data-card">
+          <table
+            class="awarehousemanagement-data-table"
+            id="awarehousemanagement-inventoryTable"
+          >
+            <thead>
+              <tr>
+                <th data-label="Hình ảnh">Hình ảnh</th>
+                <th data-label="Mã sản phẩm">Mã sản phẩm</th>
+                <th data-label="Sản phẩm">Sản phẩm</th>
+                <th data-label="Danh mục">Danh mục</th>
+                <th data-label="Biến thể">Biến thể</th>
+                <th data-label="Số lượng">Số lượng</th>
+                <th data-label="Giá (VNĐ)">Giá (VNĐ)</th>
+                <th data-label="Hành động">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="awarehousemanagement-inventoryTableBody">
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Áo thun nam cổ tròn"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP001</td>
+                <td data-label="Sản phẩm">Áo thun nam cổ tròn</td>
+                <td data-label="Danh mục">Áo</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="S: Đen, M: Trắng"
+                >
+                  S: Đen, M: Trắng
+                </td>
+                <td data-label="Số lượng">120</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  150,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Quần jeans nam slimfit"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP002</td>
+                <td data-label="Sản phẩm">Quần jeans nam slimfit</td>
+                <td data-label="Danh mục">Quần</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="30: Xanh đậm"
+                >
+                  30: Xanh đậm
+                </td>
+                <td data-label="Số lượng">15</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  350,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Mũ lưỡi trai unisex"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP003</td>
+                <td data-label="Sản phẩm">Mũ lưỡi trai unisex</td>
+                <td data-label="Danh mục">Phụ kiện</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="Đen"
+                >
+                  Đen
+                </td>
+                <td data-label="Số lượng">0</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  80,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Áo sơ mi nữ tay dài"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP004</td>
+                <td data-label="Sản phẩm">Áo sơ mi nữ tay dài</td>
+                <td data-label="Danh mục">Áo</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="S: Hồng, M: Trắng"
+                >
+                  S: Hồng, M: Trắng
+                </td>
+                <td data-label="Số lượng">80</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  200,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Quần short kaki nam"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP005</td>
+                <td data-label="Sản phẩm">Quần short kaki nam</td>
+                <td data-label="Danh mục">Quần</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="30: Be"
+                >
+                  30: Be
+                </td>
+                <td data-label="Số lượng">30</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  180,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Túi xách da nữ"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP006</td>
+                <td data-label="Sản phẩm">Túi xách da nữ</td>
+                <td data-label="Danh mục">Phụ kiện</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="Nâu"
+                >
+                  Nâu
+                </td>
+                <td data-label="Số lượng">25</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  500,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Áo khoác nam bomber"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP007</td>
+                <td data-label="Sản phẩm">Áo khoác nam bomber</td>
+                <td data-label="Danh mục">Áo</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="M: Đen"
+                >
+                  M: Đen
+                </td>
+                <td data-label="Số lượng">10</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  400,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td data-label="Hình ảnh">
+                  <img
+                    src="https://placehold.co/50x50"
+                    alt="Áo polo nam"
+                    class="awarehousemanagement-image"
+                  />
+                </td>
+                <td data-label="Mã sản phẩm">SP008</td>
+                <td data-label="Sản phẩm">Áo polo nam</td>
+                <td data-label="Danh mục">Áo</td>
+                <td
+                  data-label="Biến thể"
+                  class="awarehousemanagement-variants"
+                  data-tooltip="S: Xanh navy"
+                >
+                  S: Xanh navy
+                </td>
+                <td data-label="Số lượng">50</td>
+                <td data-label="Giá (VNĐ)" class="awarehousemanagement-price">
+                  220,000
+                </td>
+                <td data-label="Hành động">
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-primary awarehousemanagement-edit-btn"
+                    data-tooltip="Chỉnh sửa sản phẩm"
+                  >
+                    Cập nhật
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-secondary awarehousemanagement-view-btn"
+                    data-tooltip="Xem chi tiết sản phẩm"
+                  >
+                    Xem
+                  </button>
+                  <button
+                    class="awarehousemanagement-btn awarehousemanagement-btn-danger awarehousemanagement-delete-btn"
+                    data-tooltip="Xóa sản phẩm"
+                  >
+                    Xóa
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="awarehousemanagement-pagination">
+          <div
+            class="awarehousemanagement-pagination-controls"
+            id="awarehousemanagement-paginationControls"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="awarehousemanagement-modal"
+      id="awarehousemanagement-productModal"
+    >
+      <div class="awarehousemanagement-modal-content">
+        <div class="awarehousemanagement-modal-header">
+          <h2
+            class="awarehousemanagement-modal-title"
+            id="awarehousemanagement-modalTitle"
+          >
+            Thêm sản phẩm
+          </h2>
+          <span
+            class="awarehousemanagement-modal-close"
+            id="awarehousemanagement-modalClose"
+            >×</span
+          >
+        </div>
+        <div class="awarehousemanagement-modal-body">
+          <div>
+            <label for="awarehousemanagement-productImage">Hình ảnh</label>
+            <input
+              type="file"
+              id="awarehousemanagement-productImage"
+              accept="image/*"
+            />
+            <img
+              id="awarehousemanagement-imagePreview"
+              class="awarehousemanagement-image-preview"
+              alt="Xem trước hình ảnh"
+            />
+          </div>
+          <div>
+            <label for="awarehousemanagement-productCode">Mã sản phẩm</label>
+            <input
+              type="text"
+              id="awarehousemanagement-productCode"
+              placeholder="Nhập mã sản phẩm (VD: SP001)"
+            />
+          </div>
+          <div>
+            <label for="awarehousemanagement-productName">Tên sản phẩm</label>
+            <input
+              type="text"
+              id="awarehousemanagement-productName"
+              placeholder="Nhập tên sản phẩm"
+            />
+          </div>
+          <div>
+            <label for="awarehousemanagement-productCategory">Danh mục</label>
+            <select id="awarehousemanagement-productCategory">
+              <option value="áo">Áo</option>
+              <option value="quần">Quần</option>
+              <option value="phụ kiện">Phụ kiện</option>
+            </select>
+          </div>
+          <div id="awarehousemanagement-variantContainer">
+            <label>Biến thể</label>
+            <div class="awarehousemanagement-variant-field">
+              <input
+                type="text"
+                class="awarehousemanagement-variant-size"
+                placeholder="Kích cỡ (VD: S)"
+              />
+              <input
+                type="text"
+                class="awarehousemanagement-variant-color"
+                placeholder="Màu sắc (VD: Đen)"
+              />
+              <button class="awarehousemanagement-remove-variant-btn">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <button
+            class="awarehousemanagement-add-variant-btn"
+            id="awarehousemanagement-addVariantBtn"
+          >
+            Thêm biến thể
+          </button>
+          <div>
+            <label for="awarehousemanagement-productQuantity">Số lượng</label>
+            <input
+              type="number"
+              id="awarehousemanagement-productQuantity"
+              placeholder="Nhập số lượng"
+              min="0"
+            />
+          </div>
+          <div>
+            <label for="awarehousemanagement-productPrice">Giá (VNĐ)</label>
+            <input
+              type="number"
+              id="awarehousemanagement-productPrice"
+              placeholder="Nhập giá (VD: 150000)"
+              min="0"
+            />
+          </div>
+        </div>
+        <div class="awarehousemanagement-modal-footer">
+          <button
+            class="awarehousemanagement-btn awarehousemanagement-btn-primary"
+            id="awarehousemanagement-saveProductBtn"
+          >
+            Lưu
+          </button>
+          <button
+            class="awarehousemanagement-btn awarehousemanagement-btn-secondary"
+            id="awarehousemanagement-cancelProductBtn"
+          >
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar interaction
+        const awarehousemanagementSidebarItems = document.querySelectorAll(
+          ".awarehousemanagement-sidebar-item"
+        );
+        awarehousemanagementSidebarItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            awarehousemanagementSidebarItems.forEach((i) =>
+              i.classList.remove("awarehousemanagement-active")
+            );
+            this.classList.add("awarehousemanagement-active");
+          });
+        });
+
+        // Modal handling
+        const awarehousemanagementModal = document.getElementById(
+          "awarehousemanagement-productModal"
+        );
+        const awarehousemanagementModalTitle = document.getElementById(
+          "awarehousemanagement-modalTitle"
+        );
+        const awarehousemanagementProductImageInput = document.getElementById(
+          "awarehousemanagement-productImage"
+        );
+        const awarehousemanagementImagePreview = document.getElementById(
+          "awarehousemanagement-imagePreview"
+        );
+        const awarehousemanagementProductCodeInput = document.getElementById(
+          "awarehousemanagement-productCode"
+        );
+        const awarehousemanagementProductNameInput = document.getElementById(
+          "awarehousemanagement-productName"
+        );
+        const awarehousemanagementProductCategorySelect =
+          document.getElementById("awarehousemanagement-productCategory");
+        const awarehousemanagementProductQuantityInput =
+          document.getElementById("awarehousemanagement-productQuantity");
+        const awarehousemanagementProductPriceInput = document.getElementById(
+          "awarehousemanagement-productPrice"
+        );
+        const awarehousemanagementVariantContainer = document.getElementById(
+          "awarehousemanagement-variantContainer"
+        );
+        const awarehousemanagementAddVariantBtn = document.getElementById(
+          "awarehousemanagement-addVariantBtn"
+        );
+        const awarehousemanagementSaveProductBtn = document.getElementById(
+          "awarehousemanagement-saveProductBtn"
+        );
+        const awarehousemanagementCancelProductBtn = document.getElementById(
+          "awarehousemanagement-cancelProductBtn"
+        );
+        const awarehousemanagementModalClose = document.getElementById(
+          "awarehousemanagement-modalClose"
+        );
+        const awarehousemanagementAddProductBtn = document.getElementById(
+          "awarehousemanagement-addProductBtn"
+        );
+
+        // Image preview
+        awarehousemanagementProductImageInput.addEventListener(
+          "change",
+          function () {
+            const file = this.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                awarehousemanagementImagePreview.src = e.target.result;
+                awarehousemanagementImagePreview.style.display = "block";
+              };
+              reader.readAsDataURL(file);
+            } else {
+              awarehousemanagementImagePreview.style.display = "none";
+              awarehousemanagementImagePreview.src = "";
+            }
+          }
+        );
+
+        function awarehousemanagementAddVariantField(size = "", color = "") {
+          const variantField = document.createElement("div");
+          variantField.className = "awarehousemanagement-variant-field";
+          variantField.innerHTML = `
+                    <input type="text" class="awarehousemanagement-variant-size" placeholder="Kích cỡ (VD: S)" value="${size}">
+                    <input type="text" class="awarehousemanagement-variant-color" placeholder="Màu sắc (VD: Đen)" value="${color}">
+                    <button class="awarehousemanagement-remove-variant-btn"><i class="fas fa-trash"></i></button>
+                `;
+          awarehousemanagementVariantContainer.appendChild(variantField);
+          variantField
+            .querySelector(".awarehousemanagement-remove-variant-btn")
+            .addEventListener("click", () => {
+              if (
+                awarehousemanagementVariantContainer.querySelectorAll(
+                  ".awarehousemanagement-variant-field"
+                ).length > 1
+              ) {
+                variantField.remove();
+              }
+            });
+        }
+
+        function awarehousemanagementOpenModal(mode, row = null) {
+          awarehousemanagementModalTitle.textContent =
+            mode === "edit" ? "Sửa sản phẩm" : "Thêm sản phẩm";
+          awarehousemanagementVariantContainer.innerHTML =
+            "<label>Biến thể</label>";
+          if (row) {
+            awarehousemanagementImagePreview.src =
+              row.cells[0].querySelector("img").src;
+            awarehousemanagementImagePreview.style.display = "block";
+            awarehousemanagementProductImageInput.value = ""; // Clear file input
+            awarehousemanagementProductCodeInput.value =
+              row.cells[1].textContent;
+            awarehousemanagementProductNameInput.value =
+              row.cells[2].textContent;
+            awarehousemanagementProductCategorySelect.value =
+              row.cells[3].textContent.toLowerCase();
+            awarehousemanagementProductQuantityInput.value =
+              row.cells[5].textContent;
+            awarehousemanagementProductPriceInput.value =
+              row.cells[6].textContent.replace(/[^0-9]/g, "");
+            const variants = row.cells[4].textContent.split(", ").map((v) => {
+              const [size, color] = v.split(": ").map((s) => s.trim());
+              return { size, color };
+            });
+            variants.forEach((v) =>
+              awarehousemanagementAddVariantField(v.size, v.color)
+            );
+          } else {
+            awarehousemanagementImagePreview.src = "";
+            awarehousemanagementImagePreview.style.display = "none";
+            awarehousemanagementProductImageInput.value = "";
+            awarehousemanagementProductCodeInput.value = "";
+            awarehousemanagementProductNameInput.value = "";
+            awarehousemanagementProductCategorySelect.value = "áo";
+            awarehousemanagementProductQuantityInput.value = "";
+            awarehousemanagementProductPriceInput.value = "";
+            awarehousemanagementAddVariantField();
+          }
+          awarehousemanagementModal.style.display = "flex";
+        }
+
+        function awarehousemanagementCloseModal() {
+          awarehousemanagementModal.style.display = "none";
+        }
+
+        awarehousemanagementAddProductBtn.addEventListener("click", () =>
+          awarehousemanagementOpenModal("add")
+        );
+        awarehousemanagementAddVariantBtn.addEventListener("click", () =>
+          awarehousemanagementAddVariantField()
+        );
+        awarehousemanagementCancelProductBtn.addEventListener(
+          "click",
+          awarehousemanagementCloseModal
+        );
+        awarehousemanagementModalClose.addEventListener(
+          "click",
+          awarehousemanagementCloseModal
+        );
+        awarehousemanagementSaveProductBtn.addEventListener("click", () => {
+          alert("Chức năng lưu chỉ là demo, không lưu thực tế.");
+          awarehousemanagementCloseModal();
+        });
+
+        // Pagination
+        const awarehousemanagementItemsPerPage = 5;
+        let awarehousemanagementCurrentPage = 1;
+        const awarehousemanagementInventoryTableBody = document.getElementById(
+          "awarehousemanagement-inventoryTableBody"
+        );
+        const awarehousemanagementRows = Array.from(
+          awarehousemanagementInventoryTableBody.querySelectorAll("tr")
+        );
+        const awarehousemanagementPaginationControls = document.getElementById(
+          "awarehousemanagement-paginationControls"
+        );
+
+        function awarehousemanagementRenderTable(filteredRows) {
+          const start =
+            (awarehousemanagementCurrentPage - 1) *
+            awarehousemanagementItemsPerPage;
+          const end = start + awarehousemanagementItemsPerPage;
+          awarehousemanagementRows.forEach((row, index) => {
+            row.style.display =
+              filteredRows.includes(row) && index >= start && index < end
+                ? ""
+                : "none";
+          });
+          awarehousemanagementRenderPagination(filteredRows.length);
+        }
+
+        function awarehousemanagementRenderPagination(totalItems) {
+          const totalPages = Math.ceil(
+            totalItems / awarehousemanagementItemsPerPage
+          );
+          awarehousemanagementPaginationControls.innerHTML = Array.from(
+            { length: totalPages },
+            (_, i) => `
+                    <button class="awarehousemanagement-pagination-btn ${
+                      awarehousemanagementCurrentPage === i + 1
+                        ? "awarehousemanagement-active"
+                        : ""
+                    }">${i + 1}</button>
+                `
+          ).join("");
+          document
+            .querySelectorAll(".awarehousemanagement-pagination-btn")
+            .forEach((btn, index) => {
+              btn.addEventListener("click", () => {
+                awarehousemanagementCurrentPage = index + 1;
+                awarehousemanagementRenderTable(
+                  awarehousemanagementApplyFilters()
+                );
+              });
+            });
+        }
+
+        // Search and filter
+        const awarehousemanagementSearchInput = document.getElementById(
+          "awarehousemanagement-searchInput"
+        );
+        const awarehousemanagementCategoryFilter = document.getElementById(
+          "awarehousemanagement-categoryFilter"
+        );
+
+        function awarehousemanagementApplyFilters() {
+          const searchTerm =
+            awarehousemanagementSearchInput.value.toLowerCase();
+          const category = awarehousemanagementCategoryFilter.value;
+
+          return awarehousemanagementRows.filter((row) => {
+            const code = row.cells[1].textContent.toLowerCase();
+            const name = row.cells[2].textContent.toLowerCase();
+            const rowCategory = row.cells[3].textContent.toLowerCase();
+            const nameMatch =
+              code.includes(searchTerm) || name.includes(searchTerm);
+            const categoryMatch = !category || rowCategory === category;
+            return nameMatch && categoryMatch;
+          });
+        }
+
+        awarehousemanagementSearchInput.addEventListener("input", () => {
+          awarehousemanagementCurrentPage = 1;
+          awarehousemanagementRenderTable(awarehousemanagementApplyFilters());
+        });
+
+        awarehousemanagementCategoryFilter.addEventListener("change", () => {
+          awarehousemanagementCurrentPage = 1;
+          awarehousemanagementRenderTable(awarehousemanagementApplyFilters());
+        });
+
+        // Table actions
+        awarehousemanagementInventoryTableBody.addEventListener(
+          "click",
+          (e) => {
+            const row = e.target.closest("tr");
+            if (!row) return;
+
+            if (e.target.classList.contains("awarehousemanagement-edit-btn")) {
+              awarehousemanagementOpenModal("edit", row);
+            } else if (
+              e.target.classList.contains("awarehousemanagement-view-btn")
+            ) {
+              alert(
+                `Mã: ${row.cells[1].textContent}, Tên: ${row.cells[2].textContent}, Danh mục: ${row.cells[3].textContent}, Biến thể: ${row.cells[4].textContent}, Số lượng: ${row.cells[5].textContent}, Giá: ${row.cells[6].textContent}`
+              );
+            } else if (
+              e.target.classList.contains("awarehousemanagement-delete-btn")
+            ) {
+              alert("Chức năng xóa chỉ là demo, không xóa thực tế.");
+            }
+          }
+        );
+
+        // Initial render
+        awarehousemanagementRenderTable(awarehousemanagementRows);
+      });
+    </script>
+  </body>
+</html>

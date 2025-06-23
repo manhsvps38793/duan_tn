@@ -2,74 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\addresses;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
-class UserInfoController extends Controller
+class UserInFoController extends Controller
 {
-    public function showUserInfo()
+    public function ShowInFo()
     {
         $user = Auth::user();
+        $addresses = addresses::where('user_id', $user->id)->get();
 
-        $orders = Order::where('user_id', Auth::id())
-            ->with('orderDetails') // Sửa từ 'items' thành 'orderDetails'
-            ->whereNull('deleted_at')
-            ->orderBy('created_at', 'desc')
-            ->take(5) // Lấy 5 đơn hàng
-            ->get();
-
-        return view('info_user', compact('user', 'orders'));
+        $data = [
+            'user' => $user,
+            'addresses' => $addresses,
+        ];
+        return view('info_user', $data);
     }
 
-    public function updateUserInfo(Request $request)
+    public function suainfo(Request $request, $id)
     {
-        $user = Auth::user();
+        $info = User::find($id);
+        if ($request->filled('fullname')) {
+            $info->name = $request->input('fullname');
+        }
+        if ($request->filled('email')) {
+            $info->email = $request->input('email');
+        }
+        if ($request->filled('phone')) {
+            $info->phone = $request->input('phone');
+        }
+        $info->save();
 
-        if (!$user) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Người dùng chưa đăng nhập'
-            ], 401);
+        return redirect()->route('infouser');
+    }
+
+    public function mkinfo(Request $request, $id)
+    {
+        $info = User::find($id);
+
+        // Kiểm tra mật khẩu cũ
+        if (!Hash::check($request->old_password, $info->password)) {
+            return back()->withErrors(['old_password' => 'Mật khẩu cũ không chính xác.']);
         }
 
-        $rules = [];
-        if ($request->has('fullname') || $request->has('email')) {
-            $rules = [
-                'fullname' => 'required|string|max:255',
-                'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-                'phone' => 'nullable|string|max:15',
-                'birthday' => 'nullable|date_format:Y-m-d',
-            ];
-        }
-        if ($request->has('address')) {
-            $rules['address'] = 'nullable|string|max:500';
-        }
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-       
-        $data = [];
-        if ($request->has('fullname')) $data['name'] = $request->input('fullname');
-        if ($request->has('email')) $data['email'] = $request->input('email');
-        if ($request->has('phone')) $data['phone'] = $request->input('phone');
-        if ($request->has('birthday')) $data['birthday'] = $request->input('birthday');
-        if ($request->has('address')) $data['address'] = $request->input('address');
-
-        $user->fill($data)->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Cập nhật thông tin thành công!'
+        // Validate mật khẩu mới (nếu có)
+        $request->validate([
+            'password' => 'nullable|string|min:8|confirmed',
+        ], [
+            'password.min' => 'Mật khẩu phải ít nhất 8 ký tự.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
         ]);
+
+        // Cập nhật mật khẩu nếu người dùng nhập
+        if ($request->filled('password')) {
+            $info->password = Hash::make($request->password);
+        }
+
+        $info->save();
+
+        return redirect()->route('infouser');
     }
 }
