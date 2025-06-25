@@ -45,18 +45,27 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // Route::get('infouser', function () {
 //     return view('info_user');
 // });
-Route::get('info-ctdh', function () {
-    return view('info_ctdh');
-});
+// Route::get('info-ctdh', function () {
+//     return view('info_ctdh');
+// });
 
 
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
 
+    // mạnh trang info {
     Route::get('infouser', [UserInFoController::class, 'ShowInFo'])->middleware('auth')->name('infouser');
     Route::post('suainfo/{id}', [UserInFoController::class, 'suainfo'])->middleware('auth');
-    Route::post('themaddress/{id}', [UserInFoController::class, 'themaddress'])->middleware('auth');
+    Route::post('themaddress', [UserInFoController::class, 'themaddress'])->middleware('auth');
+    Route::post('suaaddress', [UserInFoController::class, 'suaaddress'])->middleware('auth');
     Route::post('mkinfo/{id}', [UserInFoController::class, 'mkinfo'])->middleware('auth');
+    Route::get('xoaaddress/{id}', [UserInFoController::class, 'xoaaddress'])->middleware('auth');
+    Route::get('huydon/{id}', [UserInFoController::class, 'huydon'])->middleware('auth');
+    // chi tiết đơn hàng
+    Route::get('info-ctdh/{id}', [UserInFoController::class, 'Showorder'])->middleware('auth')->name('info-ctdh');
+
+
+    // }
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     // Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
 });
@@ -133,3 +142,43 @@ Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishl
 Route::get('/try-on', [TryOnController::class, 'showForm'])->name('tryon.form');
 Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process');
 
+
+
+
+// ========================================== admin
+Route::get('/admin/', function () {
+    return view('admin.home');
+});
+Route::get('/admin/baocao', function () {
+    return view('admin.baocao');
+});
+Route::get('/admin/caidat', function () {
+    return view('admin.caidat');
+});
+Route::get('/admin/hotro', function () {
+    return view('admin.hotro');
+});
+Route::get('/admin/khuyenmai', function () {
+    return view('admin.khuyenmai');
+});
+Route::get('/admin/orders', function () {
+    return view('admin.orders');
+});
+Route::get('/admin/products', function () {
+    return view('admin.products');
+});
+Route::get('/admin/quanlyhinhanh', function () {
+    return view('admin.quanlyhinhanh');
+});
+Route::get('/admin/quanlykhachhang', function () {
+    return view('admin.quanlykhachhang');
+});
+Route::get('/admin/quanlykho', function () {
+    return view('admin.quanlykho');
+});
+Route::get('/admin/quanlynguoidung', function () {
+    return view('admin.quanlynguoidung');
+});
+Route::get('/admin/quanlytintuc', function () {
+    return view('admin.quanlytintuc');
+});
