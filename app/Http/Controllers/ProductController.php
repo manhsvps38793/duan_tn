@@ -19,7 +19,7 @@ class ProductController extends Controller
         })
         ->select('id', 'name', 'sale', 'price', 'original_price');
 
-        if ($request->has('category') && is_array($request->category)) {
+        if ($request->has('category') && ($request->category)) {
             $query->whereIn('category_id', $request->category);
         }
 
@@ -138,7 +138,11 @@ class ProductController extends Controller
     // kq tìm kiếm
     public function search(Request $request)
     {
-        $keyword = $request->get('keyword');
+        $keyword = trim($request->get('keyword'));
+
+        if (empty($keyword)) {
+            return redirect()->back()->with('error', 'Vui lòng nhập từ khóa tìm kiếm!');
+        }
 
         $productAll = Products::with('thumbnail')
             ->where('name', 'like', '%' . $keyword . '%')
@@ -150,5 +154,4 @@ class ProductController extends Controller
 
         return view('searchpage', compact('productAll', 'total', 'keyword'));
     }
-    
 }

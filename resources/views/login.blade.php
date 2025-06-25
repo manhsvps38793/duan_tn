@@ -219,12 +219,14 @@
 
                         <!-- Forgot Password Form -->
                         <div id="forgot" class="logins-form-content">
-                            <form class="logins-forgot-form">
+                            <form class="logins-forgot-form" action="{{ route('password.update') }}" method="POST">
+                                @csrf
                                 <div class="logins-input-group">
                                     <label for="account">EMAIL HOẶC SỐ ĐIỆN THOẠI</label>
-                                    <input type="text" id="account" placeholder="Nhập email hoặc số điện thoại đăng ký">
-                                    <p class="logins-error-message" id="checkaccount">Vui lòng nhập email hoặc số điện
-                                        thoại</p>
+                                    <input type="text" name="email" id="account" placeholder="Nhập email hoặc số điện thoại đăng ký">
+                                    @error('account')
+                                        <p class="logins-error-message">{{ $message }}</p>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="logins-submit-btn">GỬI YÊU CẦU</button>
@@ -235,6 +237,7 @@
                                 </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>

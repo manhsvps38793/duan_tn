@@ -1,8 +1,8 @@
 /* Font và màu sắc cơ bản */
 :root {
   --about-primary-color: #2c3e50;
-  --about-secondary-color: #292626;
-  --about-accent-color: #4f4f4f;
+  --about-secondary-color: #e74c3c;
+  --about-accent-color: #3498db;
   --about-light-color: #f9f9f9;
   --about-dark-color: #333;
   --about-text-color: #444;

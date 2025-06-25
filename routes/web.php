@@ -4,15 +4,22 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\TryOnController;
+use App\Models\Cart;
+
 use App\Http\Controllers\NewController;
+use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\UserOrderController;
+
+use App\Http\Controllers\TryOnController;
 use App\Http\Controllers\VerificationController;
-use App\Http\Controllers\UserInFoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
+use Illuminate\Support\Facades\Http;
+
 
 
 
@@ -25,6 +32,13 @@ Route::get('contact', function () {
 });
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
+Route::get('cart', function () {
+    return view('cart');
+});
+
+// Route::get('login', function () {
+//     return view('login');
+// });
 
 // login bằng web
 Route::get('/showlogin', [LoginController::class, 'showLogin'])->name('showlogin');
@@ -37,6 +51,10 @@ Route::get('/auth/facebook', [SocialLoginController::class, 'redirectToFacebook'
 Route::get('/auth/facebook/callback', [SocialLoginController::class, 'handleFacebookCallback']);
 // đăng ký
 Route::post('/register', [LoginController::class, 'register'])->name('register');
+// quên mật khẩu
+Route::get('/password/reset/{id}/{hash}', [LoginController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [LoginController::class, 'ForgotPassword'])->name('password.update');
+Route::post('/password/update', [LoginController::class, 'updatePassword'])->name('password.forgot');
 // check mail
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
     ->name('verification.verify')
@@ -67,6 +85,16 @@ Route::middleware('auth')->group(function () {
 
     // }
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
+
+    // Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+
+    // Route::get('infouser', [UserInFoController::class, 'ShowInFo'])->middleware('auth')->name('infouser');
+    // Route::post('suainfo/{id}', [UserInFoController::class, 'suainfo'])->middleware('auth');
+    // Route::post('themaddress/{id}', [UserInFoController::class, 'themaddress'])->middleware('auth');
+    // Route::post('mkinfo/{id}', [UserInFoController::class, 'mkinfo'])->middleware('auth');
+    // Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     // Route::get('/user/orders/{order}', [UserOrderController::class, 'show'])->name('user.order.details')->middleware('auth');
 });
 
@@ -79,6 +107,16 @@ Route::get('pagereturn', function () {
     return view('page_return');
 });
 
+Route::get('payment', function () {
+    return view('payment');
+});
+// Route::get('news', function () {
+//     return view('news');
+// });
+
+Route::get('info-ctdh', function () {
+    return view('info_ctdh');
+});
 
 Route::get('favourite_product', function () {
     return view('favourite_product');
@@ -118,8 +156,8 @@ Route::post('/cart/apply-voucher', [CartController::class, 'applyVoucher'])->nam
 // xóa và tăng số lượng
 Route::get('/cart/remove/{variantId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+
 // update variant
-Route::put('/cart/update-variant/{variantId}', [CartController::class, 'updateVariant'])->name('cart.updateVariant');
 
 // thanh toán
 Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
@@ -138,12 +176,15 @@ Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.in
 Route::get('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::get('/wishlist/clear', [WishlistController::class, 'clear'])->name('wishlist.clear');
 
+
 // ai mặc thử sản phẩm
 Route::get('/try-on', [TryOnController::class, 'showForm'])->name('tryon.form');
 Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process');
 
-
-
+// ai box chat
+Route::get('/a', function (Request $request) {
+    return view('a', ['request' => $request]);
+});
 
 // ========================================== admin
 Route::get('/admin/', function () {
@@ -182,3 +223,6 @@ Route::get('/admin/quanlynguoidung', function () {
 Route::get('/admin/quanlytintuc', function () {
     return view('admin.quanlytintuc');
 });
+
+
+
