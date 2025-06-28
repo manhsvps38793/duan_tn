@@ -56,7 +56,7 @@
                                     @endphp
 
                                      <div class="gh-cart-item-variant">
-                                        <form action="{{ route('cart.updateVariant', $variant->id) }}" method="POST">
+                                        <form action="{{ route('cart.update', $variant->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
 

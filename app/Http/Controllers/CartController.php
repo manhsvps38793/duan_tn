@@ -254,58 +254,58 @@ class CartController extends Controller
         }
         return redirect()->route('cart.view');
     }
-    public function updateVariant($variantId, Request $request)
-    {
-        $validated = $request->validate([
-            'color_id' => 'required|exists:colors,id',
-            'size_id' => 'required|exists:sizes,id',
-            'quantity' => 'required|integer|min:1',
-        ]);
-        $oldVariant = product_variants::find($variantId);
-        $newVariant = product_variants::where('product_id', $oldVariant->product_id)
-            ->where('color_id', $validated['color_id'])
-            ->where('size_id', $validated['size_id'])
-            ->first();
+    // public function updateVariant($variantId, Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'color_id' => 'required|exists:colors,id',
+    //         'size_id' => 'required|exists:sizes,id',
+    //         'quantity' => 'required|integer|min:1',
+    //     ]);
+    //     $oldVariant = product_variants::find($variantId);
+    //     $newVariant = product_variants::where('product_id', $oldVariant->product_id)
+    //         ->where('color_id', $validated['color_id'])
+    //         ->where('size_id', $validated['size_id'])
+    //         ->first();
 
-        // Kiểm tra tồn tại và còn hàng
-        if (!$newVariant) {
-            return back()->with('error', 'Biến thể không tồn tại.');
+    //     // Kiểm tra tồn tại và còn hàng
+    //     if (!$newVariant) {
+    //         return back()->with('error', 'Biến thể không tồn tại.');
 
-        }
+    //     }
 
-        if ($newVariant->quantity < 1) {
-            return redirect()->route('cart.view')->with('error', 'Cái này hết hàng rồi!!!');
+    //     if ($newVariant->quantity < 1) {
+    //         return redirect()->route('cart.view')->with('error', 'Cái này hết hàng rồi!!!');
 
-        }
-        if (Auth::check()) {
-            // Xóa biến thể cũ
-            Cart::where('user_id', Auth::id())->where('product_variant_id', $variantId)->delete();
+    //     }
+    //     if (Auth::check()) {
+    //         // Xóa biến thể cũ
+    //         Cart::where('user_id', Auth::id())->where('product_variant_id', $variantId)->delete();
 
-            // Tạo biến thể mới
-            $cartItem = Cart::firstOrNew([
-                'user_id' => Auth::id(),
-                'product_variant_id' => $newVariant->id,
-            ]);
-            $cartItem->quantity = $validated['quantity'];
-            $cartItem->save();
-        } else {
-            // Lấy cart từ session
-            $cart = Session::get('cart', []);
+    //         // Tạo biến thể mới
+    //         $cartItem = Cart::firstOrNew([
+    //             'user_id' => Auth::id(),
+    //             'product_variant_id' => $newVariant->id,
+    //         ]);
+    //         $cartItem->quantity = $validated['quantity'];
+    //         $cartItem->save();
+    //     } else {
+    //         // Lấy cart từ session
+    //         $cart = Session::get('cart', []);
 
-            // Xóa variant cũ
-            $cart = array_filter($cart, fn($item) => $item['product_variant_id'] != $variantId);
+    //         // Xóa variant cũ
+    //         $cart = array_filter($cart, fn($item) => $item['product_variant_id'] != $variantId);
 
-            // Thêm variant mới
-            $cart[] = [
-                'product_variant_id' => $newVariant->id,
-                'quantity' => $validated['quantity'],
-            ];
+    //         // Thêm variant mới
+    //         $cart[] = [
+    //             'product_variant_id' => $newVariant->id,
+    //             'quantity' => $validated['quantity'],
+    //         ];
 
-            Session::put('cart', $cart);
-        }
-        return redirect()->route('cart.view')->with('success', 'Đã cập nhật biến thể sản phẩm!');
+    //         Session::put('cart', $cart);
+    //     }
+    //     return redirect()->route('cart.view')->with('success', 'Đã cập nhật biến thể sản phẩm!');
 
-    }
+    // }
 
 
     public function proceedToCheckout(Request $request)

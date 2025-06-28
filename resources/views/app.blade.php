@@ -21,7 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.8.1/lottie.min.js"></script>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <link rel="icon" type="image/png" href="{{ asset('logo.jpg') }}">
     @stack('styles')
 </head>
@@ -29,7 +29,17 @@
 <body>
 
     @include('header')
-
+    <a href="{{route('tryon.form')}}">
+        <div class="avatar2" id="avatar2">
+            <i class="fas fa-robot"></i>
+        </div>
+    </a>
+    <div class="avatar" id="avatar">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="box-ai" id="box-ai">
+        @include('chat')
+    </div>
     <div>
         @yield('body')
     </div>
@@ -38,6 +48,8 @@
 
     <script src="{{ asset('/js/slider.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
+    <script src="{{ asset('/js/AI.js') }}"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
 
@@ -211,18 +223,18 @@
 
 
 
-    const countdown = setInterval(updateCountdown, 1000);
+        const countdown = setInterval(updateCountdown, 1000);
 
-   //chặn gửi phom khi chưa nhập từ khóa
-    document.getElementById('search-form').addEventListener('submit', function (e) {
-        const input = document.getElementById('search-input');
-        const keyword = input.value.trim();
+        //chặn gửi phom khi chưa nhập từ khóa
+        document.getElementById('search-form').addEventListener('submit', function (e) {
+            const input = document.getElementById('search-input');
+            const keyword = input.value.trim();
 
-        if (keyword === '') {
-            e.preventDefault(); // Ngăn form submit
-            alert('Vui lòng nhập từ khóa tìm kiếm!');
-        }
-    });
+            if (keyword === '') {
+                e.preventDefault(); // Ngăn form submit
+                alert('Vui lòng nhập từ khóa tìm kiếm!');
+            }
+        });
     </script>
 
     {{-- cuar sp moi --}}
@@ -247,6 +259,8 @@
     </script>
 
     @stack('scripts')
+ 
+
 </body>
 
 </html>
