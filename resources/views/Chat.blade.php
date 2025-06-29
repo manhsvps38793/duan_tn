@@ -18,7 +18,7 @@
                 <i class="fas fa-robot"></i>
             </div>
             <div class="ai-info">
-                <h3>FashionBot <span class="ai-badge">AI</span></h3>
+                <h3>M A G Bot <span class="ai-badge">AI</span></h3>
                 <p>Trợ lý ảo thời trang thông minh</p>
             </div>
             <div class="close-chat" style="cursor: pointer">x</div>
@@ -27,7 +27,7 @@
 
         <div class="chat-messages" id="chat-messages">
             <div class="message received ai-response">
-                Xin chào! Tôi là FashionBot - trợ lý ảo thời trang. Tôi có thể giúp gì cho bạn hôm nay? 😊
+                Xin chào! Tôi là CSKH MAG - trợ lý ảo thời trang. Tôi có thể giúp gì cho bạn hôm nay? 😊
                 <div class="suggestions">
                     <div class="suggestion-chip">Tìm váy dự tiệc</div>
                     <div class="suggestion-chip">Áo khoác nam mới</div>

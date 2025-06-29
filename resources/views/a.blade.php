@@ -416,14 +416,14 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="ai-info">
-                    <h3>FashionBot <span class="ai-badge">AI</span></h3>
+                    <h3>M A G Bot <span class="ai-badge">AI</span></h3>
                     <p>Trợ lý thời trang thông minh</p>
                 </div>
             </div>
 
             <div class="chat-messages" id="chat-messages">
                 <div class="message received ai-response">
-                    Xin chào! Tôi là FashionBot - trợ lý thời trang. Tôi có thể giúp gì cho bạn hôm nay? 😊
+                    Xin chào! Tôi là CSKH - trợ lý thời trang. Tôi có thể giúp gì cho bạn hôm nay? 😊
                     <div class="suggestions">
                         <div class="suggestion-chip">Váy dự tiệc</div>
                         <div class="suggestion-chip">Áo khoác nam</div>
@@ -431,7 +431,7 @@
                         <div class="suggestion-chip">Phối đồ với jeans</div>
                     </div>
                 </div>
-                
+
                 <!-- Product suggestions example -->
                 <div class="message received ai-response">
                     Dưới đây là một số sản phẩm bạn có thể thích:
@@ -461,7 +461,7 @@
             </div>
 
 
-            
+
             <div class="quick-actions">
                 <div class="action-btn">
                     <i class="fas fa-tshirt"></i> Áo thun
@@ -476,7 +476,7 @@
                     <i class="fas fa-shoe-prints"></i> Giày
                 </div>
             </div>
-            
+
             <div class="chat-input">
                 <input type="text" id="message-input" placeholder="Nhập câu hỏi của bạn...">
                 <button id="send-btn">
@@ -506,7 +506,7 @@
                 minimizedChat.style.display = 'none';
                 scrollToBottom();
             });
-            
+
             closeChat.addEventListener('click', function() {
                 chatContainer.style.display = 'none';
                 minimizedChat.style.display = 'flex';

@@ -219,9 +219,9 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($products_is_featured->price * (1 - $products_is_featured->sale / 100), 0, ',', '.') }}đ
+                                        {{ number_format($products_is_featured->original_price * (1 - $products_is_featured->sale / 100), 0, ',', '.') }}đ
                                     </span>
-                                    <span><del>{{ number_format($products_is_featured->price, 0, ',', '.') }}đ</del></span>
+                                    <span><del>{{ number_format($products_is_featured->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
                             </div>
                         </div>
@@ -289,9 +289,9 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($product->price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                                        {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
                                     </span>
-                                    <span><del>{{ number_format($product->price, 0, ',', '.') }}đ</del></span>
+                                    <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
                             </div>
                             </div>

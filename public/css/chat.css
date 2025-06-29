@@ -3,7 +3,7 @@
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #7209b7, #4361ee);
+    background: linear-gradient(45deg, #000000, #454545);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,7 +55,7 @@
 }
 
 .chat-header {
-    background: linear-gradient(to right, #4361ee, #3a0ca3);
+    background: linear-gradient(to right, #525151, #000000);
     color: white;
     padding: 20px;
     display: flex;
@@ -285,7 +285,7 @@
 
 .suggestion-chip {
     background: #edf2ff;
-    color: #4361ee;
+    color: #000000;
     border-radius: 20px;
     padding: 8px 15px;
     font-size: 0.9rem;
@@ -295,7 +295,7 @@
 }
 
 .suggestion-chip:hover {
-    background: #4361ee;
+    background: #545455;
     color: white;
 }
 

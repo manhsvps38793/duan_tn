@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\addresses;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,12 +16,23 @@ class UserInFoController extends Controller
     {
         $user = Auth::user();
         $addresses = addresses::where('user_id', $user->id)->get();
+        $order = Order::where('user_id', $user->id)->get();
 
         $data = [
             'user' => $user,
             'addresses' => $addresses,
+            'order' => $order,
         ];
         return view('info_user', $data);
+    }
+
+    public function huydon($id)
+    {
+        $order = Order::find($id);
+        $order->status = 'Đã hủy';
+        $order->save();
+
+        return redirect()->route('infouser');
     }
 
     public function suainfo(Request $request, $id)
@@ -64,5 +77,113 @@ class UserInFoController extends Controller
         $info->save();
 
         return redirect()->route('infouser');
+    }
+
+    public function themaddress(Request $request)
+    {
+        $userId = Auth::id();
+
+        $address = new addresses();
+        $address->user_id = $userId;
+        $address->address = $request->input('address');
+        $address->ward = $request->input('ward');
+        $address->district = $request->input('district');
+        $address->province = $request->input('province');
+
+        $address->is_default = $request->address_type == 1 ? 1 : 0;
+
+        if ($address->is_default == 1) {
+            addresses::where('user_id', $userId)->update(['is_default' => 0]);
+        }
+
+        $address->save();
+
+        $hasDefault = addresses::where('user_id', $userId)->where('is_default', 1)->exists();
+        if (!$hasDefault) {
+            $address->is_default = 1;
+            $address->save();
+        }
+
+        return redirect()->route('infouser');
+    }
+
+    public function xoaaddress($id)
+    {
+        $address = addresses::find($id);
+
+        $userId = $address->user_id;
+        $isDefault = $address->is_default;
+
+        $address->delete();
+
+        if ($isDefault == 1) {
+            $latestAddress = addresses::where('user_id', $userId)
+                ->orderByDesc('id')
+                ->first();
+
+            if ($latestAddress) {
+                $latestAddress->is_default = 1;
+                $latestAddress->save();
+            }
+        }
+
+        return redirect()->route('infouser');
+    }
+
+
+    public function suaaddress(Request $request)
+    {
+        $id = $request->input('address_id');
+        $address = addresses::find($id);
+
+
+        $address->address = $request->input('address');
+        $address->ward = $request->input('ward');
+        $address->district = $request->input('district');
+        $address->province = $request->input('province');
+        $isDefault = $request->input('address_type');
+        $address->is_default = $isDefault;
+
+        if ($isDefault == 1) {
+            addresses::where('user_id', $address->user_id)
+                ->where('id', '!=', $address->id)
+                ->update(['is_default' => 0]);
+        }
+
+        $address->save();
+
+        $hasDefault = addresses::where('user_id', $address->user_id)->where('is_default', 1)->exists();
+
+        if (!$hasDefault) {
+            $address->is_default = 1;
+            $address->save();
+        }
+
+        return redirect()->route('infouser');
+    }
+
+
+
+    // order 
+    public function Showorder($id)
+    {
+        $user = Auth::user();
+        $addresses = addresses::where('user_id', $user->id)->where('is_default', '=', 1)->get();
+        $order = Order::where('user_id', $user->id)->where('id', $id)->get();
+        $orderdetail = OrderDetail::with('productVariant.product.images')
+            ->whereHas('productVariant.product.images', function ($query) {
+                $query->where('order', 1);
+            })
+            ->where('order_id', $id)
+            ->get();
+
+
+        $data = [
+            'user' => $user,
+            'addresses' => $addresses,
+            'order' => $order,
+            'orderdetail' => $orderdetail,
+        ];
+        return view('info_ctdh', $data);
     }
 }
