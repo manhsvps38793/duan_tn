@@ -1,10 +1,6 @@
 @extends('admin.app')
 
 @section('admin.body')
-    {{-- <div class="aindex-body">
-            <div class="aindex-container"> --}}
-{{-- header --}}
-
                 <div class="aindex-main-content">
                     <div class="aindex-header">
                         <div class="aindex-search-bar">

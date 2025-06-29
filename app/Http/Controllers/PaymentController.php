@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Bill;
-use App\Models\Address;
+use App\Models\addresses;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -44,9 +44,9 @@ class PaymentController extends Controller
         $user = Auth::user();
 
         if (Auth::check()) {
-            $address = Address::where('user_id', $user->id)->first();
+            $address = addresses::where('user_id', $user->id)->first();
             if (!$address) {
-                $address = Address::create([
+                $address = addresses::create([
                     'user_id' => $user->id,
                     'receiver_name' => $user->name ?? 'Người nhận',
                     'phone' => $user->phone ?? '0000000000',
@@ -58,7 +58,7 @@ class PaymentController extends Controller
                     'is_default' => 1
                 ]);
             }
-            $address = Address::where('user_id', $user->id)->get();
+            $address = addresses::where('user_id', $user->id)->get();
         } else {
             $address = null;
         }
@@ -132,14 +132,14 @@ class PaymentController extends Controller
         // Lưu địa chỉ và ghi chú
         if (Auth::check()) {
             $order->address_id = $request->address;
-            $address = Address::find($order->address_id);
+            $address = addresses::find($order->address_id);
 
             // Kiểm tra địa chỉ mặc định
             if ($address && $address->is_default == 1) {
                 return redirect()->route('payment.show')->with('error', 'Vui lòng cập nhật địa chỉ đầy đủ trước khi thanh toán.');
             }
         } else {
-            $address = new Address();
+            $address = new addresses();
             $address->user_id = null;
             $address->receiver_name = $request->fullname;
             $address->phone = $request->phone;
