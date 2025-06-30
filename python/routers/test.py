@@ -185,7 +185,7 @@ async def gpt_chat(
 
         print(f"ChatGPT response: {chat_talk}")
         return JSONResponse(
-            content={"message": chat_talk, "status":"success", "suggestions": suggestions_html}, status_code=200
+            content={"message": chat_talk, "status":"success", "suggestions": fashion_prompt}, status_code=200
         )
     except Exception as e:
         print(f"Error in GPT chat: {str(e)}")

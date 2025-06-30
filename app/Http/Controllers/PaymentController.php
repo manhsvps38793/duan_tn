@@ -125,7 +125,7 @@ class PaymentController extends Controller
         $order->user_id = Auth::id() ?? null;
         $order->voucher_id = $voucherId; // Set based on your logic, e.g., from $checkoutData
         $order->total_price = $total; // Use total_price instead of total_money
-        $order->status = 'pending';
+        $order->status = 'Chờ xử lý';
         $order->payment_methods = $request->payment;
 
 
@@ -135,7 +135,7 @@ class PaymentController extends Controller
             $address = addresses::find($order->address_id);
 
             // Kiểm tra địa chỉ mặc định
-            if ($address && $address->is_default == 1) {
+            if ($address && $address == null) {
                 return redirect()->route('payment.show')->with('error', 'Vui lòng cập nhật địa chỉ đầy đủ trước khi thanh toán.');
             }
         } else {

@@ -31,8 +31,8 @@
             <div class="col l-5 c-12 order-3">
                 <div class="detail-textall">
                     <!-- Wishlist button -->
-                     <a href="{{ route('wishlist.add', $product_detail->id) }}" class="wishlist-button">
-                    <i class="fa fa-heart"></i> </a>
+                    <a href="{{ route('wishlist.add', $product_detail->id) }}" class="wishlist-button">
+                        <i class="fa fa-heart"></i> </a>
                     {{-- name --}}
                     <h2>{{ $product_detail->name }}</h2>
                     {{-- --}}
@@ -74,9 +74,10 @@
                         <button class="add-button-detail" id="btnAddCart">
                             <i class="fas fa-shopping-cart"></i> THÊM GIỎ HÀNG
                         </button>
-                        <a href="{{route('payment.add')}}" style="text-decoration: none" class="buy-button-detail">
-                            <i class="fas fa-bolt"></i> MUA NGAY
-                        </a>
+                        <button class="buy-button-detail" id="btnAddCheckout">
+                            <i  class="fas fa-bolt"></i> MUA
+                        </button>
+
                         {{-- Place to store variant id --}}
                         <input type="hidden" id="product_variant_id" name="product_variant_id" value="">
                         {{-- quantity input exists --}}
@@ -91,12 +92,11 @@
                     <div class="option-container">
                         @foreach ($colors as $color)
                             <h1></h1>
-                           <div class="detail-textall-imgicon"
-                                    style="background-color: {{ $color->hex_code  }};"
-                                    id="iconhinhanh{{ $color->index }}">
-                              <p hidden>{{ $color->name }}</p>
-                           </div>
-                         @endforeach
+                            <div class="detail-textall-imgicon" style="background-color: {{ $color->hex_code  }};"
+                                id="iconhinhanh{{ $color->index }}">
+                                <p hidden>{{ $color->name }}</p>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="option-title" id="selected-icon">Kích thước: Chọn size</div>
                     <div class="option-container">

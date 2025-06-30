@@ -136,6 +136,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+
+
+    document.getElementById('btnAddCheckout').addEventListener('click', () => {
+        const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
+        const variantId = currentVariantId; // hoặc lấy từ data-attribute
+        // Chuyển thẳng sang URL có query params
+        window.location.href = `/payment?product_variant_id=${variantId}&quantity=${quantity}`;
+    });
+    // document.getElementById('btnAddCheckout').addEventListener('click', () => {
+
+
+    //     if (!currentVariantId) {
+    //         alert('Vui lòng chọn màu và kích thước trước khi thêm giỏ hàng.');
+    //         return;
+    //     }
+
+
+    //     const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
+    //     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    //     fetch('/payment', {
+    //         method: 'POST',
+    //         credentials: 'same-origin',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Accept': 'application/json',
+    //             'X-CSRF-TOKEN': csrfToken
+    //         },
+    //         body: JSON.stringify({
+    //             product_variant_id: currentVariantId,
+    //             quantity: quantity,
+    //         })
+    //     })
+    //         .then(res => res.json())
+    //         .then(resp => alert(resp.message))
+    //         .catch(err => { console.error(err); alert('Lỗi khi thêm giỏ hàng'); });
+
+    // });
+
     // ------------ Slider ảnh chi tiết ------------
     const imagedaitals = document.querySelectorAll('.detail-imgall img');  // Ảnh lớn
     const thumbnails = document.querySelectorAll('.detail-itemimg');       // Ảnh thumbnail nhỏ

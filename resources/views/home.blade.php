@@ -10,17 +10,7 @@
 
 
 
-    <a href="{{route('tryon.form')}}">
-        <div class="avatar2" id="avatar2">
-            <i class="fas fa-robot"></i>
-        </div>
-    </a>
-    <div class="avatar" id="avatar">
-        <i class="fas fa-robot"></i>
-    </div>
-    <div class="box-ai" id="box-ai">
-        @include('chat')
-    </div>
+   
 
 
 
@@ -141,8 +131,8 @@
                         </div>
                         <div class="item-price item-price-sales">
                             <span
-                                style="color: red;padding-right: 10px;">{{ number_format($productssale->price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
-                            <span><del>{{$productssale->original_price}}đ</del></span>
+                                style="color: red;padding-right: 10px;">{{ number_format($productssale->original_price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
+                            <span><del>{{$productssale->price}}đ</del></span>
                         </div>
                     </li>
                 @endforeach
@@ -435,25 +425,5 @@
                 });
         }
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const boxAvt = document.querySelector('.avatar'); // Sửa lại cho đúng id
-            const boxAi = document.getElementById('box-ai');
-
-            boxAvt.addEventListener('click', function () {
-                boxAvt.style.display = 'none';
-                boxAi.style.display = 'block';
-            });
-
-
-            // Nếu bạn có nút đóng box chat, thêm đoạn này:
-            const closeBtn = document.querySelector('.close-chat');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function () {
-                    boxAi.style.display = 'none';
-                    boxAvt.style.display = 'flex'; // hoặc 'block'
-                });
-            }
-        });
-    </script>
+ 
 @endsection
