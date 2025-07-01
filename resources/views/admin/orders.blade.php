@@ -132,7 +132,7 @@
                     </p>
                     <label for="orderStatus">Trạng thái:</label>
                     <select id="orderStatus" name="status" class="aorders-form-control">
-                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                        <option value="Chờ xử lý">Chờ xử lý</option>
                         <option value="Đã xác nhận">Đã xác nhận</option>
                         <option value="Đang giao hàng">Đang giao hàng</option>
                         <option value="Thành công">Thành công</option>
