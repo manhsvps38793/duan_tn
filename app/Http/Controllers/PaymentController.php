@@ -45,19 +45,19 @@ class PaymentController extends Controller
 
         if (Auth::check()) {
             $address = addresses::where('user_id', $user->id)->first();
-            // if (!$address) {
-            //     $address = addresses::create([
-            //         'user_id' => $user->id,
-            //         'receiver_name' => $user->name ?? 'Người nhận',
-            //         'phone' => $user->phone ?? '0000000000',
-            //         'email' => $user->email,
-            //         'province' => 'Tỉnh/Thành phố',
-            //         'district' => 'Quận/Huyện', 
-            //         'ward' => 'Phường/Xã',    
-            //         'address' => 'Địa chỉ mặc định',
-            //         'is_default' => 1
-            //     ]);
-            // }
+            if (!$address) {
+                $address = addresses::create([
+                    'user_id' => $user->id,
+                    'receiver_name' => $user->name ?? 'Người nhận',
+                    'phone' => $user->phone ?? '0000000000',
+                    'email' => $user->email,
+                    'province' => 'Tỉnh/Thành phố',
+                    'district' => 'Quận/Huyện', 
+                    'ward' => 'Phường/Xã',    
+                    'address' => 'Địa chỉ mặc định',
+                    'is_default' => 1
+                ]);
+            }
             $address = addresses::where('user_id', $user->id)->get();
         } else {
             $address = null;

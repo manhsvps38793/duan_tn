@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\NewAdminController;
+
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
@@ -62,13 +65,6 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->name('verification.verify')
     ->middleware('signed');
 
-// Route::get('infouser', function () {
-//     return view('info_user');
-// });
-// Route::get('info-ctdh', function () {
-//     return view('info_ctdh');
-// });
-
 
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
@@ -83,8 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::get('huydon/{id}', [UserInFoController::class, 'huydon'])->middleware('auth');
     // chi tiết đơn hàng
     Route::get('info-ctdh/{id}', [UserInFoController::class, 'Showorder'])->middleware('auth')->name('info-ctdh');
-
-
     // }
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
@@ -112,9 +106,6 @@ Route::get('pagereturn', function () {
 Route::get('payment', function () {
     return view('payment');
 });
-// Route::get('news', function () {
-//     return view('news');
-// });
 
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
@@ -189,9 +180,12 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 // });
 
 // ========================================== admin
-Route::get('/admin/', function () {
-    return view('admin.home');
-});
+
+Route::get('/admin/', [HomeAdminController::class, 'show_home']);
+
+// Route::get('/admin/', function () {
+//     return view('admin.home');
+// });
 Route::get('/admin/baocao', function () {
     return view('admin.baocao');
 });
