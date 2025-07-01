@@ -20,7 +20,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Http;
-
+//admin
+use App\Http\Controllers\Admin\AdminOrderController;
 
 
 
@@ -233,5 +234,11 @@ Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])
 
 
 
+//admin diep
 
 
+Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::get('/admin/orders/{id}/edit', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
+Route::put('/admin/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])->name('admin.orders.softDelete');
+Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');

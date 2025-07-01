@@ -68,6 +68,10 @@ class User extends Authenticatable
     // function của infouser
     public function addresses()
     {
-        return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
+        return $this->hasOne(addresses::class); 
     }
+    public function defaultAddress()
+{
+    return $this->hasOne(addresses::class)->where('is_default', 1);
+}
 }
