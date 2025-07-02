@@ -25,8 +25,7 @@ use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Http;
 //admin
 use App\Http\Controllers\Admin\AdminOrderController;
-
-
+use App\Http\Controllers\Admin\ImageAdminController;
 
 Route::get('about', function () {
     return view('about');
@@ -236,3 +235,11 @@ Route::get('/admin/orders/{id}/edit', [AdminOrderController::class, 'edit'])->na
 Route::put('/admin/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
 Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])->name('admin.orders.softDelete');
 Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+
+
+
+// router trung
+Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name('admin.images.index');
+Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
+Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
+Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');

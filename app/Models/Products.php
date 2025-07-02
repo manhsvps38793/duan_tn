@@ -23,4 +23,9 @@ class Products extends Model
     {
         return $this->hasOne(Product_images::class, 'product_id', 'id')->where('order', 1);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Product_categories::class, 'category_id');
+    }
 }
