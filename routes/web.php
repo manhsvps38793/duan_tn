@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\NewAdminController;
+
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
@@ -20,9 +23,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Http;
-
-
-
+//admin
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\ImageAdminController;
 
 Route::get('about', function () {
     return view('about');
@@ -61,13 +64,6 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->name('verification.verify')
     ->middleware('signed');
 
-// Route::get('infouser', function () {
-//     return view('info_user');
-// });
-// Route::get('info-ctdh', function () {
-//     return view('info_ctdh');
-// });
-
 
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
@@ -82,8 +78,6 @@ Route::middleware('auth')->group(function () {
     Route::get('huydon/{id}', [UserInFoController::class, 'huydon'])->middleware('auth');
     // chi tiết đơn hàng
     Route::get('info-ctdh/{id}', [UserInFoController::class, 'Showorder'])->middleware('auth')->name('info-ctdh');
-
-
     // }
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
@@ -111,9 +105,6 @@ Route::get('pagereturn', function () {
 Route::get('payment', function () {
     return view('payment');
 });
-// Route::get('news', function () {
-//     return view('news');
-// });
 
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
@@ -190,9 +181,12 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 // });
 
 // ========================================== admin
-Route::get('/admin/', function () {
-    return view('admin.home');
-});
+
+Route::get('/admin/', [HomeAdminController::class, 'show_home']);
+
+// Route::get('/admin/', function () {
+//     return view('admin.home');
+// });
 Route::get('/admin/baocao', function () {
     return view('admin.baocao');
 });
@@ -226,18 +220,33 @@ Route::get('/admin/quanlynguoidung', function () {
 Route::get('/admin/quanlytintuc', function () {
     return view('admin.quanlytintuc');
 });
+
+
+
 Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new.index');
 Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
 Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
 Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('admin.new.edit');
 Route::put('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
-
-
 Route::patch('/api/news/{id}/status', [NewAdminController::class, 'updateStatus']);
 
+//admin diep
 
 Route::get('/payment/momo', function () {
     return view('payment.momo');
 });
 
+Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::get('/admin/orders/{id}/edit', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
+Route::put('/admin/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])->name('admin.orders.softDelete');
+Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+
+
+
+// router trung
+Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name('admin.images.index');
+Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
+Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
+Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');

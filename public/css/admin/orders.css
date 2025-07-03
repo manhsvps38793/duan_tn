@@ -452,3 +452,11 @@
                     left: 0.5rem;
                 }
             }
+
+ .status-gray    { background-color: #adb5bd; color: #fff; }     /* Chờ xác nhận */
+.status-blue    { background-color: #3b82f6; color: #fff; }     /* Đã xác nhận */
+.status-orange  { background-color: #f97316; color: #fff; }     /* Đang giao hàng */
+.status-green   { background-color: #22c55e; color: #fff; }     /* Thành công */
+.status-red     { background-color: #ef4444; color: #fff; }     /* Đã hủy */
+.status-purple  { background-color: #a855f7; color: #fff; }     /* Hoàn hàng */
+.status-dark    { background-color: #334155; color: #fff; }   

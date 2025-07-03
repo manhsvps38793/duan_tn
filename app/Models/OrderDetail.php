@@ -16,4 +16,8 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(product_variants::class, 'product_variant_id', 'id')->withDefault();
     }
+    public function product()
+{
+    return $this->belongsTo(Products::class);
+}
 }

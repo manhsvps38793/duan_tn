@@ -46,19 +46,19 @@ class PaymentController extends Controller
 
         if (Auth::check()) {
             $address = addresses::where('user_id', $user->id)->first();
-            // if (!$address) {
-            //     $address = addresses::create([
-            //         'user_id' => $user->id,
-            //         'receiver_name' => $user->name ?? 'Người nhận',
-            //         'phone' => $user->phone ?? '0000000000',
-            //         'email' => $user->email,
-            //         'province' => 'Tỉnh/Thành phố',
-            //         'district' => 'Quận/Huyện', 
-            //         'ward' => 'Phường/Xã',    
-            //         'address' => 'Địa chỉ mặc định',
-            //         'is_default' => 1
-            //     ]);
-            // }
+            if (!$address) {
+                $address = addresses::create([
+                    'user_id' => $user->id,
+                    'receiver_name' => $user->name ?? 'Người nhận',
+                    'phone' => $user->phone ?? '0000000000',
+                    'email' => $user->email,
+                    'province' => 'Tỉnh/Thành phố',
+                    'district' => 'Quận/Huyện', 
+                    'ward' => 'Phường/Xã',    
+                    'address' => 'Địa chỉ mặc định',
+                    'is_default' => 1
+                ]);
+            }
             $address = addresses::where('user_id', $user->id)->get();
         } else {
             $address = null;
@@ -126,7 +126,7 @@ class PaymentController extends Controller
         $order->user_id = Auth::id() ?? null;
         $order->voucher_id = $voucherId; // Set based on your logic, e.g., from $checkoutData
         $order->total_price = $total; // Use total_price instead of total_money
-        $order->status = 'pending';
+        $order->status = 'Chờ xử lý';
         $order->payment_methods = $request->payment;
 
 

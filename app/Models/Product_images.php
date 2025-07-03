@@ -10,5 +10,9 @@ class Product_images extends Model
 
     public $incrementing = true;
     public $timestamps = false;
+    public function image_product()
+    {
 
+        return $this->belongsTo(Products::class, 'product_id');
+    }
 }
