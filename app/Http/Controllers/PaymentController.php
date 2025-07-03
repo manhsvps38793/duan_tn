@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Log;
 
 class PaymentController extends Controller
 {
@@ -217,6 +218,7 @@ class PaymentController extends Controller
             header('Location: ' . $vnp_Url);
             die();
         } elseif ($request->payment == 'Momo') {
+            
 
         } else {
             foreach ($cartDetails as $item) {
@@ -295,4 +297,10 @@ class PaymentController extends Controller
             return view('payment.error');
         }
     }
+   
+
+
+
+
+
 }

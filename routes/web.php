@@ -165,7 +165,9 @@ Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('paym
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
 Route::get('/payment/result', [PaymentController::class, 'result'])->name('payment.result');
-
+// momo payment
+// Route::get('/payment/momo/return', [PaymentController::class, 'momoReturn'])->name('payment.momo.return');
+// Route::post('/payment/momo/ipn', [PaymentController::class, 'momoIPN'])->name('payment.momo.ipn');
 
 
 Route::get('news', [NewController::class, 'show_new']);
@@ -228,10 +230,14 @@ Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new
 Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
 Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
 Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('admin.new.edit');
-Route::post('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
+Route::put('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
 
 
+Route::patch('/api/news/{id}/status', [NewAdminController::class, 'updateStatus']);
 
 
+Route::get('/payment/momo', function () {
+    return view('payment.momo');
+});
 

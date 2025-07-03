@@ -7,7 +7,11 @@
     <title>AI Tư Vấn Thời Trang</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="{{asset('')}}css/chat.css">
+    {{--
+    <link rel="stylesheet" href="{{asset('')}}css/chat.css"> --}}
+    <link rel="stylesheet" href="/css/chat.css">
+
+
 
 </head>
 
@@ -87,7 +91,11 @@
                     messageDiv.classList.add('ai-response');
                 }
                 if (isReceived) {
-                    messageDiv.innerHTML = marked.parse(message);
+                    if (message.trim().startsWith('<')) {
+                        messageDiv.innerHTML = message;
+                    } else {
+                        messageDiv.innerHTML = marked.parse(message);
+                    }
                 } else {
                     messageDiv.textContent = message;
                 }
@@ -127,7 +135,16 @@
                         const data = await response.json();
                         if (data.status === 'success') {
                             chatMessages.removeChild(typingIndicator);
+
                             addMessage(data.message, true);
+
+                            // if (data.suggestions && data.suggestions.trim()) {
+                            //     const block = document.createElement('div');
+                            //     block.classList.add('suggestion-section');
+                            //     block.innerHTML = data.suggestions;
+                            //     chatMessages.appendChild(block);
+                            //     scrollToBottom();
+                            // }
                             updateDynamicSuggestions(data.suggestions);
                         } else {
                             throw new Error(data.detail || 'Có lỗi xảy ra');
@@ -147,6 +164,7 @@
                     dynamicSuggestions.innerHTML = '';
                     dynamicSuggestions.style.display = 'none';
                 }
+               
             }
 
             sendBtn.addEventListener('click', sendMessage);

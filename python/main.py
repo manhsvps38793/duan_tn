@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from routers import tryon
 from routers.test import router as ui_router
+from routers.article_generator import router as ui_article_generator
+
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
 
@@ -34,6 +36,8 @@ app.add_middleware(
 active_connections = []
 app.include_router(tryon.router, prefix="/api")
 app.include_router(ui_router, prefix="/api")
+app.include_router(ui_article_generator, prefix="/api")
+
 
 
 # @app.get("/chat")
