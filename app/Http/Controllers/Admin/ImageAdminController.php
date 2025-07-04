@@ -77,13 +77,13 @@ class ImageAdminController extends Controller
         $filename = time() . '_' . $file->getClientOriginalName();
 
         // Lưu file vào thư mục public/products
-        $file->move(public_path('products'), $filename);
+        $file->move(public_path('/img/products'), $filename);
 
-        // Tự động gán order = 2 (ảnh phụ)
+        // gán order
         $image = new Product_images();
         $image->product_id = $request->product_id;
-        $image->path = 'products/' . $filename;
-        $image->order = 2; // Ảnh phụ mặc định
+        $image->path = 'img/products/' . $filename;
+        $image->order = 2;
         $image->save();
 
         return redirect()->back()->with('success', 'Thêm hình ảnh thành công');
@@ -127,8 +127,8 @@ class ImageAdminController extends Controller
             // Lưu ảnh mới
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('products'), $filename);
-            $image->path = 'products/' . $filename;
+            $file->move(public_path('img/products'), $filename);
+            $image->path = 'img/products/' . $filename;
         }
 
         // Cập nhật order (hình chính/phụ)
