@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\NewAdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
@@ -182,9 +183,9 @@ Route::get('/try-on', [TryOnController::class, 'showForm'])->name('tryon.form');
 Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process');
 
 // ai box chat
-Route::get('/a', function (Request $request) {
-    return view('a', ['request' => $request]);
-});
+// Route::get('/a', function (Request $request) {
+//     return view('a', ['request' => $request]);
+// });
 
 // ========================================== admin
 Route::get('/admin/', function () {
@@ -223,6 +224,14 @@ Route::get('/admin/quanlynguoidung', function () {
 Route::get('/admin/quanlytintuc', function () {
     return view('admin.quanlytintuc');
 });
+Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new.index');
+Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
+Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
+Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('admin.new.edit');
+Route::post('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
+Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
+
+
 
 
 

@@ -32,7 +32,7 @@ class VerificationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('/')->with(
+        return redirect()->route('home')->with(
             'status',
             'Kích hoạt tài khoản thành công! Bạn đã được đăng nhập.'
         );

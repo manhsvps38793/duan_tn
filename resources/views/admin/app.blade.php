@@ -18,9 +18,11 @@
     <link rel="stylesheet" href="{{ asset('/css/admin/quanlykho.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/admin/quanlynguoidung.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/admin/quanlytintuc.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic-all/ckeditor.js"></script>
 
 
-    {{--  --}}
+    {{-- --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
@@ -36,13 +38,48 @@
         <div class="aindex-container">
             @include('admin.header')
 
-                @yield('admin.body')
+            @yield('admin.body')
 
             {{-- @include('admin.footer') --}}
 
         </div>
     </div>
     @stack('scripts')
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            ClassicEditor
+                .create(document.querySelector('#adnews-newsContent'), {
+                    toolbar: {
+                        items: [
+                            'heading', '|',
+                            'bold', 'italic', 'underline', 'strikethrough', '|',
+                            'link', 'blockQuote', 'code', '|',
+                            'bulletedList', 'numberedList', '|',
+                            'insertTable', 'mediaEmbed', '|',
+                            'imageUpload', '|',
+                            'undo', 'redo'
+                        ]
+                    },
+                    simpleUpload: {
+                        uploadUrl: '/api/upload-image',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    },
+                    heading: {
+                        options: [
+                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                        ]
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem initializing the editor.', error);
+                });
+        });
+    </script>
 </body>
 
 </html>
