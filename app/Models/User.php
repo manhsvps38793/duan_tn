@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Enums\UserRole;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -69,5 +70,9 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
+    }
+    public function isAdmin()
+    {
+        return $this->role === UserRole::ADMIN->value;
     }
 }

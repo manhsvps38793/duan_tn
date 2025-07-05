@@ -10,7 +10,7 @@
 
 
 
-   
+
 
 
 
@@ -80,73 +80,122 @@
             nghiệm vui vẻ, năng động và trẻ trung.
         </p>
     </div>
-    <!-- san pham sale hết thời gian thì display none -->
     <section class="product-sale" style="margin-bottom: 10px">
         <div class="header-product-sale">
             <div>
-                <h2 class="section-title">Đang giảm giá</h2>
-                <img src="{{asset('/img/sale.webp')}}" alt="">
+                <h2 class="section-title">Flash Sale Đang Diễn Ra</h2>
+                <img src="{{ asset('/img/sale.webp') }}" alt="">
             </div>
 
             <div class="count-down">
                 <p style="color: red;">Kết thúc sau:</p>
                 <div class="box-time">
-                    <div class="time time-hour">20</div>
+                    <div class="time time-hour" id="countdown-hour">{{ $countdown['hours'] }}</div>
                     <div class="time-bottom">Giờ</div>
                 </div>
                 <div class="box-time">
-                    <div class="time time-minute">0</div>
+                    <div class="time time-minute" id="countdown-minute">{{ $countdown['minutes'] }}</div>
                     <div class="time-bottom">Phút</div>
                 </div>
                 <div class="box-time">
-                    <div class="time time-second">59</div>
+                    <div class="time time-second" id="countdown-second">{{ $countdown['seconds'] }}</div>
                     <div class="time-bottom">Giây</div>
                 </div>
             </div>
+
             <div class="see-more-sale"
-                style="position: absolute; display: flex; align-items: center;gap: 5px; right: 11%; margin-top: 189px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
-                    class="fa fa-arrow-right" aria-hidden="true"></i>
+                style="position: absolute; display: flex; align-items: center; gap: 5px; right: 11%; margin-top: 189px;">
+                <a class="see-all" href="#" style="color: black; text-decoration: none;">Xem tất cả</a>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
+
         <div class="product-sale-box">
             <div class="product-sale-banner">
-                <img src="{{asset('/img/Ảnh chụp màn hình 2025-05-24 230355.png')}}" alt="">
+                <img src="{{ asset('/img/Ảnh chụp màn hình 2025-05-24 230355.png') }}" alt="">
             </div>
-            <ul class="row product-list-sale">
 
-                {{--product-sale ................ --}}
-                @foreach ($products_sale as $productssale)
+            <ul class="row product-list-sale">
+                @forelse ($flash_sale_products as $product)
                     <li class="item" style="background-color: white; border-radius: 7px;">
                         <div class="item-img">
-                            <span class="item-giam">{{$productssale->sale}}%</span>
+                            <span class="item-giam">{{ $product->sale }}%</span>
                             <div class="item-icon" id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <a href="{{asset('/detail/' . $productssale->id)}}"><img
-                                    src="{{asset($productssale->images->first()->path)}}" alt=""></a>
+                            <a href="{{ asset('/detail/' . $product->id) }}">
+                                <img src="{{ asset($product->images->first()->path ?? '/img/default.jpg') }}" alt="">
+                            </a>
                         </div>
                         <div class="item-name item-name-sale">
-                            <h3><a href="{{asset('/detail/' . $productssale->id)}}">
-                                    {{$productssale->name}}
-                                </a></h3>
+                            <h3>
+                                <a href="{{ asset('/detail/' . $product->id) }}">{{ $product->name }}</a>
+                            </h3>
                         </div>
                         <div class="item-price item-price-sales">
-                            <span
-                                style="color: red;padding-right: 10px;">{{ number_format($productssale->original_price * (1 - $productssale->sale / 100), 0, ',', '.') }}đ</span>
-                            <span><del>{{$productssale->price}}đ</del></span>
+                            <span style="color: red; padding-right: 10px;">
+                                {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                            </span>
+                            <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
                         </div>
                     </li>
-                @endforeach
-                <!--  -->
-
+                @empty
+                    <p style="margin-left: 15px;">Hiện không có sản phẩm Flash Sale nào đang diễn ra.</p>
+                @endforelse
             </ul>
         </div>
+
         <div class="pruduct-xemthem see-more-mobile" style="display: none; margin-left: 36%; margin-top: 10px;">
-            <div style=" display: flex; align-items: center;gap: 5px;">
-                <a class="see-all" href="" style="color: black; text-decoration: none;">Xem tất cả</a><i
-                    class="fa fa-arrow-right" aria-hidden="true"></i>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <a class="see-all" href="#" style="color: black; text-decoration: none;">Xem tất cả</a>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
     </section>
+    <script>
+        function autoCountdownTasks() {
+            fetch("{{ route('ajax.applyCountdown') }}")
+                .then(res => res.json())
+                .then(data => console.log(data.message));
+
+            fetch("{{ route('ajax.resetCountdown') }}")
+                .then(res => res.json())
+                .then(data => console.log(data.message));
+        }
+
+        // Gọi lần đầu và lặp lại mỗi phút
+        autoCountdownTasks();
+        setInterval(autoCountdownTasks, 60000);
+
+        function applyCountdown() {
+            fetch("{{ route('ajax.applyCountdown') }}")
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.message);
+                    if (data.reload_page) {
+                        location.reload();
+                    }
+                });
+        }
+
+        function resetCountdown() {
+            fetch("{{ route('ajax.resetCountdown') }}")
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data.message);
+                    if (data.reload_page) {
+                        location.reload();
+                    }
+                });
+        }
+
+        setInterval(() => {
+            applyCountdown();   // thử áp dụng nếu đến giờ
+            resetCountdown();   // reset nếu đã hết giờ
+        }, 60000);
+
+    </script>
+
+
+
     <!-- load danh muc -->
     <section class="section-cat" style="padding-bottom: 10px; background-color: white; position: relative; z-index: 10;">
         <div class=" grid wide container">
@@ -425,5 +474,5 @@
                 });
         }
     </script>
- 
+
 @endsection

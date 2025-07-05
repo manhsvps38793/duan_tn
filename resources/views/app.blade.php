@@ -207,7 +207,7 @@
         function updateCountdown() {
             if (totalSeconds <= 0) {
                 clearInterval(countdown);
-                if (saleSection) saleSection.style.display = 'none';
+            //     if (saleSection) saleSection.style.display = 'none';
                 return;
             }
 
@@ -259,7 +259,7 @@
     </script>
 
     @stack('scripts')
- 
+
 
 </body>
 

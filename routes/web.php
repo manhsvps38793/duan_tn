@@ -1,10 +1,11 @@
 <?php
-
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Admin\NewAdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
@@ -19,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Http;
 
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\CountDownController;
+use App\Http\Controllers\Admin\ResetCountdownAjaxController;
 
 
 
@@ -188,10 +191,11 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 // });
 
 // ========================================== admin
-Route::get('/admin/', function () {
+Route::get('/admin', function () {
     return view('admin.home');
 });
-Route::get('/admin/baocao', function () {
+
+Route::get('/baocao', function () {
     return view('admin.baocao');
 });
 Route::get('/admin/caidat', function () {
@@ -203,6 +207,9 @@ Route::get('/admin/hotro', function () {
 Route::get('/admin/khuyenmai', function () {
     return view('admin.khuyenmai');
 });
+// Route::get('/admin/countdown', function () {
+//     return view('admin.countdown');
+// });
 Route::get('/admin/orders', function () {
     return view('admin.orders');
 });
@@ -231,6 +238,18 @@ Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('
 Route::post('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
 
+
+Route::post('/admin/countdown', [PromotionController::class, 'store'])->name('admin.countdown.store');
+// Route::get('/admin/countdown', [PromotionController::class, 'index']);
+Route::get('/admin/countdown', [PromotionController::class, 'index'])->name('admin.countdown.index');
+// Route::post('/admin/countdown/create', [PromotionController::class, 'store']);
+Route::put('/admin/countdown/{promotion}', [PromotionController::class, 'update'])->name('admin.countdown.update');
+Route::delete('/admin/countdown/{promotion}', [PromotionController::class, 'destroy'])->name('admin.countdown.destroy');
+
+// auto kích hoạt giảm khi đến giờ
+Route::get('/apply-countdown', [CountDownController::class, 'applyCountdown'])->name('ajax.applyCountdown');
+// auto reset khi hết h
+Route::get('/check-reset-countdown', [CountDownController::class, 'resetCountdownSale'])->name('ajax.resetCountdown');
 
 
 

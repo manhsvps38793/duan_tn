@@ -8,6 +8,7 @@
         <a href="{{asset('/admin/products')}}" class="adnews-sidebar-item {{ request()->is('admin/products*') ? 'adnews-active' : '' }}"><i class="fas fa-box-open"></i><span>Sản phẩm</span></a>
         <a href="{{asset('/admin/orders')}}" class="adnews-sidebar-item {{ request()->is('admin/orders*') ? 'adnews-active' : '' }}"><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a>
         <a href="{{asset('/admin/khuyenmai')}}" class="adnews-sidebar-item {{ request()->is('admin/khuyenmai*') ? 'adnews-active' : '' }}"><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a>
+        <a href="{{asset('/admin/countdown')}}" class="adnews-sidebar-item {{ request()->is('admin/countdown*') ? 'adnews-active' : '' }}"><i class="fas fa-percentage"></i><span>Count down</span></a>
         <a href="{{asset('/admin/baocao')}}" class="adnews-sidebar-item {{ request()->is('admin/baocao*') ? 'adnews-active' : '' }}"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
     </div>
     <div class="adnews-sidebar-section">
@@ -35,14 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = this.getAttribute('href').replace("{{asset('')}}", '');
             localStorage.setItem('activeSidebarItem', path);
         });
-        
+
         // Kiểm tra và thêm class active từ localStorage
         const activePath = localStorage.getItem('activeSidebarItem');
         if (activePath && item.getAttribute('href').replace("{{asset('')}}", '') === activePath) {
             item.classList.add('adnews-active');
         }
     });
-    
+
     // Thêm active class dựa trên URL hiện tại nếu không có trong localStorage
     if (!localStorage.getItem('activeSidebarItem')) {
         const currentPath = window.location.pathname.replace("{{asset('')}}", '');
