@@ -16,42 +16,42 @@ class ImageAdminController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    $query = Product_images::with('image_product.category') // load cả category
-        ->orderBy('order')
-        ->orderBy('product_id');
+    {
+        $query = Product_images::with('image_product.category') // load cả category
+            ->orderBy('order')
+            ->orderBy('product_id');
 
-    // Tìm theo tên sản phẩm
-    if ($request->filled('search')) {
-        $query->whereHas('image_product', function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->search . '%');
-        });
+        // Tìm theo tên sản phẩm
+        if ($request->filled('search')) {
+            $query->whereHas('image_product', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Lọc theo tên danh mục
+        if ($request->filled('category')) {
+            $query->whereHas('image_product.category', function ($q) use ($request) {
+                $q->where('name', $request->category);
+            });
+        }
+
+        $images = $query->get()->groupBy('product_id');
+
+        // Lọc theo số lượng ảnh
+        if ($request->filled('count')) {
+            $count = (int) $request->count;
+            $images = $images->filter(fn($group) => $group->count() == $count);
+        }
+
+        // Truyền danh sách danh mục để đổ dropdown
+        $categories = Product_categories::orderBy('name')->pluck('name');
+
+        return view('admin.quanlyhinhanh', [
+            'image' => $images,
+            'request' => $request,
+            'categories' => $categories
+        ]);
     }
-
-    // Lọc theo tên danh mục
-    if ($request->filled('category')) {
-        $query->whereHas('image_product.category', function ($q) use ($request) {
-            $q->where('name', $request->category);
-        });
-    }
-
-    $images = $query->get()->groupBy('product_id');
-
-    // Lọc theo số lượng ảnh
-    if ($request->filled('count')) {
-        $count = (int) $request->count;
-        $images = $images->filter(fn($group) => $group->count() == $count);
-    }
-
-    // Truyền danh sách danh mục để đổ dropdown
-    $categories = Product_categories::orderBy('name')->pluck('name');
-
-    return view('admin.quanlyhinhanh', [
-        'image' => $images,
-        'request' => $request,
-        'categories' => $categories
-    ]);
-}
 
 
 
@@ -158,11 +158,21 @@ class ImageAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy($id)
     {
         $image = Product_images::findOrFail($id);
+        $productId = $image->product_id;
 
-        // Xóa file trong thư mục public (nếu tồn tại)
+        // Kiểm tra nếu là ảnh chính và là ảnh duy nhất
+        $imagesCount = Product_images::where('product_id', $productId)->get();
+        $wasPrimary = $image->order == 1;
+
+        if ($wasPrimary && $imagesCount->count() == 1) {
+            return redirect()->back()->with('error', 'Không thể xóa ảnh chính vì đây là ảnh duy nhất của sản phẩm.');
+        }
+
+        // Xóa file trong public (nếu tồn tại)
         $filePath = public_path($image->path);
         if (File::exists($filePath)) {
             File::delete($filePath);
@@ -170,6 +180,15 @@ class ImageAdminController extends Controller
 
         // Xóa trong DB
         $image->delete();
+
+        // Nếu là ảnh chính, gán ảnh khác làm ảnh chính
+        if ($wasPrimary) {
+            $nextImage = Product_images::where('product_id', $productId)->first();
+            if ($nextImage) {
+                $nextImage->order = 1;
+                $nextImage->save();
+            }
+        }
 
         return redirect()->back()->with('success', 'Đã xóa hình ảnh thành công');
     }
