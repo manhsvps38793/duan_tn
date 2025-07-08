@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Http;
 //admin
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\ImageAdminController;
+use App\Http\Controllers\Admin\ContactAdminController;
+use App\Http\Controllers\Admin\AdminCustomerController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 Route::get('about', function () {
     return view('about');
@@ -250,3 +253,23 @@ Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name
 Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
 Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
 Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
+
+// router của Khôi
+//lienhe
+Route::get('/admin/quanlylienhe', [ContactAdminController::class, 'index'])->name('admin.quanlylienhe.index');
+Route::get('/admin/quanlylienhe/{id}', [ContactAdminController::class, 'show'])->name('admin.quanlylienhe.show');
+Route::post('/admin/quanlylienhe/{id}/reply', [ContactAdminController::class, 'reply'])->name('admin.quanlylienhe.reply');
+Route::delete('/admin/quanlylienhe/{id}', [ContactAdminController::class, 'destroy'])->name('admin.quanlylienhe.destroy');
+//ql user
+Route::get('/admin/quanlykhachhang', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
+Route::get('/admin/khachhang/{id}', [AdminCustomerController::class, 'show']);
+Route::post('/admin/khachhang', [AdminCustomerController::class, 'store']);
+Route::put('/admin/khachhang/{id}', [AdminCustomerController::class, 'update']);
+Route::delete('/admin/khachhang/{id}', [AdminCustomerController::class, 'destroy']);
+Route::patch('/admin/khachhang/{id}/lock', [AdminCustomerController::class, 'lockToggle']);
+//ql role
+Route::get('/admin/quanlynguoidung', [AdminUserController::class, 'index'])->name('admin.users.index');
+Route::post('/admin/quanlynguoidung/add', [AdminUserController::class, 'add'])->name('admin.users.add');
+Route::put('/admin/quanlynguoidung/{id}/update', [AdminUserController::class, 'updateRoleAndStatus'])->name('admin.users.update');
+Route::delete('/admin/quanlynguoidung/{id}/remove-role', [AdminUserController::class, 'removeRole'])->name('admin.users.removeRole');
+Route::get('/admin/quanlynguoidung/{id}', [AdminUserController::class, 'show'])->name('admin.users.show');

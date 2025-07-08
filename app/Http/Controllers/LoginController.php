@@ -44,6 +44,13 @@ class LoginController extends Controller
                     'email' => 'Tài khoản chưa được kích hoạt. Vui lòng kiểm tra email để kích hoạt.',
                 ])->withInput();
             }
+            if (Auth::user()->is_locked == 0) {
+        Auth::logout();
+
+        return back()->withErrors([
+            'email' => 'Tài khoản của bạn đã bị khóa.',
+        ])->withInput();
+    }
 
             return redirect()->route('home');
         }
