@@ -181,6 +181,7 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 // ========================================== admin
 
 Route::get('/admin/', [HomeAdminController::class, 'show_home']);
+Route::post('/admin/reply-comment', [HomeAdminController::class, 'replyComment'])->name('admin.reply-comment');
 
 // Route::get('/admin/', function () {
 //     return view('admin.home');

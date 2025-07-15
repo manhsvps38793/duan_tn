@@ -3,10 +3,11 @@
 @section('admin.body')
     <div class="aindex-main-content">
         <div class="aindex-header">
-            <div class="aindex-search-bar">
+            {{-- <div class="aindex-search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng..." />
-            </div>
+            </div> --}}
+            <div></div>
             <div class="aindex-user-profile">
                 <div class="aindex-notification-bell">
                     <i class="fas fa-bell"></i>
@@ -172,7 +173,8 @@
                     <h3 class="aindex-data-title">
                         Đơn hàng gần đây
                     </h3>
-                    <span class="aindex-data-action">Xem tất cả</span>
+                    <a href="{{ asset('/admin/orders') }}" style="text-decoration: none;color: rgb(39, 39, 39);"
+                        class="aindex-data-action">Xem tất cả</a>
                 </div>
 
                 <table class="aindex-data-table">
@@ -184,40 +186,20 @@
                             <th>Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#DH-2456</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>750.000đ</td>
-                            <td>
-                                <span class="aindex-status-badge aindex-status-active">Đã giao</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#DH-2455</td>
-                            <td>Trần Thị B</td>
-                            <td>1.250.000đ</td>
-                            <td>
-                                <span class="aindex-status-badge aindex-status-active">Đang giao</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#DH-2454</td>
-                            <td>Lê Văn C</td>
-                            <td>550.000đ</td>
-                            <td>
-                                <span class="aindex-status-badge aindex-status-inactive">Chờ xử lý</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#DH-2453</td>
-                            <td>Phạm Thị D</td>
-                            <td>950.000đ</td>
-                            <td>
-                                <span class="aindex-status-badge aindex-status-active">Đã thanh toán</span>
-                            </td>
-                        </tr>
-                    </tbody>
+                    @foreach ($donhangganday as $donhangganday)
+                        <tbody>
+                            <tr>
+                                <td>#DH-{{ $donhangganday->id }}</td>
+                                <td>{{ $donhangganday->user->name }}</td>
+                                <td>{{ $donhangganday->total_price }}đ</td>
+                                <td>
+                                    <span
+                                        class="aindex-status-badge aindex-status-active">{{ $donhangganday->status }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    @endforeach
+
                 </table>
             </div>
 
@@ -235,71 +217,59 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <div class="aindex-comment-user">
-                                    <div class="aindex-comment-avatar">
-                                        NT
+                        @foreach ($reviews as $review)
+                            <tr>
+                                <td>
+                                    <!-- Nội dung bình luận chính -->
+                                    <div class="aindex-comment-user">
+                                        <div class="aindex-comment-avatar">{{ Str::substr($review['user']['name'], 0, 1) }}
+                                        </div>
+                                        <div class="aindex-comment-name">{{ $review['user']['name'] }}</div>
                                     </div>
-                                    <div class="aindex-comment-name">
-                                        Ngọc Trinh
-                                    </div>
-                                </div>
-                                <div class="aindex-comment-content">
-                                    Áo đẹp, chất liệu tốt, rất thoải
-                                    mái. Sẽ ủng hộ shop dài lâu!
-                                </div>
-                                <div class="aindex-comment-time">
-                                    30 phút trước
-                                </div>
-                            </td>
-                            <td>
-                                <form id="comment-reply-form-1" class="aindex-comment-reply-form" action="#"
-                                    method="POST">
-                                    <button type="button" class="aindex-btn aindex-btn-primary" data-modal="reply-comment"
-                                        data-id="1" data-user="Ngọc Trinh"
-                                        data-comment="Áo đẹp, chất liệu tốt, rất thoải mái. Sẽ ủng hộ shop dài lâu!">
+                                    <div class="aindex-comment-content">{{ $review['comment'] }}</div>
+                                    <div class="aindex-comment-time">{{ $review['created_at'] }}</div>
+
+                                    <!-- ✅ Nút phản hồi cho bình luận chính -->
+                                    <button class="aindex-reply-btn" data-id="{{ $review['id'] }}"
+                                        data-user="{{ $review['user']['name'] }}"
+                                        data-product="{{ $review['product_id'] }}">
                                         Phản hồi
                                     </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="aindex-comment-user">
-                                    <div class="aindex-comment-avatar">
-                                        TL
+
+                                    <!-- Phản hồi con -->
+                                    <div class="aindex-comment-replies">
+                                        @foreach ($review['replies'] as $reply)
+                                            <div
+                                                class="aindex-comment-reply {{ $reply['is_admin'] ? 'aindex-reply-admin' : '' }}">
+                                                <div class="aindex-reply-user">
+                                                    <div class="aindex-reply-avatar">
+                                                        {{ Str::substr($reply['user']['name'], 0, 1) }}</div>
+                                                    <div class="aindex-reply-name">{{ $reply['user']['name'] }}</div>
+                                                </div>
+                                                <div class="aindex-reply-content">{{ $reply['comment'] }}</div>
+                                                <div class="aindex-reply-time">{{ $reply['created_at'] }}</div>
+
+                                                <!-- ✅ Nút phản hồi cho reply -->
+                                                <button class="aindex-reply-btn" data-modal="reply-comment"
+                                                    {{-- ✅ thêm dòng này để JS bắt được --}} data-id="{{ $review['id'] }}"
+                                                    data-user="{{ $review['user']['name'] }}"
+                                                    data-product="{{ $review['product_id'] }}">
+                                                    Phản hồi
+                                                </button>
+
+                                            </div>
+                                        @endforeach
                                     </div>
-                                    <div class="aindex-comment-name">
-                                        Thanh Long
-                                    </div>
-                                </div>
-                                <div class="aindex-comment-content">
-                                    Quần hơi rộng so với size chart,
-                                    shop có thể đổi size không?
-                                </div>
-                                <div class="aindex-comment-time">
-                                    2 giờ trước
-                                </div>
-                            </td>
-                            <td>
-                                <form id="comment-reply-form-2" class="aindex-comment-reply-form" action="#"
-                                    method="POST">
-                                    <button type="button" class="aindex-btn aindex-btn-primary"
-                                        data-modal="reply-comment" data-id="2" data-user="Thanh Long"
-                                        data-comment="Quần hơi rộng so với size chart, shop có thể đổi size không?">
-                                        Phản hồi
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        @endforeach
+
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    {{-- </div>
-        </div> --}}
 
     <!-- Reply Comment Modal -->
     <div id="reply-comment-modal" class="aindex-modal">
@@ -308,10 +278,13 @@
                 <h3 class="aindex-modal-title">Phản hồi bình luận</h3>
                 <span class="aindex-modal-close">×</span>
             </div>
-            <form id="reply-comment-form" action="#" method="POST">
+            <form id="reply-comment-form" action="{{ route('admin.reply-comment') }}" method="POST">
+                @csrf
+                <input type="hidden" id="parent-id" name="parent_id">
+                <input type="hidden" id="product-id" name="product_id">
                 <div class="aindex-modal-form-group">
                     <label for="comment-user">Người dùng</label>
-                    <input type="text" id="comment-user" name="user" readonly value="" />
+                    <input type="text" id="comment-user" name="user" readonly value="">
                 </div>
                 <div class="aindex-modal-form-group">
                     <label for="comment-content">Bình luận</label>
@@ -327,6 +300,7 @@
             </form>
         </div>
     </div>
+
     <script>
         const chartLabels = @json($labels);
         const chartDoanhThu = @json($doanhThuTuan);
@@ -447,6 +421,56 @@
                         },
                     },
                 },
+            });
+        });
+    </script>
+
+    {{-- mở box --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('reply-comment-modal');
+            const closeBtn = document.querySelector('.aindex-modal-close');
+
+            //  Gộp xử lý tất cả nút phản hồi (bình luận chính + phản hồi con)
+            document.querySelectorAll('.aindex-reply-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userName = this.getAttribute('data-user');
+                    const parentId = this.getAttribute('data-id');
+                    const productId = this.getAttribute('data-product');
+
+                    let replyContent = '';
+                    const replyContentElem = this.closest('.aindex-comment-reply')?.querySelector(
+                        '.aindex-reply-content');
+                    if (replyContentElem) {
+                        // Trường hợp phản hồi con
+                        replyContent = replyContentElem.innerText;
+                    } else {
+                        // Trường hợp bình luận chính
+                        replyContent = this.closest('td').querySelector('.aindex-comment-content')
+                            ?.innerText ?? '';
+                    }
+
+                    // Gán dữ liệu vào form modal
+                    document.getElementById('comment-user').value = userName;
+                    document.getElementById('comment-content').value = replyContent;
+                    document.getElementById('parent-id').value = parentId;
+                    document.getElementById('product-id').value = productId;
+
+                    // Hiển thị modal
+                    modal.style.display = 'block';
+                });
+            });
+
+            // Đóng modal khi nhấn ×
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Đóng modal khi click bên ngoài
+            window.addEventListener('click', e => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
             });
         });
     </script>
