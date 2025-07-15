@@ -3,20 +3,50 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\PublishNews;
 use App\Models\NewCategory;
 use App\Models\News;
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class NewAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::all();
-        $categories = NewCategory::all();
+        $query = News::query();
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        // if($request->filled('dateFillter')){
+        //     $query->where('created_at', $request->dateFillter);
+        // }
+
+
+
+
+
+        $news = $query->paginate(5)->withQueryString();
+        $categories = NewCategory::withCount([
+            'news' => function (Builder $query) {
+                $query->where('status', 'Đã xuất bản');
+            }
+        ])->withSum([
+                    'news as total_views' => function (Builder $query) {
+                        $query->where('status', 'Đã xuất bản');
+                    }
+                ], 'views')->get();
+
+
 
         $data = [
             'news' => $news,
@@ -36,6 +66,8 @@ class NewAdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -44,33 +76,40 @@ class NewAdminController extends Controller
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'author' => 'required|string|max:255',
-            // 'tags' => 'nullable|string|max:255',
             'posted_date' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            // 'status' => 'required|in:draft,published',
         ]);
 
-        $news = new News();
-        $news->title = $validated['title'];
-        $news->description = $validated['description'];
-        $news->content = $validated['content'];
-        $news->category_id = $validated['category_id'];
-        $news->posted_date = $request->posted_date
-            ? \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->posted_date)
+        // Chuyển posted_date về Carbon instance nếu có
+        $validated['posted_date'] = $request->posted_date
+            ? Carbon::createFromFormat('Y-m-d\TH:i', $request->posted_date)
             : null;
-        $news->author = $validated['author']; // hoặc lấy từ session
-        $news->status = 'Chưa xuất bản'; // hoặc lấy từ session
 
+        // Gán status mặc định
+        $validated['status'] = 'Chưa xuất bản';
+
+        // Xử lý upload ảnh, gán vào $validated['image'] nếu có
         if ($request->hasFile('image')) {
             $fileName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('img'), $fileName);
             $validated['image'] = $fileName;
         }
-        
 
-        News::create($validated);
+        // Tạo bản tin và bắt model trả về
+        $news = News::create($validated);
+
+        // Dispatch delayed job hoặc publish ngay
+        if ($news->posted_date && $news->posted_date->gt(now())) {
+            PublishNews::dispatch($news->id)
+                ->delay($news->posted_date);
+        } else {
+            $news->update(['status' => 'Chưa xuất bản']);
+        }
+
         return redirect()->back()->with('success', 'Tin tức đã được tạo thành công.');
     }
+
+
     public function ImageUpload(Request $request)
     {
         $request->validate([
@@ -109,7 +148,9 @@ class NewAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -117,25 +158,42 @@ class NewAdminController extends Controller
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'author' => 'required|string|max:255',
-            // 'tags' => 'nullable|string|max:255',
             'posted_date' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            // 'status' => 'required|in:draft,published',
         ]);
+
         $news = News::findOrFail($id);
+
+        // Chuyển posted_date
+        $validated['posted_date'] = $request->posted_date
+            ? Carbon::createFromFormat('Y-m-d\TH:i', $request->posted_date)
+            : null;
+        \Log::info("Posted date: " . ($validated['posted_date'] ? $validated['posted_date']->toString() : 'null'));
+        \Log::info("Is in future? " . ($validated['posted_date'] && $validated['posted_date']->gt(now()) ? 'yes' : 'no'));
+        // Xử lý ảnh
         if ($request->hasFile('image')) {
             $fileName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('img'), $fileName);
             $validated['image'] = $fileName;
         } else {
-            $validated['image'] = $news->image; // giữ nguyên ảnh cũ nếu không có ảnh mới
+            $validated['image'] = $news->image;
         }
-        $news->posted_date = $request->posted_date
-            ? \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->posted_date)
-            : null;
+
+        // Cập nhật bản tin
         $news->update($validated);
-        return redirect()->route('admin.news.index')->with('success', 'Tin tức đã được cập nhật thành công.');
+
+        // Dispatch delayed job hoặc publish ngay
+        if ($news->posted_date && $news->posted_date->gt(now())) {
+            PublishNews::dispatch($news->id)
+                ->delay($news->posted_date);
+        } elseif ($news->posted_date && $news->posted_date->lte(now())) {
+            $news->update(['status' => 'Đã xuất bản']);
+        }
+
+        return redirect()->route('admin.new.index')
+            ->with('success', 'Tin tức đã được cập nhật thành công.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -148,5 +206,44 @@ class NewAdminController extends Controller
         }
         $news->delete();
         return response()->json(['success' => true, 'message' => 'Tin tức đã được xóa.']);
+    }
+    public function updateStatus(Request $request, string $id)
+    {
+        $news = News::findOrFail($id);
+        if (!$news) {
+            return response()->json(['success' => false, 'message' => 'Tin tức không tồn tại'], 404);
+        }
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:Đã xuất bản,Chưa xuất bản'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Dữ liệu không hợp lệ',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $newStatus = $request->input('status');
+        $news->status = $newStatus;
+
+
+        if ($newStatus === 'Đã xuất bản') {
+            $news->posted_date = now();
+        }
+
+
+        $news->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật trạng thái thành công',
+            'data' => [
+                'id' => $news->id,
+                'status' => $news->status,
+                'posted_date' => $news->posted_date,
+            ],
+        ]);
     }
 }

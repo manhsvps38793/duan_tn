@@ -25,6 +25,10 @@ class PageController extends Controller
         $product_new = Product_categories::with(['products' => function ($query) {
             $query->take(8);
         }])->get();
+        $products_bestseller = Products::with('thumbnail')
+            ->orderBy('sold_count', 'desc')
+            ->select('id', 'name', 'sale', 'price', 'original_price', 'sold_count')
+            ->take(8)->get();
 
         // ======== Flash Sale =========
         $now = Carbon::now('Asia/Ho_Chi_Minh');
@@ -81,6 +85,7 @@ class PageController extends Controller
             'product_new' => $product_new,
             'flash_sale_products' => $flash_sale_products->unique('id'),
             'countdown' => $countdown,
+            'products_bestseller' => $products_bestseller
         ];
 
         return view('home', $data);

@@ -6,13 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Trang chủ')</title>
 
-    <link rel="stylesheet" href="{{ asset('/css/grid.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('/css/grid.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/info.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/info_ctdh.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/info_ctdh.css') }}">c
     <link rel="stylesheet" href="{{ asset('/css/thanhtoan.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/about.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/detail.css') }}"> --}}
+
+
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/grid.css">
+    <link rel="stylesheet" href="/css/info.css">
+    <link rel="stylesheet" href="/css/info_ctdh.css">
+    <link rel="stylesheet" href="/css/thanhtoan.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="/css/detail.css">
+
+
+
+
+
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/css/lightslider.min.css">
     <link
@@ -46,9 +63,15 @@
 
     @include('footer')
 
-    <script src="{{ asset('/js/slider.js') }}"></script>
+    {{-- <script src="{{ asset('/js/slider.js') }}"></script>
     <script src="{{ asset('/js/main.js') }}"></script>
-    <script src="{{ asset('/js/AI.js') }}"></script>
+    <script src="{{ asset('/js/AI.js') }}"></script> --}}
+
+
+    <script src="js/slider.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/AI.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
@@ -220,6 +243,41 @@
             if (minuteEl) minuteEl.textContent = m.toString().padStart(2, '0');
             if (secondEl) secondEl.textContent = s.toString().padStart(2, '0');
         }
+
+        function updateCountdown() {
+            let hour = parseInt(document.getElementById("countdown-hour").textContent);
+            let minute = parseInt(document.getElementById("countdown-minute").textContent);
+            let second = parseInt(document.getElementById("countdown-second").textContent);
+
+            if (hour === 0 && minute === 0 && second === 0) {
+                document.getElementById("countdown-label").style.display = "none";
+                document.getElementById("flash-sale-start").style.display = "block";
+                return;
+            }
+
+            // Giảm giây
+            if (second > 0) {
+                second--;
+            } else {
+                if (minute > 0) {
+                    minute--;
+                    second = 59;
+                } else if (hour > 0) {
+                    hour--;
+                    minute = 59;
+                    second = 59;
+                } else {
+                    second = 0;
+                }
+            }
+
+            document.getElementById("countdown-hour").textContent = hour.toString().padStart(2, '0');
+            document.getElementById("countdown-minute").textContent = minute.toString().padStart(2, '0');
+            document.getElementById("countdown-second").textContent = second.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+
 
 
 

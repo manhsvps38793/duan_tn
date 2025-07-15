@@ -20,6 +20,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('status')->default('Chờ xác nhận');
+        });
     }
 
     /**
@@ -28,5 +31,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('orders');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

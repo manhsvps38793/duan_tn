@@ -1,22 +1,6 @@
 @extends('app')
 
 @section('body')
-    {{-- @auth
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit">Đăng xuất</button>
-    </form>
-    @endauth --}}
-
-
-
-
-
-
-
-
-
-
     <div class="index-slider-container" id="slider">
         <div class="index-progress-bar"></div>
         <div class="index-slider-track-container">
@@ -83,12 +67,14 @@
     <section class="product-sale" style="margin-bottom: 10px">
         <div class="header-product-sale">
             <div>
-                <h2 class="section-title">Flash Sale Đang Diễn Ra</h2>
+                <h2 class="section-title">Flash Sale mỗi ngày</h2>
                 <img src="{{ asset('/img/sale.webp') }}" alt="">
             </div>
 
             <div class="count-down">
-                <p style="color: red;">Kết thúc sau:</p>
+                <p id="countdown-label" style="color: red;">Kết thúc sau:</p>
+                <p id="flash-sale-start" style="display: none; color: green;">Flash Sale bắt đầu lúc 8h hàng ngày</p>
+
                 <div class="box-time">
                     <div class="time time-hour" id="countdown-hour">{{ $countdown['hours'] }}</div>
                     <div class="time-bottom">Giờ</div>
@@ -102,6 +88,7 @@
                     <div class="time-bottom">Giây</div>
                 </div>
             </div>
+
 
             <div class="see-more-sale"
                 style="position: absolute; display: flex; align-items: center; gap: 5px; right: 11%; margin-top: 189px;">
@@ -138,7 +125,28 @@
                         </div>
                     </li>
                 @empty
-                    <p style="margin-left: 15px;">Hiện không có sản phẩm Flash Sale nào đang diễn ra.</p>
+                @foreach ($products_sale as $product )
+                    <li class="item" style="background-color: white; border-radius: 7px;">
+                        <div class="item-img">
+                            <span class="item-giam">{{ $product->sale }}%</span>
+                            <div class="item-icon" id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <a href="{{ asset('/detail/' . $product->id) }}">
+                                <img src="{{ asset($product->images->first()->path ?? '/img/default.jpg') }}" alt="">
+                            </a>
+                        </div>
+                        <div class="item-name item-name-sale">
+                            <h3>
+                                <a href="{{ asset('/detail/' . $product->id) }}">{{ $product->name }}</a>
+                            </h3>
+                        </div>
+                        <div class="item-price item-price-sales">
+                            <span style="color: red; padding-right: 10px;">
+                                {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                            </span>
+                            <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
+                        </div>
+                    </li>
+                @endforeach
                 @endforelse
             </ul>
         </div>
@@ -191,7 +199,6 @@
             applyCountdown();   // thử áp dụng nếu đến giờ
             resetCountdown();   // reset nếu đã hết giờ
         }, 60000);
-
     </script>
 
 
@@ -199,25 +206,70 @@
     <!-- load danh muc -->
     <section class="section-cat" style="padding-bottom: 10px; background-color: white; position: relative; z-index: 10;">
         <div class=" grid wide container">
-
-             <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
-        <ul class="list-cat">
-
-{{-- product-category --}}
-            @foreach ($product_categories as $product_categories)
-                <li class="item-category">
-                    <img class="category-img" src="./img/aothun.webp" alt="">
-                    <div class="detail-cat">
-                        <h2 class="category-name">{{$product_categories->name}}</h2>
-                        <a href="#"><button>Xem ngay</button></a>
-                    </div>
-                </li>
-            @endforeach
-            {{--  --}}
-        </ul>
-    </div>
+            <h2 class="section-title" style="margin-bottom: 10px;">Danh mục</h2>
+            <ul class="list-cat">
+                @foreach ($product_categories as $product_categories)
+                    <li class="item-category">
+                        <img class="category-img" src="./img/aothun.webp" alt="">
+                        <div class="detail-cat">
+                            <h2 class="category-name">{{$product_categories->name}}</h2>
+                            <a href="#"><button>Xem ngay</button></a>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
      </section>
-    <!-- san pham pho bien -->
+
+     <!-- san pham nổi bật -->
+    <section class="product-new product-popular">
+        <div style="padding: 0px 7px;">
+            <h2 class="section-title">Sản phẩm bán chạy</h2>
+            <div style="display: flex;align-items: center;gap: 5px; margin-top: 18px;">
+                <a class="see-all" href="/productBestseller" style="color: black; text-decoration: none;">Xem tất cả</a><i
+                    class="fa fa-arrow-right" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="grid wide container">
+            <div class="row product_featured">
+                <div class="row">
+                    @foreach ($products_bestseller as $products_bestseller)
+                        <div class="col l-3 m-6 c-6 ">
+                            <div class="item">
+                                <div class="item-img">
+                                    <span class="item-giam">-{{ $products_bestseller->sale }}%</span>
+                                    <div class="item-icon">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </div>
+
+                                    <a href="{{asset('/detail/' . $products_bestseller->id)}}">
+                                        <img src="{{ asset($products_bestseller->images->first()->path) }}"
+                                            alt="{{ $products_bestseller->name }}">
+                                    </a>
+                                </div>
+                                <div class="item-name">
+                                    <h3>
+                                        <a href="{{asset('/detail/' . $products_bestseller->id)}}">
+                                            {{ $products_bestseller->name }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="item-price">
+                                    <span style="color: red;padding-right: 10px;">
+                                        {{ number_format($products_bestseller->original_price * (1 - $products_bestseller->sale / 100), 0, ',', '.') }}đ
+                                    </span>
+                                    <span><del>{{ number_format($products_bestseller->original_price, 0, ',', '.') }}đ</del></span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- san pham nổi bật -->
     <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
             <h2 class="section-title">Sản phẩm nổi bật</h2>
@@ -226,15 +278,9 @@
                     class="fa fa-arrow-right" aria-hidden="true"></i>
             </div>
         </div>
-
-
-        <section class="product-thun">
-            <div class="grid wide container">
-                {{-- product is_featured --}}
-                <div class="row product_featured">
+        <div class="grid wide container">
+            <div class="row product_featured">
                 <div class="row">
-
-                    {{-- product is_featured --}}
                     @foreach ($products_is_featured as $products_is_featured)
                         <div class="col l-3 m-6 c-6 ">
                             <div class="item">
@@ -265,14 +311,9 @@
                             </div>
                         </div>
                     @endforeach
-
-                </div>
-                {{--  --}}
-
-                    {{-- --}}
                 </div>
             </div>
-        </section>
+        </div>
     </section>
 
     {{-- ds sp mới --}}

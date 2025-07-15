@@ -8,7 +8,8 @@ class Products extends Model
 {
     use SoftDeletes;
     public $timestamps = false;
-    protected $fillable = ['name', 'price', 'original_price', 'sale', 'sold_count', 'is_featured'];
+    protected $fillable = ['name','sku', 'price', 'slug', 'category_id', 'description', 'original_price', 'sale', 'sold_count', 'is_featured', 'is_active'];
+    protected $dates = ['deleted_at'];
 
     public function images()
     {
@@ -65,4 +66,9 @@ class Products extends Model
         return min($baseSale + $countdownSale, 100);
     }
 
+
+    public function category()
+    {
+        return $this->belongsTo(Product_categories::class, 'category_id');
+    }
 }

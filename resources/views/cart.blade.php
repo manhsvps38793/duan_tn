@@ -1,7 +1,9 @@
 @extends('app')
 
 @section('body')
-    <link rel="stylesheet" href="{{asset('/css/cart.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('/css/cart.css')}}"> --}}
+    <link rel="stylesheet" href="/css/cart.css">
+
     <div class="gh-cart-root">
         <main class="gh-cart-container">
             <div class="gh-cart-layout">

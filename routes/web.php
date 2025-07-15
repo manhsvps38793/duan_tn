@@ -1,6 +1,10 @@
 <?php
-use Illuminate\Support\Facades\Http;
+
+use App\Http\Controllers\Admin\HomeAdminController;
+
 use App\Http\Controllers\Admin\NewAdminController;
+
+
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
@@ -23,9 +27,11 @@ use App\Http\Controllers\ContactController;
 
 use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\CountDownController;
-use App\Http\Controllers\Admin\ResetCountdownAjaxController;
+use App\Http\Controllers\Admin\ProductAdminController;
 
-
+//admin
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\ImageAdminController;
 
 Route::get('about', function () {
     return view('about');
@@ -64,13 +70,6 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->name('verification.verify')
     ->middleware('signed');
 
-// Route::get('infouser', function () {
-//     return view('info_user');
-// });
-// Route::get('info-ctdh', function () {
-//     return view('info_ctdh');
-// });
-
 
 // kiểm trạng thái đăng nhập
 Route::middleware('auth')->group(function () {
@@ -85,8 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::get('huydon/{id}', [UserInFoController::class, 'huydon'])->middleware('auth');
     // chi tiết đơn hàng
     Route::get('info-ctdh/{id}', [UserInFoController::class, 'Showorder'])->middleware('auth')->name('info-ctdh');
-
-
     // }
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
@@ -114,9 +111,6 @@ Route::get('pagereturn', function () {
 Route::get('payment', function () {
     return view('payment');
 });
-// Route::get('news', function () {
-//     return view('news');
-// });
 
 Route::get('info-ctdh', function () {
     return view('info_ctdh');
@@ -168,7 +162,9 @@ Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('paym
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
 Route::get('/payment/result', [PaymentController::class, 'result'])->name('payment.result');
-
+// momo payment
+// Route::get('/payment/momo/return', [PaymentController::class, 'momoReturn'])->name('payment.momo.return');
+// Route::post('/payment/momo/ipn', [PaymentController::class, 'momoIPN'])->name('payment.momo.ipn');
 
 
 Route::get('news', [NewController::class, 'show_new']);
@@ -191,11 +187,14 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 // });
 
 // ========================================== admin
-Route::get('/admin', function () {
-    return view('admin.home');
-});
 
-Route::get('/baocao', function () {
+
+Route::get('/admin/', [HomeAdminController::class, 'show_home']);
+
+// Route::get('/admin/', function () {
+//     return view('admin.home');
+// });
+Route::get('/admin/baocao', function () {
     return view('admin.baocao');
 });
 Route::get('/admin/caidat', function () {
@@ -231,12 +230,28 @@ Route::get('/admin/quanlynguoidung', function () {
 Route::get('/admin/quanlytintuc', function () {
     return view('admin.quanlytintuc');
 });
+
+
+
 Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new.index');
 Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
 Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
 Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('admin.new.edit');
-Route::post('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
+Route::put('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
+Route::patch('/api/news/{id}/status', [NewAdminController::class, 'updateStatus']);
+
+//admin diep
+
+Route::get('/payment/momo', function () {
+    return view('payment.momo');
+});
+
+Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::get('/admin/orders/{id}/edit', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
+Route::put('/admin/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])->name('admin.orders.softDelete');
+Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
 
 
 Route::post('/admin/countdown', [PromotionController::class, 'store'])->name('admin.countdown.store');
@@ -252,5 +267,28 @@ Route::get('/apply-countdown', [CountDownController::class, 'applyCountdown'])->
 Route::get('/check-reset-countdown', [CountDownController::class, 'resetCountdownSale'])->name('ajax.resetCountdown');
 
 
+// router trung
+Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name('admin.images.index');
+Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
+Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
+Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
 
 
+// product admin
+Route::get('/admin/products', [ProductAdminController::class, 'index'])->name('admin.products.index');
+Route::get('/admin/products/{id}', [ProductAdminController::class, 'viewDetail']);
+Route::post('/admin/products/store', [ProductAdminController::class, 'store'])->name('admin.products.store');
+Route::delete('/admin/products/{id}', [ProductAdminController::class, 'destroy'])->name('admin.products.destroy');
+// Route hiển thị popup cập nhật sản phẩm (trả về HTML)
+Route::get('/admin/products/{id}/edit', [ProductAdminController::class, 'edit'])->name('admin.products.edit');
+
+// Route xử lý submit form cập nhật
+Route::put('/admin/products/{id}', [ProductAdminController::class, 'update'])->name('admin.products.update');
+Route::delete('/admin/variants/{id}', [ProductAdminController::class, 'deletevariant']);
+
+// lọc
+Route::get('/products/category/{id}', [ProductAdminController::class, 'LocDanhMuc'])->name('products.TheoDanhMuc');
+Route::get('/products/status/{status}', [ProductAdminController::class, 'LocTrangThai'])->name('products.TheoTrangThai');
+
+// tìm
+Route::get('/products/search', [ProductAdminController::class, 'search'])->name('admin.products.search');

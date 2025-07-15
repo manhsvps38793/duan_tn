@@ -13,9 +13,12 @@ class ProductController extends Controller
     {
         $query = Products::with(['thumbnail', 'variants' => function ($q) {
             $q->where('quantity', '>', 0);
+            // $q->where('is_active', '>', 0);
         }])
+        ->where('is_active', '>', 0)
         ->whereHas('variants', function ($q) {
             $q->where('quantity', '>', 0);
+            // $q->where('is_active', '>', 0);
         })
         ->select('id', 'name', 'sale', 'price', 'original_price');
 
@@ -59,6 +62,7 @@ class ProductController extends Controller
     {
         $productAll = Products::with('thumbnail')
             ->where('is_featured', 1)
+            ->where('is_active', '>', 0)
             ->select('id', 'name', 'sale', 'price', 'original_price')
             ->paginate(12);
 
