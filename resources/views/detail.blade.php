@@ -269,5 +269,8 @@
             addToCart: "{{ route('cart.add') }}"
         };
     </script>
-    <script src="{{ asset('/js/detail.js') }}"></script>
+    {{-- <script src="{{ asset('/js/detail.js') }}"></script> --}}
+    <script src="/js/detail.js"></script>
+
+
 @endsection

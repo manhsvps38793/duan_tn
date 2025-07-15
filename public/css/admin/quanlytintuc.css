@@ -18,6 +18,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            text-decoration: none;
         }
 
         body {
@@ -474,7 +475,7 @@
 
         }
 
-        
+
 
         .adnews-modal-content h2 {
             font-size: 1.5rem;
@@ -636,6 +637,610 @@
             width: auto;
         }
 
+
+
+
+
+
+
+        .adnews-tab-content {
+            display: none;
+            background-color: var(--light-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .adnews-tab-content.adnews-active {
+            display: block;
+        }
+
+        .adnews-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adnews-btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+        }
+
+        .adnews-btn-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #6d28d9);
+        }
+
+        .adnews-btn-secondary {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .adnews-btn-secondary:hover {
+            background-color: #f3f4f6;
+        }
+
+        .adnews-btn-outline {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        .adnews-btn-outline:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .adnews-btn-toggle {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .adnews-btn-toggle:hover {
+            background-color: #16a34a;
+        }
+
+        .adnews-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .adnews-modal-content {
+            background-color: var(--light-color);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: var(--shadow-md);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .adnews-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .adnews-pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            background-color: var(--light-color);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .adnews-pagination-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .adnews-pagination-btn.adnews-active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Chat tạo tin tức */
+        .adnews-chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            background-color: var(--light-color);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .adnews-chat-history {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .adnews-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .adnews-user-message {
+            align-self: flex-end;
+            background: var(--primary-gradient);
+            color: white;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .adnews-bot-message {
+            align-self: flex-start;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .adnews-article-preview {
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .adnews-chat-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .adnews-chat-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            background-color: white;
+        }
+
+        .adnews-chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .adnews-chat-input button {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .adnews-ai-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .adnews-ai-info i {
+            color: var(--primary-color);
+        }
+
+        .adnews-article-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .adnews-status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .adnews-status-pending {
+            background-color: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+        }
+
+        .adnews-status-completed {
+            background-color: rgba(34, 197, 94, 0.1);
+            color: var(--success-color);
+        }
+
+
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-section,
+        .result-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 30px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section:before,
+        .result-section:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-color);
+        }
+
+        .result-section:before {
+            background: var(--secondary-color);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .result-section .section-title i {
+            color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label i {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #fafafa;
+        }
+
+        textarea:focus,
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #636e72;
+            margin-top: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f2f6;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .checkbox-item:hover {
+            background: #e4e6eb;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            accent-color: var(--primary-color);
+        }
+
+        #generateBtn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #generateBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        #generateBtn:active {
+            transform: translateY(0);
+        }
+
+        #generateBtn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+
+        #generateBtn:hover:before {
+            left: 100%;
+        }
+
+        .ai-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .ai-indicator i {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .result-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 300px;
+            border: 2px dashed var(--border-color);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        #storyOutput {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--dark-color);
+        }
+
+        #storyOutput p {
+            margin-bottom: 15px;
+        }
+
+        .instruction-text {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        .notification {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            /* display: none; */
+        }
+
+        .notification.success {
+            background: rgba(0, 184, 148, 0.15);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .notification.error {
+            background: rgba(214, 48, 49, 0.15);
+            color: var(--danger-color);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .notification.warning {
+            background: rgba(253, 203, 110, 0.15);
+            color: #e17055;
+            border-left: 4px solid #e17055;
+        }
+
+        .story-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .story-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .story-meta {
+            display: flex;
+            gap: 20px;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+        .story-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #636e72;
+            font-size: 0.9rem;
+        }
+
+
+
+        /* CSS cho form thông tin */
+        .adnews-form-container {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .adnews-form-container h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        #adnews-article-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .adnews-form-group {
+            margin-bottom: 1rem;
+        }
+
+        .adnews-form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .adnews-form-group input,
+        .adnews-form-group select,
+        .adnews-form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 0.9rem;
+        }
+
+        .adnews-form-group textarea {
+            min-height: 80px;
+        }
+
+        .adnews-notification {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .adnews-error {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .adnews-success {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            #adnews-article-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cập nhật CSS cho khu vực chat */
+        .adnews-chat-container {
+            height: 500px;
+            /* Giảm chiều cao để cân đối với form */
+        }
+
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -655,6 +1260,10 @@
         }
 
         @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
             .adnews-sidebar {
                 width: 80px;
             }
@@ -722,4 +1331,41 @@
             .adnews-user-profile {
                 align-self: flex-end;
             }
+
+            .content {
+                gap: 20px;
+            }
+
+            .form-section,
+            .result-section {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

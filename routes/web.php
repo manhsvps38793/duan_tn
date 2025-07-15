@@ -23,9 +23,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Http;
-
-
-
+//admin
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\ImageAdminController;
+use App\Http\Controllers\Admin\ContactAdminController;
+use App\Http\Controllers\Admin\AdminCustomerController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 Route::get('about', function () {
     return view('about');
@@ -156,7 +159,9 @@ Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('paym
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
 Route::get('/payment/result', [PaymentController::class, 'result'])->name('payment.result');
-
+// momo payment
+// Route::get('/payment/momo/return', [PaymentController::class, 'momoReturn'])->name('payment.momo.return');
+// Route::post('/payment/momo/ipn', [PaymentController::class, 'momoIPN'])->name('payment.momo.ipn');
 
 
 Route::get('news', [NewController::class, 'show_new']);
@@ -219,14 +224,53 @@ Route::get('/admin/quanlynguoidung', function () {
 Route::get('/admin/quanlytintuc', function () {
     return view('admin.quanlytintuc');
 });
+
+
+
 Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new.index');
 Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
 Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
 Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('admin.new.edit');
-Route::post('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
+Route::put('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
+Route::patch('/api/news/{id}/status', [NewAdminController::class, 'updateStatus']);
+
+//admin diep
+
+Route::get('/payment/momo', function () {
+    return view('payment.momo');
+});
+
+Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::get('/admin/orders/{id}/edit', [AdminOrderController::class, 'edit'])->name('admin.orders.edit');
+Route::put('/admin/orders/{id}', [AdminOrderController::class, 'update'])->name('admin.orders.update');
+Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])->name('admin.orders.softDelete');
+Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
 
 
 
+// router trung
+Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name('admin.images.index');
+Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
+Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
+Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
 
-
+// router của Khôi
+//lienhe
+Route::get('/admin/quanlylienhe', [ContactAdminController::class, 'index'])->name('admin.quanlylienhe.index');
+Route::get('/admin/quanlylienhe/{id}', [ContactAdminController::class, 'show'])->name('admin.quanlylienhe.show');
+Route::post('/admin/quanlylienhe/{id}/reply', [ContactAdminController::class, 'reply'])->name('admin.quanlylienhe.reply');
+Route::delete('/admin/quanlylienhe/{id}', [ContactAdminController::class, 'destroy'])->name('admin.quanlylienhe.destroy');
+//ql user
+Route::get('/admin/quanlykhachhang', [AdminCustomerController::class, 'index'])->name('admin.customers.index');
+Route::get('/admin/khachhang/{id}', [AdminCustomerController::class, 'show']);
+Route::post('/admin/khachhang', [AdminCustomerController::class, 'store']);
+Route::put('/admin/khachhang/{id}', [AdminCustomerController::class, 'update']);
+Route::delete('/admin/khachhang/{id}', [AdminCustomerController::class, 'destroy']);
+Route::patch('/admin/khachhang/{id}/lock', [AdminCustomerController::class, 'lockToggle']);
+//ql role
+Route::get('/admin/quanlynguoidung', [AdminUserController::class, 'index'])->name('admin.users.index');
+Route::post('/admin/quanlynguoidung/add', [AdminUserController::class, 'add'])->name('admin.users.add');
+Route::put('/admin/quanlynguoidung/{id}/update', [AdminUserController::class, 'updateRoleAndStatus'])->name('admin.users.update');
+Route::delete('/admin/quanlynguoidung/{id}/remove-role', [AdminUserController::class, 'removeRole'])->name('admin.users.removeRole');
+Route::get('/admin/quanlynguoidung/{id}', [AdminUserController::class, 'show'])->name('admin.users.show');

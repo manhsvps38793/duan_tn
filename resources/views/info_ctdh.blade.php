@@ -81,16 +81,16 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="ctdh-product">
-                                        <img src="{{ asset($images->first()->path ?? 'img/default.jpg') }}"
-                                            alt="Ảnh sản phẩm" class="ctdh-product-image">
-                                        <div class="ctdh-product-info">
-                                            <div class="ctdh-product-name">{{ $orderdetail->productVariant->product->name }}
-                                            </div>
-                                            <div class="ctdh-product-sku">Mã: {{ $orderdetail->productVariant->sku }}</div>
-                                            <div class="ctdh-product-price">
-                                                {{ number_format($price * (1 - $sale / 100), 0, ',', '.') }}đ
-                                            </div>
+                                        <div class="ctdh-product">
+                                            <img src="{{ asset($images->first()->path ?? 'img/default.jpg') }}"
+                                                alt="Ảnh sản phẩm" class="ctdh-product-image">
+                                            <div class="ctdh-product-info">
+                                                <div class="ctdh-product-name">{{ $orderdetail->productVariant->product->name }}
+                                                </div>
+                                                <div class="ctdh-product-sku">Mã: {{ $orderdetail->productVariant->sku }}</div>
+                                                <div class="ctdh-product-price">
+                                                    {{ number_format($price * (1 - $sale / 100), 0, ',', '.') }}đ
+                                                </div>
                                         </div>
                                     </div>
                                 </td>

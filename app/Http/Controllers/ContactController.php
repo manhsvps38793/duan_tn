@@ -18,16 +18,18 @@ class ContactController extends Controller
             'subject' => 'nullable',
             'message' => 'required',
         ]);
+
         Contact::create($data);
 
-        // xl chomail adminadmin
+        // Gửi mail cho admin
         Mail::send('emails.contact', ['data' => $data], function ($message) use ($data) {
-            $message->to('trandinhkhoi842005@gmail.com')
-                    ->subject('Mấy bé người dùng kìa admin kkkkkk website: ' . ($data['subject'] ?? 'Không có chủ đề'));
+            $message->to('admin@example.com')
+                    ->subject('Liên hệ từ khách hàng: ' . ($data['subject'] ?? 'Không có chủ đề'));
         });
 
-        //ph khkh
+        // Gửi auto mail cho khách hàng
         Mail::to($data['email'])->send(new ContactReplyMail($data['name']));
+
         return back()->with('success', 'Tin nhắn của bạn đã được gửi thành công!');
     }
 }
