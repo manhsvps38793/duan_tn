@@ -138,12 +138,29 @@ class ProductAdminController extends Controller
     public function destroy($id)
     {
         $product = Products::findOrFail($id);
-        $product->delete();
-        $variant = product_variants::find($id);
-        if (!$variant) {
-            return response()->json(['success' => false, 'message' => 'Không tìm thấy biến thể']);
+
+        // Xóa ảnh liên quan
+        $images = Product_images::where('product_id', $product->id)->get();
+        foreach ($images as $image) {
+            $imagePath = public_path('img/products/' . $image->path);
+
+            // Xóa file nếu tồn tại
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Xóa bản ghi ảnh
+            $image->delete();
         }
-        $variant->delete();
+
+        // Xóa biến thể
+        $variant = product_variants::where('product_id', $id)->first();
+        if ($variant) {
+            $variant->delete();
+        }
+
+        // Xóa sản phẩm
+        $product->delete();
 
         return response()->json(['success' => true, 'message' => 'Sản phẩm đã được xóa']);
     }

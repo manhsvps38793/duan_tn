@@ -3,6 +3,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ProductCountDown;
+use Illuminate\Support\Facades\Storage;
+
 
 class Products extends Model
 {
@@ -71,4 +73,25 @@ class Products extends Model
     {
         return $this->belongsTo(Product_categories::class, 'category_id');
     }
+
+    // Khi xóa sản phẩm thì xóa ảnh luôn
+    protected static function booted()
+    {
+        static::deleting(function ($product) {
+            // Xóa ảnh
+            foreach ($product->images as $image) {
+                $imagePath = public_path('img/products/' . $image->path);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $image->delete();
+            }
+
+            // Xóa biến thể
+            foreach ($product->variants as $variant) {
+                $variant->delete();
+            }
+        });
+    }
+
 }
