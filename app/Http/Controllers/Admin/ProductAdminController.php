@@ -25,7 +25,14 @@ class ProductAdminController extends Controller
         $sizes = sizes::all();
         $colors = colors::all();
 
-        return view('admin.products', compact('products','categories','sizes','colors'));
+        $data = [
+            'products' => $products,
+            'categories' => $categories,
+            'sizes' => $sizes,
+            'colors' => $colors
+        ];
+
+        return view('admin.products', $data);
     }
 
     public function viewDetail($id)
@@ -171,26 +178,6 @@ class ProductAdminController extends Controller
             'category_id' => $request->category_id,
             'is_active' => $request->is_active,
         ]);
-
-        // Xóa ảnh
-        // if ($request->has('delete_images')) {
-        //     foreach ($request->delete_images as $imgId) {
-        //         $img = Product_images::find($imgId);
-        //         if ($img) {
-        //             Storage::disk('public')->delete($img->path);
-        //             $img->delete();
-        //         }
-        //     }
-        // }
-
-        // Thay ảnh cũ
-        // if ($request->hasFile('new_images')) {
-        //     foreach ($request->file('new_images') as $imgId => $file) {
-        //         $path = $file->store('img/products', 'public');
-        //         Product_images::where('id', $imgId)->update(['path' => 'storage/' . $path]);
-        //     }
-        // }
-
         // Cập nhật biến thể
         if ($request->has('variants')) {
             foreach ($request->variants as $variantId => $variantData) {
@@ -230,7 +217,15 @@ class ProductAdminController extends Controller
         $sizes = sizes::all();
         $colors = colors::all();
 
-        return view('admin.products', compact('products', 'categories', 'sizes', 'colors', 'category'));
+        $data = [
+            'products' => $products,
+            'categories' => $categories,
+            'category' => $category,
+            'sizes' => $sizes,
+            'colors' => $colors
+        ];
+
+        return view('admin.products', $data);
     }
 
 
@@ -259,7 +254,15 @@ class ProductAdminController extends Controller
 
         $products = $products->with('variants')->paginate(8);
 
-        return view('admin.products', compact('products', 'categories', 'sizes', 'colors', 'status'));
+        $data = [
+            'products' => $products,
+            'categories' => $categories,
+            'status' => $status,
+            'sizes' => $sizes,
+            'colors' => $colors
+        ];
+
+        return view('admin.products', $data);
     }
 
     public function search(Request $request)
@@ -275,6 +278,14 @@ class ProductAdminController extends Controller
             ->where('name', 'like', '%' . $keyword . '%')
             ->paginate(8);
 
-        return view('admin.products', compact('products', 'categories', 'sizes', 'colors', 'keyword'));
+        $data = [
+            'products' => $products,
+            'categories' => $categories,
+            'keyword' => $keyword,
+            'sizes' => $sizes,
+            'colors' => $colors
+        ];
+
+        return view('admin.products', $data);
     }
 }

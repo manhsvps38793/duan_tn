@@ -7,31 +7,21 @@ use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-        'is_active',
-        'provider',
-        'provider_id',
-        'avatar',
-        'address',
-        'birthday'
-
-    ];
+protected $fillable = [
+    'name', 'email', 'password', 'phone', 'role', 'is_active', 'is_locked', 'lock_reason', 'address'
+];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -73,10 +63,7 @@ class User extends Authenticatable
     }
     public function isAdmin()
     {
-        return $this->role === UserRole::ADMIN->value;
+        // return $this->role === UserRole::ADMIN->value;
+        return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
     }
-    public function defaultAddress()
-{
-    return $this->hasOne(addresses::class)->where('is_default', 1);
-}
 }

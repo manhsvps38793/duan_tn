@@ -119,7 +119,7 @@
                         </div>
                         <div class="item-price item-price-sales">
                             <span style="color: red; padding-right: 10px;">
-                                {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                                {{ number_format($product->price, 0, ',', '.') }}đ
                             </span>
                             <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
                         </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="item-price item-price-sales">
                             <span style="color: red; padding-right: 10px;">
-                                {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                                {{ number_format($product->price , 0, ',', '.') }}đ
                             </span>
                             <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
                         </div>
@@ -256,7 +256,7 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($products_bestseller->original_price * (1 - $products_bestseller->sale / 100), 0, ',', '.') }}đ
+                                        {{ number_format($products_bestseller->price , 0, ',', '.') }}đ
                                     </span>
                                     <span><del>{{ number_format($products_bestseller->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($products_is_featured->original_price * (1 - $products_is_featured->sale / 100), 0, ',', '.') }}đ
+                                        {{ number_format($products_is_featured->price , 0, ',', '.') }}đ
                                     </span>
                                     <span><del>{{ number_format($products_is_featured->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
@@ -320,11 +320,12 @@
     <section class="new-design">
         <div class="grid wide container">
             <div style="padding: 0px 0px;">
-                <h2 class="section-title">Sản phẩm mới</h2>
+                <h2 class="section-title" style="text-align: center">Sản phẩm mới</h2>
+
             </div>
-            <div class="tab-header">
+            <div class="tab-header" >
                 {{-- load hết danh mục ra đây --}}
-                <ul class="tabs">
+                <ul class="tabs" style="justify-content: center">
 
                     @foreach ($product_new as $index => $category)
                         <li class="tab {{ $index == 0 ? 'active' : '' }}" data-tab="tab{{ $loop->iteration }}">
@@ -338,9 +339,8 @@
             <div class="tab-content">
                 @foreach ($product_new as $index => $category)
                 <div id="tab{{ $loop->iteration }}" class="tab-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="breard" style="display: flex; justify-content: space-between; align-item: center; padding: 20px 0;">
-                        {{-- <h2 style="font-weight:normal">{{ $category->name }} - Hot Trends 2025</h2> --}}
-                        <h3>Các thiết kế mới được M A G cập nhật liên tục và đa dạng mẫu mã</h3>
+                    <div class="breard" style="display: flex; justify-content:space-between; align-item: center; padding: 20px 0;">
+                        <h3 style="text-align: center;">Các thiết kế mới được M A G cập nhật liên tục và đa dạng mẫu mã</h3>
                         <a class="see-all" href="/products?category[]={{ $category->id }}" style="color: black; text-decoration: none;">
                             Xem tất cả <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
@@ -369,7 +369,7 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($product->original_price * (1 - $product->sale / 100), 0, ',', '.') }}đ
+                                        {{ number_format($product->price , 0, ',', '.') }}đ
                                     </span>
                                     <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
@@ -384,6 +384,8 @@
             </div>
         </div>
     </section>
+
+    {{-- giới thiệu --}}
     <section class="about-mag">
         <div class="grid wide container">
             <div class="row">

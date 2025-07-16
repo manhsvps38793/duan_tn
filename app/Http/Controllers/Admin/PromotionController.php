@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Products;
@@ -8,7 +9,6 @@ use Carbon\Carbon;
 
 class PromotionController extends Controller
 {
-    // Danh sách chương trình khuyến mãi và sản phẩm liên quan
     public function index()
     {
         $promotions = ProductCountDown::with('products')->get();
@@ -16,8 +16,6 @@ class PromotionController extends Controller
 
         return view('admin.countdown', ['promotions' => $promotions, 'products' => $products]);
     }
-
-
 
     public function store(Request $request)
     {
@@ -34,18 +32,19 @@ class PromotionController extends Controller
         $promotion = ProductCountDown::create($validated);
         $promotion->products()->sync($request->product_ids);
 
-        // Cập nhật cột sale trong bảng products
+        // Cập nhật cột sale và price trong bảng products
         foreach ($request->product_ids as $productId) {
             $product = Products::find($productId);
             if ($product) {
-                $product->sale += $validated['percent_discount']; // cộng dồn
+                $product->sale += $validated['percent_discount'];
+                if ($product->sale > 100) $product->sale = 100;
+                $product->price = $product->original_price * (100 - $product->sale) / 100;
                 $product->save();
             }
         }
 
         return redirect()->route('admin.countdown.index')->with('success', 'Khuyến mãi đã được tạo!');
     }
-
 
     public function update(Request $request, ProductCountDown $promotion)
     {
@@ -59,23 +58,39 @@ class PromotionController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        // Trừ giá trị discount cũ khỏi các sản phẩm cũ
-        foreach ($promotion->products as $oldProduct) {
-            $oldProduct->sale -= $promotion->percent_discount;
-            if ($oldProduct->sale < 0) $oldProduct->sale = 0;
-            $oldProduct->save();
+        // Nếu status chuyển từ active -> inactive thì trừ discount cũ
+        if ($promotion->status === 'active' && $validated['status'] === 'inactive') {
+            foreach ($promotion->products as $oldProduct) {
+                $oldProduct->sale -= $promotion->percent_discount;
+                if ($oldProduct->sale < 0) $oldProduct->sale = 0;
+                $oldProduct->price = $oldProduct->original_price * (100 - $oldProduct->sale) / 100;
+                $oldProduct->save();
+            }
         }
 
-        // Cập nhật thông tin khuyến mãi
+        // Nếu status vẫn là active → cập nhật sản phẩm (trừ cũ, cộng mới)
+        if ($promotion->status === 'active' && $validated['status'] === 'active') {
+            foreach ($promotion->products as $oldProduct) {
+                $oldProduct->sale -= $promotion->percent_discount;
+                if ($oldProduct->sale < 0) $oldProduct->sale = 0;
+                $oldProduct->price = $oldProduct->original_price * (100 - $oldProduct->sale) / 100;
+                $oldProduct->save();
+            }
+        }
+
         $promotion->update($validated);
         $promotion->products()->sync($request->product_ids);
 
-        // Cộng thêm discount mới vào sản phẩm mới
-        foreach ($request->product_ids as $productId) {
-            $product = Products::find($productId);
-            if ($product) {
-                $product->sale += $validated['percent_discount'];
-                $product->save();
+        // Nếu status là active → cộng discount mới cho sản phẩm mới
+        if ($validated['status'] === 'active') {
+            foreach ($request->product_ids as $productId) {
+                $product = Products::find($productId);
+                if ($product) {
+                    $product->sale += $validated['percent_discount'];
+                    if ($product->sale > 100) $product->sale = 100;
+                    $product->price = $product->original_price * (100 - $product->sale) / 100;
+                    $product->save();
+                }
             }
         }
 
@@ -84,10 +99,19 @@ class PromotionController extends Controller
 
     public function destroy($id)
     {
-        $countDown = ProductCountDown::findOrFail($id);
+        $countDown = ProductCountDown::with('products')->findOrFail($id);
+
+        // Trừ phần trăm giảm giá của countdown ra khỏi các sản phẩm
+        foreach ($countDown->products as $product) {
+            $product->sale -= $countDown->percent_discount;
+            if ($product->sale < 0) $product->sale = 0;
+            $product->price = $product->original_price * (100 - $product->sale) / 100;
+            $product->save();
+        }
+
         $countDown->products()->detach();
         $countDown->delete();
 
-        return redirect()->route('admin.countdown.index');
+        return redirect()->route('admin.countdown.index')->with('success', 'Đã xóa chương trình khuyến mãi và cập nhật lại sản phẩm!');
     }
 }

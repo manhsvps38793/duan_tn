@@ -44,7 +44,7 @@
             .suggestion-list {
                 position: absolute;
                 background: #fff;
-                border: 1px solid #ddd;
+                border: none;
                 width: 100%;
                 z-index: 1000;
                 list-style: none;
@@ -53,11 +53,14 @@
                 /* max-height: 200px; */
                 /* overflow-y: auto; */
                 margin-top: 40px;
+                /* text-decoration: none; */
             }
 
             .suggestion-list li {
                 padding: 10px;
                 cursor: pointer;
+                /* text-decoration: none; */
+
             }
 
             .suggestion-list li:hover {
