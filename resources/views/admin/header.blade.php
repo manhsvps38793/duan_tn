@@ -6,6 +6,7 @@
         <h3>Bảng điều khiển</h3>
         <a href="{{asset('/admin/')}}" class="adnews-sidebar-item {{ request()->is('admin') ? 'adnews-active' : '' }}"><i class="fas fa-home"></i><span>Trang chủ</span></a>
         <a href="{{asset('/admin/products')}}" class="adnews-sidebar-item {{ request()->is('admin/products*') ? 'adnews-active' : '' }}"><i class="fas fa-box-open"></i><span>Sản phẩm</span></a>
+        <a href="{{asset('/admin/danhmuc')}}" class="adnews-sidebar-item {{ request()->is('admin/danhmuc*') ? 'adnews-active' : '' }}"><i class="fas fa-shopping-bag"></i><span>Danh mục</span></a>
         <a href="{{asset('/admin/orders')}}" class="adnews-sidebar-item {{ request()->is('admin/orders*') ? 'adnews-active' : '' }}"><i class="fas fa-shopping-bag"></i><span>Đơn hàng</span></a>
         <a href="{{asset('/admin/khuyenmai')}}" class="adnews-sidebar-item {{ request()->is('admin/khuyenmai*') ? 'adnews-active' : '' }}"><i class="fas fa-percentage"></i><span>Khuyến mãi</span></a>
         <a href="{{asset('/admin/countdown')}}" class="adnews-sidebar-item {{ request()->is('admin/countdown*') ? 'adnews-active' : '' }}"><i class="fas fa-percentage"></i><span>Count down</span></a>
