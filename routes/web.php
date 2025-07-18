@@ -35,6 +35,8 @@ use App\Http\Controllers\Admin\ImageAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\CategoryAdminController;
+use App\Http\Controllers\admin\VoucherAdminController;
 
 Route::get('about', function () {
     return view('about');
@@ -277,6 +279,19 @@ Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name
 Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
 Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
 Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
+
+
+Route::get('/admin/khuyenmai', [VoucherAdminController::class, 'index'])->name('admin.vouchers.index');
+Route::post('/admin/vouchers', [VoucherAdminController::class, 'store'])->name('admin.vouchers.store');
+Route::delete('/admin/vouchers/{id}', [VoucherAdminController::class, 'destroy'])->name('admin.vouchers.destroy');
+Route::put('/admin/vouchers/{id}', [VoucherAdminController::class, 'update'])->name('vouchers.update');
+
+
+Route::get('/admin/danhmuc', [CategoryAdminController::class, 'index'])->name('admin.categories.index');
+Route::post('/admin/categories', [CategoryAdminController::class, 'store'])->name('admin.categories.store');
+Route::delete('/admin/categories/{id}', [CategoryAdminController::class, 'destroy'])->name('admin.categories.destroy');
+Route::put('/admin/categories/{id}', [CategoryAdminController::class, 'update'])->name('admin.categories.update');
+
 
 
 
