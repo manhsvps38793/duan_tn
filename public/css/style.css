@@ -73,16 +73,16 @@ header>.nav-top>.nav-pc>ul>li>a {
 .Search>form>input {
     padding: 10px;
     width: 280px;
-    /* border-radius: 7px; */
+    border-radius: 7px;
     /* border: 1px solid rgb(163, 158, 158); */
     border: none;
 }
 
 .Search>form>.icon-search {
     position: absolute;
-    /* border-radius: 0px 7px 7px 0px; */
+    border-radius: 0px 7px 7px 0px;
     right: 0px;
-    padding: 13px 12px;
+    padding: 12px 12px;
     cursor: pointer;
     top: 0px;
     border: none;
@@ -2953,6 +2953,8 @@ footer {
 .new-design {
     /* padding: 30px 0; */
     padding: 0px 16px;
+    /* background-color: #f9f9f9; */
+
 }
 
 .new-design>.container>.box-title {

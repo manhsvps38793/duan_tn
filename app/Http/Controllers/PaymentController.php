@@ -232,6 +232,7 @@ class PaymentController extends Controller
         } elseif ($request->payment == 'Momo') {
 
 
+
         } else {
             foreach ($cartDetails as $item) {
                 $variant = product_variants::find($item->productVariant->id);
@@ -309,6 +310,7 @@ class PaymentController extends Controller
             return view('payment.error');
         }
     }
+
 
 
 

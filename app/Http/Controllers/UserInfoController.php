@@ -32,7 +32,8 @@ class UserInFoController extends Controller
         $order->status = 'Đã hủy';
         $order->save();
 
-        return redirect()->route('infouser');
+            return redirect()->route('infouser', ['tab' => 'orders'])
+                     ->with('success', 'Đơn hàng đã được hủy.');
     }
 
     public function suainfo(Request $request, $id)
@@ -104,7 +105,7 @@ class UserInFoController extends Controller
             $address->save();
         }
 
-        return redirect()->route('infouser');
+        return redirect()->route('infouser', ['tab' => 'address']);
     }
 
     public function xoaaddress($id)
@@ -127,7 +128,7 @@ class UserInFoController extends Controller
             }
         }
 
-        return redirect()->route('infouser');
+        return redirect()->route('infouser', ['tab' => 'address']);
     }
 
 
@@ -159,7 +160,7 @@ class UserInFoController extends Controller
             $address->save();
         }
 
-        return redirect()->route('infouser');
+        return redirect()->route('infouser', ['tab' => 'address']);
     }
 
 
@@ -183,6 +184,7 @@ class UserInFoController extends Controller
             'addresses' => $addresses,
             'order' => $order,
             'orderdetail' => $orderdetail,
+            'tab' => 'order',
         ];
         return view('info_ctdh', $data);
     }

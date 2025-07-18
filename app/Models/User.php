@@ -1,36 +1,27 @@
 <?php
 
 namespace App\Models;
+use App\Enums\UserRole;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'phone',
-        'role',
-        'is_active',
-        'provider',
-        'provider_id',
-        'avatar',
-        'address',
-        'birthday'
-
-    ];
+protected $fillable = [
+    'name', 'email', 'password', 'phone', 'role', 'is_active', 'is_locked', 'lock_reason', 'address'
+];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -68,10 +59,11 @@ class User extends Authenticatable
     // function của infouser
     public function addresses()
     {
-        return $this->hasOne(addresses::class); 
+        return $this->hasOne(addresses::class);
     }
-    public function defaultAddress()
-{
-    return $this->hasOne(addresses::class)->where('is_default', 1);
-}
+    public function isAdmin()
+    {
+        // return $this->role === UserRole::ADMIN->value;
+        return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
+    }
 }

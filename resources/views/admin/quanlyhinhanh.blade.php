@@ -338,6 +338,7 @@
 
             // Initial render
             amanagementimgRenderGrid();
+
         });
     </script>
 @endsection

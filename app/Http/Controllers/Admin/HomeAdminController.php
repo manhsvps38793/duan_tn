@@ -10,6 +10,8 @@ use App\Models\OrderDetail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\reviews;
+use Illuminate\Support\Facades\Auth;
 
 class HomeAdminController extends Controller
 {
@@ -138,6 +140,42 @@ class HomeAdminController extends Controller
             ->limit(3)
             ->get();
 
+        // đơn hàng gần đây
+        $donhangganday = Order::with('user')->where('created_at', '>=', now()->subDays(7))->orderBy('created_at', 'desc')->take(10)->get();
+
+
+ $reviews = Reviews::with(['user', 'children.user'])
+    ->whereNull('parent_id')
+    ->orderBy('created_at', 'desc')
+    ->get()
+    ->map(function ($review) {
+        Carbon::setLocale('vi');
+        $createdAt = Carbon::parse($review->created_at)->timezone('Asia/Ho_Chi_Minh');
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+
+        return [
+            'id' => $review->id,
+            'user' => $review->user,
+            'comment' => $review->comment,
+            'rating' => $review->rating,
+            'product_id' => $review->product_id,
+            'created_at' => $createdAt->diffForHumans($now),
+            'is_admin' => $review->user->role === 'admin',
+
+            'replies' => $review->children->map(function ($reply) use ($review) {
+                return [
+                    'id' => $reply->id,
+                    'user' => $reply->user,
+                    'comment' => $reply->comment,
+                    'created_at' => Carbon::parse($reply->created_at)
+                        ->timezone('Asia/Ho_Chi_Minh')
+                        ->diffForHumans(),
+                    'is_admin' => $reply->user->role === 'admin',
+                    'product_id' => $review->product_id,
+                ];
+            }),
+        ];
+    });
 
         $data = [
             'doanhThuHomNay' => $doanhThuHomNay,
@@ -157,8 +195,24 @@ class HomeAdminController extends Controller
             'khachHangTuan' => $khachHangTuan,
             // top 3 sản phẩm bán chạy
             'topSanPham' => $topSanPham,
+            // đơn hàng gần đây
+            'donhangganday' => $donhangganday,
+            // reviews
+            'reviews' => $reviews
         ];
 
         return view('admin.home', $data);
+    }
+    public function replyComment(Request $request)
+    {
+        Reviews::create([
+            'user_id' => auth::id(),
+            'product_id' => $request->product_id,
+            'parent_id' => $request->parent_id,
+            'comment' => $request->reply,
+            'rating' => null, // phản hồi không cần rating
+        ]);
+
+       return redirect()->back()->with('success', 'Phản hồi đã được gửi thành công!');
     }
 }
