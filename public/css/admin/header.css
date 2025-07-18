@@ -102,7 +102,7 @@
 .adnews-sidebar-item.adnews-active { 
     background-color: rgba(79, 70, 229, 0.1); 
     color: var(--primary-color); 
-    font-weight: 600; 
+    /* font-weight: 600;  */
 }
 
 @media (max-width: 1024px) {

@@ -44,21 +44,22 @@ class PaymentController extends Controller
         }
         $user = Auth::user();
 
+
         if (Auth::check()) {
-            $address = addresses::where('user_id', $user->id)->first();
-            if (!$address) {
-                $address = addresses::create([
-                    'user_id' => $user->id,
-                    'receiver_name' => $user->name ?? 'Người nhận',
-                    'phone' => $user->phone ?? '0000000000',
-                    'email' => $user->email,
-                    'province' => 'Tỉnh/Thành phố',
-                    'district' => 'Quận/Huyện', 
-                    'ward' => 'Phường/Xã',    
-                    'address' => 'Địa chỉ mặc định',
-                    'is_default' => 1
-                ]);
-            }
+            $address = addresses::where(column: 'user_id', operator: $user->id)->first();
+            // if (!$address) {
+            //     $address = addresses::create([
+            //         'user_id' => $user->id,
+            //         'receiver_name' => $user->name ?? 'Người nhận',
+            //         'phone' => $user->phone ?? '0000000000',
+            //         'email' => $user->email,
+            //         'province' => 'Tỉnh/Thành phố',
+            //         'district' => 'Quận/Huyện', 
+            //         'ward' => 'Phường/Xã',    
+            //         'address' => 'Địa chỉ mặc định',
+            //         'is_default' => 1
+            //     ]);
+            // }
             $address = addresses::where('user_id', $user->id)->get();
         } else {
             $address = null;
@@ -82,7 +83,11 @@ class PaymentController extends Controller
 
 
         if (Auth::check()) {
+            $user = Auth::user();
             $rules['address'] = 'required'; // ID của địa chỉ từ dropdown
+            if (!$user->phone) {
+                $rules['phone'] = 'required|regex:/^0[0-9]{9,10}$/';
+            }
         } else {
             $rules = array_merge($rules, [
                 'fullname' => 'required',
@@ -126,14 +131,21 @@ class PaymentController extends Controller
         $order->user_id = Auth::id() ?? null;
         $order->voucher_id = $voucherId; // Set based on your logic, e.g., from $checkoutData
         $order->total_price = $total; // Use total_price instead of total_money
-        $order->status = 'Chờ xử lý';
+        $order->status_payment = 'Chờ xử lý';
         $order->payment_methods = $request->payment;
+        $order->status = 'Chờ xác nhận';
+        $order->order_code = "MAG" . implode('', array_map(fn() => rand(0, 9), range(1, 5)));
 
 
         // Lưu địa chỉ và ghi chú
         if (Auth::check()) {
+            $user = Auth::user();
+            if (!$user->phone && $request->filled('phone')) {
+                $user->phone = $request->phone;
+                $user->save();
+            }
             $order->address_id = $request->address;
-            $address = addresses::find($order->address_id);
+            $address = addresses::find(id: $order->address_id);
 
             // Kiểm tra địa chỉ mặc định
             if ($address && $address == null) {
@@ -218,7 +230,7 @@ class PaymentController extends Controller
             header('Location: ' . $vnp_Url);
             die();
         } elseif ($request->payment == 'Momo') {
-            
+
 
         } else {
             foreach ($cartDetails as $item) {
@@ -271,7 +283,7 @@ class PaymentController extends Controller
                 $orderId = $request->vnp_TxnRef;
                 $order = Order::find($orderId);
                 if ($order) {
-                    $order->status = 'done';
+                    $order->status_payment = 'done';
                     $order->save();
                     foreach ($order->orderDetails as $detail) {
                         $variant = product_variants::find($detail->product_variant_id);
@@ -297,7 +309,7 @@ class PaymentController extends Controller
             return view('payment.error');
         }
     }
-   
+
 
 
 

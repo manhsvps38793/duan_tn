@@ -1,4 +1,4 @@
-        :root {
+        /* :root {
             --primary-color: #4f46e5;
             --primary-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
             --success-color: #22c55e;
@@ -25,7 +25,7 @@
             background-color: var(--secondary-color);
             color: var(--text-color);
             overflow-y: auto;
-        }
+        } */
 
         .adnews-container {
             display: flex;
@@ -119,7 +119,7 @@
         .adnews-sidebar-item.adnews-active {
             background-color: rgba(79, 70, 229, 0.1);
             color: var(--primary-color);
-            font-weight: 600;
+            /* font-weight: 600; */
         }
 
         .adnews-main-content {
@@ -226,12 +226,12 @@
             font-size: 1rem;
         }
 
-        .adnews-page-title {
+        /* .adnews-page-title {
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-color);
             margin-bottom: 0.5rem;
-        }
+        } */
 
         .adnews-page-subtitle {
             color: var(--text-muted);
@@ -876,15 +876,15 @@
 
 
 
-        .content {
+        .adnews-tab-content .content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 40px;
         }
 
-        .form-section,
-        .result-section {
+        .adnews-tab-content .form-section,
+        .adnews-tab-content .result-section {
             background: white;
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-md);
@@ -894,8 +894,8 @@
             overflow: hidden;
         }
 
-        .form-section:before,
-        .result-section:before {
+        .adnews-tab-content .form-section:before,
+        .adnews-tab-content .result-section:before {
             content: '';
             position: absolute;
             top: 0;
@@ -905,11 +905,11 @@
             background: var(--primary-color);
         }
 
-        .result-section:before {
+        .adnews-tab-content .result-section:before {
             background: var(--secondary-color);
         }
 
-        .section-title {
+        .adnews-tab-content .section-title {
             font-size: 1.5rem;
             color: var(--dark-color);
             margin-bottom: 25px;
@@ -920,20 +920,20 @@
             gap: 10px;
         }
 
-        .section-title i {
+        .adnews-tab-content .section-title i {
             color: var(--primary-color);
         }
 
-        .result-section .section-title i {
+        .adnews-tab-content .result-section .section-title i {
             color: var(--secondary-color);
         }
 
-        .form-group {
+        .adnews-tab-content .form-group {
             margin-bottom: 25px;
             position: relative;
         }
 
-        label {
+        .adnews-tab-content label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
@@ -943,14 +943,14 @@
             gap: 8px;
         }
 
-        label i {
+        .adnews-tab-content label i {
             font-size: 0.9rem;
             color: var(--primary-color);
         }
 
-        textarea,
-        input,
-        select {
+        .adnews-tab-content textarea,
+        .adnews-tab-content input,
+        .adnews-tab-content select {
             width: 100%;
             padding: 14px;
             border: 2px solid var(--border-color);
@@ -960,35 +960,35 @@
             background: #fafafa;
         }
 
-        textarea:focus,
-        input:focus,
-        select:focus {
+        .adnews-tab-content textarea:focus,
+        .adnews-tab-content input:focus,
+        .adnews-tab-content select:focus {
             outline: none;
             border-color: var(--primary-color);
             background: white;
             box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
         }
 
-        textarea {
+        .adnews-tab-content textarea {
             min-height: 120px;
             resize: vertical;
         }
 
-        .char-count {
+        .adnews-tab-content .char-count {
             text-align: right;
             font-size: 0.85rem;
             color: #636e72;
             margin-top: 5px;
         }
 
-        .checkbox-group {
+        .adnews-tab-content .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 8px;
         }
 
-        .checkbox-item {
+        .adnews-tab-content .checkbox-item {
             display: flex;
             align-items: center;
             gap: 8px;
@@ -998,16 +998,16 @@
             transition: var(--transition);
         }
 
-        .checkbox-item:hover {
+        .adnews-tab-content .checkbox-item:hover {
             background: #e4e6eb;
         }
 
-        .checkbox-item input[type="checkbox"] {
+        .adnews-tab-content .checkbox-item input[type="checkbox"] {
             width: auto;
             accent-color: var(--primary-color);
         }
 
-        #generateBtn {
+        .adnews-tab-content #generateBtn {
             display: block;
             width: 100%;
             padding: 16px;
@@ -1025,16 +1025,16 @@
             overflow: hidden;
         }
 
-        #generateBtn:hover {
+        .adnews-tab-content #generateBtn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
         }
 
-        #generateBtn:active {
+        .adnews-tab-content #generateBtn:active {
             transform: translateY(0);
         }
 
-        #generateBtn:before {
+        .adnews-tab-content #generateBtn:before {
             content: '';
             position: absolute;
             top: 0;
@@ -1045,11 +1045,11 @@
             transition: 0.5s;
         }
 
-        #generateBtn:hover:before {
+        .adnews-tab-content #generateBtn:hover:before {
             left: 100%;
         }
 
-        .ai-indicator {
+        .adnews-tab-content .ai-indicator {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1059,7 +1059,7 @@
             font-weight: 500;
         }
 
-        .ai-indicator i {
+        .adnews-tab-content .ai-indicator i {
             animation: pulse 1.5s infinite;
         }
 
@@ -1354,18 +1354,3 @@
                 gap: 10px;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

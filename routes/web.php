@@ -152,6 +152,7 @@ Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity']
 // update variant
 
 // thanh toán
+Route::post('/checkout-direct', [CartController::class, 'checkoutDirect'])->name('checkout.direct');
 Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');

@@ -83,7 +83,10 @@ class PageController extends Controller
         return response()->json([
             'quantity' => $variant->quantity,
             'sku' => $variant->sku,
-            'product_variant_id' => $variant->id
+            'product_variant_id' => $variant->id,
+            'price' => $variant->product->price,
+            'name' => $variant->product->name
+
 
         ]);
     }
