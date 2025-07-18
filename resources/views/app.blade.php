@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/css/thanhtoan.css">
     <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="/css/detail.css">
-        
+
 
 
 
@@ -230,7 +230,7 @@
         function updateCountdown() {
             if (totalSeconds <= 0) {
                 clearInterval(countdown);
-                if (saleSection) saleSection.style.display = 'none';
+            //     if (saleSection) saleSection.style.display = 'none';
                 return;
             }
 
@@ -243,6 +243,41 @@
             if (minuteEl) minuteEl.textContent = m.toString().padStart(2, '0');
             if (secondEl) secondEl.textContent = s.toString().padStart(2, '0');
         }
+
+        function updateCountdown() {
+            let hour = parseInt(document.getElementById("countdown-hour").textContent);
+            let minute = parseInt(document.getElementById("countdown-minute").textContent);
+            let second = parseInt(document.getElementById("countdown-second").textContent);
+
+            if (hour === 0 && minute === 0 && second === 0) {
+                document.getElementById("countdown-label").style.display = "none";
+                document.getElementById("flash-sale-start").style.display = "block";
+                return;
+            }
+
+            // Giảm giây
+            if (second > 0) {
+                second--;
+            } else {
+                if (minute > 0) {
+                    minute--;
+                    second = 59;
+                } else if (hour > 0) {
+                    hour--;
+                    minute = 59;
+                    second = 59;
+                } else {
+                    second = 0;
+                }
+            }
+
+            document.getElementById("countdown-hour").textContent = hour.toString().padStart(2, '0');
+            document.getElementById("countdown-minute").textContent = minute.toString().padStart(2, '0');
+            document.getElementById("countdown-second").textContent = second.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+
 
 
 
@@ -282,7 +317,7 @@
     </script>
 
     @stack('scripts')
- 
+
 
 </body>
 

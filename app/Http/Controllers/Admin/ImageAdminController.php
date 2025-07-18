@@ -21,6 +21,10 @@ class ImageAdminController extends Controller
             ->orderBy('order')
             ->orderBy('product_id');
 
+        // Lọc theo product_id
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
         // Tìm theo tên sản phẩm
         if ($request->filled('search')) {
             $query->whereHas('image_product', function ($q) use ($request) {
@@ -52,6 +56,7 @@ class ImageAdminController extends Controller
             'categories' => $categories
         ]);
     }
+
 
 
 

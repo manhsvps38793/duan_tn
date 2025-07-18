@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Enums\UserRole;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,6 +59,11 @@ protected $fillable = [
     // function của infouser
     public function addresses()
     {
+        return $this->hasOne(addresses::class);
+    }
+    public function isAdmin()
+    {
+        // return $this->role === UserRole::ADMIN->value;
         return $this->hasOne(addresses::class); // nếu mỗi user chỉ có 1 địa chỉ
     }
 }

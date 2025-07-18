@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-   
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || !Auth::user()->isAdmin()) {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!Auth::check() || !$user->isAdmin()) {
             abort(403, 'Bạn không có quyền truy cập vào trang này.');
         }
 

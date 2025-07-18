@@ -60,7 +60,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // Thêm middleware phân quyền Admin (tạo ở bước trước)
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'admin' => \App\Http\Middleware\CheckAdmin::class,
 
     ];
 }

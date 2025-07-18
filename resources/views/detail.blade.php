@@ -65,7 +65,7 @@
 
                     <div class="price-container">
                         <div class="current-price">
-                            {{ number_format($product_detail->price)}}đ
+                            {{ number_format($product_detail->original_price * (1 - $product_detail->sale / 100), 0, ',', '.') }}đ
                         </div>
                         <div class="original-price">{{ number_format($product_detail->original_price) }}đ</div>
                         <div class="discount-badge">{{ $product_detail->sale }}%</div>
@@ -269,8 +269,10 @@
             addToCart: "{{ route('cart.add') }}"
         };
     </script>
-    {{-- <script src="{{ asset('/js/detail.js') }}"></script> --}}
-    <script src="/js/detail.js"></script>
-
-
+    <script src="{{ asset('/js/detail.js') }}"></script>
 @endsection
+    {{-- <script src="{{ asset('/js/detail.js') }}"></script> --}}
+    {{-- <script src="/js/detail.js"></script>
+
+
+@endsection --}}

@@ -53,8 +53,8 @@ class PaymentController extends Controller
                     'phone' => $user->phone ?? '0000000000',
                     'email' => $user->email,
                     'province' => 'Tỉnh/Thành phố',
-                    'district' => 'Quận/Huyện', 
-                    'ward' => 'Phường/Xã',    
+                    'district' => 'Quận/Huyện',
+                    'ward' => 'Phường/Xã',
                     'address' => 'Địa chỉ mặc định',
                     'is_default' => 1
                 ]);
@@ -218,7 +218,7 @@ class PaymentController extends Controller
             header('Location: ' . $vnp_Url);
             die();
         } elseif ($request->payment == 'Momo') {
-            
+
 
         } else {
             foreach ($cartDetails as $item) {
@@ -297,7 +297,7 @@ class PaymentController extends Controller
             return view('payment.error');
         }
     }
-   
+
 
 
 

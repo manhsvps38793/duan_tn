@@ -4,13 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class product_variants extends Model
 {
-    protected $fillable = ['product_id', 'name', 'sku', 'size_id', 'price', 'quantity'];
+    protected $fillable = ['product_id', 'name', 'sku', 'size_id', 'color_id', 'price', 'quantity'];
     public $timestamps = false; // Thêm nếu bảng không có timestamps
 
     public function product()
     {
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class, 'product_id');
     }
+
 
     public function size()
     {
@@ -27,8 +28,10 @@ class product_variants extends Model
       public function color()
 
     {
-        return $this->belongsTo(Colors::class);
+        return $this->belongsTo(Colors::class, 'color_id');
     }
+
+
 
 }
 

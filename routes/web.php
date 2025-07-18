@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeAdminController;
+
 use App\Http\Controllers\Admin\NewAdminController;
 
 
@@ -8,6 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\PaymentController;
 use App\Models\Cart;
@@ -22,7 +24,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\ContactController;
-use Illuminate\Support\Facades\Http;
+
+use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\CountDownController;
+use App\Http\Controllers\Admin\ProductAdminController;
+
 //admin
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\ImageAdminController;
@@ -185,6 +191,7 @@ Route::post('/try-on', [TryOnController::class, 'process'])->name('tryon.process
 
 // ========================================== admin
 
+
 Route::get('/admin/', [HomeAdminController::class, 'show_home']);
 Route::post('/admin/reply-comment', [HomeAdminController::class, 'replyComment'])->name('admin.reply-comment');
 
@@ -203,6 +210,9 @@ Route::get('/admin/hotro', function () {
 Route::get('/admin/khuyenmai', function () {
     return view('admin.khuyenmai');
 });
+// Route::get('/admin/countdown', function () {
+//     return view('admin.countdown');
+// });
 Route::get('/admin/orders', function () {
     return view('admin.orders');
 });
@@ -248,12 +258,47 @@ Route::delete('/admin/orders/{id}', [AdminOrderController::class, 'softDelete'])
 Route::get('/admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
 
 
+Route::post('/admin/countdown', [PromotionController::class, 'store'])->name('admin.countdown.store');
+// Route::get('/admin/countdown', [PromotionController::class, 'index']);
+Route::get('/admin/countdown', [PromotionController::class, 'index'])->name('admin.countdown.index');
+// Route::post('/admin/countdown/create', [PromotionController::class, 'store']);
+Route::put('/admin/countdown/{promotion}', [PromotionController::class, 'update'])->name('admin.countdown.update');
+Route::delete('/admin/countdown/{promotion}', [PromotionController::class, 'destroy'])->name('admin.countdown.destroy');
+
+// auto kích hoạt giảm khi đến giờ
+Route::get('/apply-countdown', [CountDownController::class, 'applyCountdown'])->name('ajax.applyCountdown');
+// auto reset khi hết h
+Route::get('/check-reset-countdown', [CountDownController::class, 'resetCountdownSale'])->name('ajax.resetCountdown');
+
 
 // router trung
 Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name('admin.images.index');
 Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
 Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
 Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
+
+
+
+// product admin
+Route::get('/admin/products', [ProductAdminController::class, 'index'])->name('admin.products.index');
+Route::get('/admin/products/{id}', [ProductAdminController::class, 'viewDetail']);
+Route::post('/admin/products/store', [ProductAdminController::class, 'store'])->name('admin.products.store');
+Route::delete('/admin/products/{id}', [ProductAdminController::class, 'destroy'])->name('admin.products.destroy');
+// Route hiển thị popup cập nhật sản phẩm (trả về HTML)
+Route::get('/admin/products/{id}/edit', [ProductAdminController::class, 'edit'])->name('admin.products.edit');
+
+// Route xử lý submit form cập nhật
+Route::put('/admin/products/{id}', [ProductAdminController::class, 'update'])->name('admin.products.update');
+Route::delete('/admin/variants/{id}', [ProductAdminController::class, 'deletevariant']);
+
+// lọc
+Route::get('/products/category/{id}', [ProductAdminController::class, 'LocDanhMuc'])->name('products.TheoDanhMuc');
+Route::get('/products/status/{status}', [ProductAdminController::class, 'LocTrangThai'])->name('products.TheoTrangThai');
+
+// tìm
+Route::get('/products/search', [ProductAdminController::class, 'search'])->name('admin.products.search');
+
+
 
 // router của Khôi
 //lienhe
