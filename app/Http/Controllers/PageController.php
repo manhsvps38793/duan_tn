@@ -21,7 +21,7 @@ class PageController extends Controller
         $products_sale = Products::with(['images', 'variants'])->where('products.sale', '>', 30)->take(8)->get();
         $products_is_featured = Products::with(['images', 'variants'])->where('is_featured', '>', 0)->take(8)->get();
         $product_categories = Product_categories::all();
-        $news = News::where('views', '>', 200)->take(6)->get();
+        $news = News::where('views', '>', 190)->take(6)->get();
         $product_new = Product_categories::with(['products' => function ($query) {
             $query->take(8);
         }])->get();

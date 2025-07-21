@@ -297,7 +297,21 @@ class PaymentController extends Controller
                         Cart::where('user_id', Auth::id())->delete();
                     }
                     session()->forget(['cart', 'checkout_data', 'applied_voucher']);
-                    Mail::to($order->address->email ?? $order->user->email)->send(new Bill($order));
+                    $email = null;
+                    if (Auth::check() && $order->user && $order->user->email) {
+                        // Ưu tiên lấy email từ user khi đã đăng nhập
+                        $email = $order->user->email;
+                    } elseif ($order->address && $order->address->email) {
+                        // Nếu chưa đăng nhập, lấy email từ địa chỉ giao hàng
+                        $email = $order->address->email;
+                    } elseif ($request->has('email')) {
+                        // Nếu vẫn chưa có, lấy từ request (trường hợp đặc biệt)
+                        $email = $request->input('email');
+                    }
+
+                    if ($email) {
+                        Mail::to($email)->send(new Bill($order));
+                    }
 
                     return view('payment.success');
                 } else {
