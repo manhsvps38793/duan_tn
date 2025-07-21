@@ -13,7 +13,7 @@ class VoucherAdminController extends Controller
      */
     public function index()
     {
-        $vouchers = Voucher::paginate(5); // paginate trực tiếp
+        $vouchers = Voucher::paginate(5);
         return view('admin.khuyenmai', compact('vouchers'));
     }
 
@@ -41,7 +41,15 @@ class VoucherAdminController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // 2. Tạo mới voucher
+        $exists = Voucher::withTrashed()
+            ->where('code', $validated['code'])
+            ->exists();
+
+        if (Voucher::withTrashed()->where('code', $validated['code'])->exists()) {
+            return redirect()->back()->with('error', 'Voucher bạn tạo đã tồn tại!');
+        }
+
+
         $voucher = new Voucher();
         $voucher->code = $validated['code'];
         $voucher->discount_amount = $validated['discount_amount'];
@@ -75,7 +83,6 @@ class VoucherAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // 1. Validate dữ liệu
         $validated = $request->validate([
             'code' => 'required|string|max:255',
             'discount_amount' => 'required|numeric|min:0',
@@ -85,13 +92,19 @@ class VoucherAdminController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // 2. Tìm voucher
+        $exists = Voucher::withTrashed()
+            ->where('code', $validated['code'])
+            ->exists();
+
+        if (Voucher::withTrashed()->where('code', $validated['code'])->exists()) {
+            return redirect()->back()->with('error', 'Voucher bạn tạo đã tồn tại!');
+        }
+
+
         $voucher = Voucher::findOrFail($id);
 
-        // 3. Cập nhật dữ liệu
         $voucher->update($validated);
 
-        // 4. Chuyển hướng về trang danh sách và thông báo
         return redirect()->route('admin.vouchers.index')
             ->with('success', 'Cập nhật khuyến mãi thành công!');
     }

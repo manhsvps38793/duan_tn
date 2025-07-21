@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\Products;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Product_categories extends Model
 {
@@ -13,7 +13,7 @@ class Product_categories extends Model
 
     protected $fillable = ['name', 'slug', 'image', 'is_active'];
 
-    use SoftDeletes;
+
 
     public $incrementing = true;
     public $timestamps = true;

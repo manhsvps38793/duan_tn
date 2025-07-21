@@ -5,3 +5,5 @@ google-generativeai
 aiomysql
 jinja2
 python-multipart
+openai
+tiktoken
