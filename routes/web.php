@@ -35,6 +35,8 @@ use App\Http\Controllers\Admin\ImageAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\VoucherAdminController;
+use App\Http\Controllers\Admin\CategoryAdminController;
 
 Route::get('about', function () {
     return view('about');
@@ -319,3 +321,17 @@ Route::post('/admin/quanlynguoidung/add', [AdminUserController::class, 'add'])->
 Route::put('/admin/quanlynguoidung/{id}/update', [AdminUserController::class, 'updateRoleAndStatus'])->name('admin.users.update');
 Route::delete('/admin/quanlynguoidung/{id}/remove-role', [AdminUserController::class, 'removeRole'])->name('admin.users.removeRole');
 Route::get('/admin/quanlynguoidung/{id}', [AdminUserController::class, 'show'])->name('admin.users.show');
+
+
+// chung theem
+Route::get('/admin/khuyenmai', [VoucherAdminController::class, 'index'])->name('admin.vouchers.index');
+Route::post('/admin/vouchers', [VoucherAdminController::class, 'store'])->name('admin.vouchers.store');
+Route::delete('/admin/vouchers/{id}', [VoucherAdminController::class, 'destroy'])->name('admin.vouchers.destroy');
+Route::put('/admin/vouchers/{id}', [VoucherAdminController::class, 'update'])->name('vouchers.update');
+
+
+
+Route::get('/admin/danhmuc', [CategoryAdminController::class, 'index'])->name('admin.categories.index');
+Route::post('/admin/categories', [CategoryAdminController::class, 'store'])->name('admin.categories.store');
+Route::delete('/admin/categories/{id}', [CategoryAdminController::class, 'destroy'])->name('admin.categories.destroy');
+Route::put('/admin/categories/{id}', [CategoryAdminController::class, 'update'])->name('admin.categories.update');

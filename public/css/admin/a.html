@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Quản lý bình luận</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #f9fafb;
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+    --edit-color: #3b82f6;
+    --light-color: #ffffff;
+    --border-color: #e5e7eb;
+    --text-color: #374151;
+    --text-muted: #6b7280;
+    --dark-color: #1f2937;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --star-color: #f59e0b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.aorders-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.adnews-sidebar { 
+    width: 280px; 
+    background-color: var(--light-color); 
+    padding: 1.5rem 0; 
+    box-shadow: var(--shadow-sm); 
+    position: sticky; 
+    top: 0; 
+    height: 100vh; 
+    overflow-y: auto; 
+    transition: var(--transition); 
+}
+
+.adnews-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.adnews-sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--text-muted);
+    border-radius: 4px;
+}
+
+.adnews-sidebar::-webkit-scrollbar-track {
+    background-color: var(--secondary-color);
+}
+
+.adnews-sidebar-header { 
+    padding: 0 1.5rem 1rem; 
+    border-bottom: 1px solid var(--border-color); 
+    margin-bottom: 1rem; 
+}
+
+.adnews-sidebar-header h2 { 
+    color: var(--primary-color); 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+}
+
+.adnews-sidebar-header h2 i { 
+    font-size: 1.5rem; 
+}
+
+.adnews-sidebar-section { 
+    margin-bottom: 1.5rem; 
+    padding: 0 1.5rem; 
+}
+
+.adnews-sidebar-section h3 { 
+    color: var(--text-muted); 
+    font-size: 0.75rem; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    margin-bottom: 0.75rem; 
+}
+
+.adnews-sidebar-item { 
+    padding: 0.75rem 1rem; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+    border-radius: 0.5rem; 
+    margin-bottom: 0.25rem; 
+    transition: var(--transition); 
+    color: var(--text-color); 
+    text-decoration: none; 
+    font-weight: 500; 
+}
+
+.adnews-sidebar-item i { 
+    width: 1.5rem; 
+    text-align: center; 
+    font-size: 1rem; 
+}
+
+.adnews-sidebar-item:hover { 
+    background-color: var(--secondary-color); 
+    color: var(--primary-color); 
+    transform: translateX(0.25rem); 
+}
+
+.adnews-sidebar-item.adnews-active { 
+    background-color: rgba(79, 70, 229, 0.1); 
+    color: var(--primary-color); 
+    font-weight: 600; 
+}
+
+.aorders-main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--secondary-color);
+}
+
+.aorders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.aorders-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--light-color);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.aorders-search-bar:hover {
+    box-shadow: var(--shadow-md);
+    transform: scale(1.02);
+}
+
+.aorders-search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    background: transparent;
+}
+
+.aorders-search-bar i {
+    color: var(--text-muted);
+    margin-right: 0.5rem;
+}
+
+.aorders-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.aorders-notification-bell {
+    position: relative;
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.aorders-notification-bell:hover {
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.aorders-profile-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.aorders-profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+.aorders-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.aorders-page-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.aorders-data-card {
+    background-color: var(--light-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.aorders-data-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.aorders-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.aorders-data-table th {
+    text-align: left;
+    padding: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.aorders-data-table td {
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+.aorders-data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.aorders-data-table tr:hover {
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.aorders-status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.status-gray { background-color: #adb5bd; color: #fff; }
+.status-green { background-color: #22c55e; color: #fff; }
+.status-red { background-color: #ef4444; color: #fff; }
+
+.aorders-rating {
+    color: var(--star-color);
+}
+
+.aorders-rating i {
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+}
+
+.aorders-reply-info {
+    display: inline-block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aorders-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+}
+
+.aorders-btn-primary {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border: 1px solid var(--border-color);
+}
+
+.aorders-btn-primary:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
+}
+
+.aorders-btn-edit {
+    background-color: var(--edit-color);
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.aorders-btn-edit:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+}
+
+.aorders-btn-delete {
+    background-color: var(--danger-color);
+    color: white;
+    margin-right: 0.5rem;
+}
+
+.aorders-btn-delete:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
+
+.aorders-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.aorders-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.aorders-modal-content {
+    background-color: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-md);
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.aorders-modal.show .aorders-modal-content {
+    transform: scale(1);
+}
+
+.aorders-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.aorders-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.aorders-modal-close {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.aorders-modal-close:hover {
+    color: var(--text-color);
+}
+
+.aorders-modal-body {
+    margin-bottom: 1rem;
+}
+
+.aorders-modal-body p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.aorders-modal-body label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.aorders-modal-body select,
+.aorders-modal-body textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.aorders-modal-body select:focus,
+.aorders-modal-body textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.aorders-modal-body textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.aorders-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.aorders-filters {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.aorders-status-filter,
+.aorders-reply-filter {
+    flex: 1;
+    min-width: 200px;
+}
+
+.aorders-reply-box {
+    background-color: var(--light-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.aorders-reply-box:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.aorders-reply-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.aorders-reply-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.aorders-reply-close {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.aorders-reply-close:hover {
+    color: var(--text-color);
+}
+
+.aorders-reply-content p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.aorders-reply-content label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.aorders-reply-content textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    resize: vertical;
+    min-height: 80px;
+}
+
+.aorders-reply-content textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.aorders-reply-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.aorders-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.aorders-pagination-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background-color: var(--light-color);
+    transition: var(--transition);
+}
+
+.aorders-pagination-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.aorders-pagination-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.aorders-toast {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 0.375rem;
+    color: white;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.aorders-toast.show {
+    display: flex;
+    opacity: 1;
+}
+
+.aorders-toast-success {
+    background-color: var(--success-color);
+}
+
+.aorders-toast-error {
+    background-color: var(--danger-color);
+}
+
+@media (max-width: 1024px) {
+    .adnews-sidebar {
+        width: 80px;
+    }
+    .adnews-sidebar-header h2 span,
+    .adnews-sidebar-item span,
+    .adnews-sidebar-section h3 {
+        display: none;
+    }
+    .adnews-sidebar-item {
+        justify-content: center;
+    }
+    .adnews-sidebar-item i {
+        margin: 0;
+    }
+    .aorders-main-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .aorders-container {
+        flex-direction: column;
+    }
+    .adnews-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        overflow-y: visible;
+    }
+    .aorders-main-content {
+        padding: 1rem;
+    }
+    .aorders-search-bar {
+        max-width: 100%;
+    }
+    .aorders-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    .aorders-data-table {
+        font-size: 0.8rem;
+    }
+    .aorders-data-table th,
+    .aorders-data-table td {
+        padding: 0.5rem;
+    }
+    .aorders-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    .aorders-modal-content,
+    .aorders-reply-box {
+        margin: 0 1rem;
+        max-width: 90%;
+    }
+    .aorders-toast {
+        right: 0.5rem;
+        left: 0.5rem;
+    }
+    .aorders-filters {
+        flex-direction: column;
+        gap: 10px;
+    }
+}</style>
+</head>
+<body>
+    <div class="aorders-container">
+        <!-- Sidebar -->
+        <div class="adnews-sidebar">
+            <div class="adnews-sidebar-header">
+                <h2><i class="fas fa-tshirt"></i> <span>Fashion Store</span></h2>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Bảng điều khiển</h3>
+                <a href="/admin/" class="adnews-sidebar-item"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+                <a href="/admin/products" class="adnews-sidebar-item"><i class="fas fa-box-open"></i><span>Sản phẩm</span></a>
+                <a href="/admin/danhmuc" class="adnews-sidebar-item"><i class="fas fa-shopping-bag"></i><span>Danh mục</span></a>
+                <a href="/admin/orders" class="adnews-sidebar-item"><i class="fas fa-shopping-cart"></i><span>Đơn hàng</span></a>
+                <a href="/admin/khuyenmai" class="adnews-sidebar-item"><i class="fas fa-tags"></i><span>Khuyến mãi</span></a>
+                <a href="/admin/countdown" class="adnews-sidebar-item"><i class="fas fa-clock"></i><span>Count down</span></a>
+                <a href="/admin/baocao" class="adnews-sidebar-item"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Công cụ</h3>
+                <a href="/admin/quanlykho" class="adnews-sidebar-item"><i class="fas fa-warehouse"></i><span>Quản lý kho</span></a>
+                <a href="/admin/quanlyhinhanh" class="adnews-sidebar-item"><i class="fas fa-images"></i><span>Hình ảnh sản phẩm</span></a>
+                <a href="/admin/quanlykhachhang" class="adnews-sidebar-item"><i class="fas fa-users"></i><span>Khách hàng</span></a>
+                <a href="/admin/quanlynguoidung" class="adnews-sidebar-item"><i class="fas fa-user-cog"></i><span>Quản lý người dùng</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Nội dung</h3>
+                <a href="/admin/quanlytintuc" class="adnews-sidebar-item"><i class="fas fa-newspaper"></i><span>Tin tức</span></a>
+                <a href="/admin/comments" class="adnews-sidebar-item adnews-active"><i class="fas fa-comments"></i><span>Bình luận</span></a>
+            </div>
+            <div class="adnews-sidebar-section">
+                <h3>Hệ thống</h3>
+                <a href="/admin/caidat" class="adnews-sidebar-item"><i class="fas fa-cog"></i><span>Cài đặt</span></a>
+                <a href="/admin/hotro" class="adnews-sidebar-item"><i class="fas fa-headset"></i><span>Hỗ trợ</span></a>
+                <a href="/admin/quanlylienhe" class="adnews-sidebar-item"><i class="fas fa-envelope"></i><span>Liên hệ</span></a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="aorders-main-content">
+            <div class="aorders-header">
+                <div class="aorders-search-bar">
+                    <form action="/admin/comments" method="GET" id="search-form">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="search" id="comment-search" placeholder="Tìm kiếm bình luận, khách hàng, sản phẩm, phản hồi...">
+                        <button type="submit" style="display: none;">Tìm kiếm</button>
+                    </form>
+                </div>
+                <div class="aorders-user-profile">
+                    <div class="aorders-notification-bell">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="aorders-profile-avatar">QT</div>
+                </div>
+            </div>
+            <h1 class="aorders-page-title">Quản lý bình luận</h1>
+            <p class="aorders-page-subtitle">Theo dõi và quản lý các bình luận của khách hàng</p>
+            
+            <!-- Filters -->
+            <div class="aorders-filters" style="margin-bottom: 20px; display: flex; gap: 20px;">
+                <div class="aorders-status-filter">
+                    <form action="/admin/comments" method="GET" id="status-filter-form">
+                        <label for="status-filter">Lọc theo trạng thái:</label>
+                        <select name="status" id="status-filter" class="aorders-form-control" onchange="this.form.submit()">
+                            <option value="all">Tất cả trạng thái</option>
+                            <option value="Chờ duyệt">Chờ duyệt</option>
+                            <option value="Đã duyệt">Đã duyệt</option>
+                            <option value="Bị từ chối">Bị từ chối</option>
+                        </select>
+                        <button type="submit" style="display: none;">Lọc</button>
+                    </form>
+                </div>
+                <div class="aorders-reply-filter">
+                    <form action="/admin/comments" method="GET" id="reply-filter-form">
+                        <label for="reply-filter">Lọc theo phản hồi:</label>
+                        <select name="reply" id="reply-filter" class="aorders-form-control" onchange="this.form.submit()">
+                            <option value="all">Tất cả</option>
+                            <option value="replied">Đã phản hồi</option>
+                            <option value="not-replied">Chưa phản hồi</option>
+                        </select>
+                        <button type="submit" style="display: none;">Lọc</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="aorders-data-card">
+                <table class="aorders-data-table">
+                    <thead>
+                        <tr>
+                            <th>Mã bình luận</th>
+                            <th>Khách hàng</th>
+                            <th>Sản phẩm</th>
+                            <th>Nội dung</th>
+                            <th>Đánh giá</th>
+                            <th>Phản hồi</th>
+                            <th>Ngày gửi</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comment-table-body">
+                        <!-- Sample data for demo purposes -->
+                        <tr data-comment-id="#CM-1">
+                            <td>#CM-1</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>Áo thun nam</td>
+                            <td>Sản phẩm rất đẹp, chất lượng tốt!</td>
+                            <td><span class="aorders-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></td>
+                            <td><span class="aorders-reply-info">Admin Quản Trị 1: Cảm ơn bạn...</span></td>
+                            <td>2025-07-24</td>
+                            <td><span class="aorders-status-badge status-green">Đã duyệt</span></td>
+                            <td>
+                                <button class="aorders-btn aorders-btn-edit" onclick="openEditModal('#CM-1', 'Đã duyệt', 'Nguyễn Văn A', 'Áo thun nam', 'Sản phẩm rất đẹp, chất lượng tốt!', 5, 'Cảm ơn bạn đã ủng hộ!', 'Admin Quản Trị 1', '2025-07-24 10:00', '2025-07-24')">Sửa</button>
+                                <form action="/admin/comments/1/softDelete" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="csrf-token-placeholder">
+                                    <button type="submit" class="aorders-btn aorders-btn-delete">Xóa</button>
+                                </form>
+                                <button class="aorders-btn aorders-btn-primary" onclick="viewComment('#CM-1', 'Đã duyệt', 'Nguyễn Văn A', 'Áo thun nam', 'Sản phẩm rất đẹp, chất lượng tốt!', 5, 'Cảm ơn bạn đã ủng hộ!', 'Admin Quản Trị 1', '2025-07-24 10:00', '2025-07-24')">Xem</button>
+                            </td>
+                        </tr>
+                        <tr data-comment-id="#CM-2">
+                            <td>#CM-2</td>
+                            <td>Trần Thị B</td>
+                            <td>Quần jeans nữ</td>
+                            <td>Giao hàng nhanh, nhưng màu sắc hơi khác hình.</td>
+                            <td><span class="aorders-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span></td>
+                            <td><span class="aorders-reply-info">Chưa trả lời</span></td>
+                            <td>2025-07-23</td>
+                            <td><span class="aorders-status-badge status-gray">Chờ duyệt</span></td>
+                            <td>
+                                <button class="aorders-btn aorders-btn-edit" onclick="openEditModal('#CM-2', 'Chờ duyệt', 'Trần Thị B', 'Quần jeans nữ', 'Giao hàng nhanh, nhưng màu sắc hơi khác hình.', 3, '', '', '', '2025-07-23')">Sửa</button>
+                                <form action="/admin/comments/2/softDelete" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="csrf-token-placeholder">
+                                    <button type="submit" class="aorders-btn aorders-btn-delete">Xóa</button>
+                                </form>
+                                <button class="aorders-btn aorders-btn-primary" onclick="viewComment('#CM-2', 'Chờ duyệt', 'Trần Thị B', 'Quần jeans nữ', 'Giao hàng nhanh, nhưng màu sắc hơi khác hình.', 3, '', '', '', '2025-07-23')">Xem</button>
+                            </td>
+                        </tr>
+                        <tr data-comment-id="#CM-3">
+                            <td>#CM-3</td>
+                            <td>Lê Văn C</td>
+                            <td>Giày thể thao</td>
+                            <td>Chất lượng kém, nhanh hỏng.</td>
+                            <td><span class="aorders-rating"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></span></td>
+                            <td><span class="aorders-reply-info">Admin Quản Trị 2: Vui lòng cung...</span></td>
+                            <td>2025-07-22</td>
+                            <td><span class="aorders-status-badge status-red">Bị từ chối</span></td>
+                            <td>
+                                <button class="aorders-btn aorders-btn-edit" onclick="openEditModal('#CM-3', 'Bị từ chối', 'Lê Văn C', 'Giày thể thao', 'Chất lượng kém, nhanh hỏng.', 1, 'Vui lòng cung cấp thêm thông tin về sản phẩm.', 'Admin Quản Trị 2', '2025-07-22 14:30', '2025-07-22')">Sửa</button>
+                                <form action="/admin/comments/3/softDelete" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="csrf-token-placeholder">
+                                    <button type="submit" class="aorders-btn aorders-btn-delete">Xóa</button>
+                                </form>
+                                <button class="aorders-btn aorders-btn-primary" onclick="viewComment('#CM-3', 'Bị từ chối', 'Lê Văn C', 'Giày thể thao', 'Chất lượng kém, nhanh hỏng.', 1, 'Vui lòng cung cấp thêm thông tin về sản phẩm.', 'Admin Quản Trị 2', '2025-07-22 14:30', '2025-07-22')">Xem</button>
+                            </td>
+                        </tr>
+                        <tr data-comment-id="#CM-4">
+                            <td>#CM-4</td>
+                            <td>Phạm Thị D</td>
+                            <td>Váy maxi</td>
+                            <td>Rất thoải mái, đúng size!</td>
+                            <td><span class="aorders-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></span></td>
+                            <td><span class="aorders-reply-info">Admin Quản Trị 1: Cảm ơn bạn...</span></td>
+                            <td>2025-07-21</td>
+                            <td><span class="aorders-status-badge status-green">Đã duyệt</span></td>
+                            <td>
+                                <button class="aorders-btn aorders-btn-edit" onclick="openEditModal('#CM-4', 'Đã duyệt', 'Phạm Thị D', 'Váy maxi', 'Rất thoải mái, đúng size!', 4, 'Cảm ơn bạn đã đánh giá!', 'Admin Quản Trị 1', '2025-07-21 09:15', '2025-07-21')">Sửa</button>
+                                <form action="/admin/comments/4/softDelete" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="csrf-token-placeholder">
+                                    <button type="submit" class="aorders-btn aorders-btn-delete">Xóa</button>
+                                </form>
+                                <button class="aorders-btn aorders-btn-primary" onclick="viewComment('#CM-4', 'Đã duyệt', 'Phạm Thị D', 'Váy maxi', 'Rất thoải mái, đúng size!', 4, 'Cảm ơn bạn đã đánh giá!', 'Admin Quản Trị 1', '2025-07-21 09:15', '2025-07-21')">Xem</button>
+                            </td>
+                        </tr>
+                        <tr data-comment-id="#CM-5">
+                            <td>#CM-5</td>
+                            <td>Hoàng Văn E</td>
+                            <td>Túi xách</td>
+                            <td>Đường may chắc chắn, rất đẹp.</td>
+                            <td><span class="aorders-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></td>
+                            <td><span class="aorders-reply-info">Admin Quản Trị 3: Cảm ơn bạn...</span></td>
+                            <td>2025-07-20</td>
+                            <td><span class="aorders-status-badge status-green">Đã duyệt</span></td>
+                            <td>
+                                <button class="aorders-btn aorders-btn-edit" onclick="openEditModal('#CM-5', 'Đã duyệt', 'Hoàng Văn E', 'Túi xách', 'Đường may chắc chắn, rất đẹp.', 5, 'Cảm ơn bạn đã tin dùng sản phẩm!', 'Admin Quản Trị 3', '2025-07-20 16:45', '2025-07-20')">Sửa</button>
+                                <form action="/admin/comments/5/softDelete" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="hidden" name="_token" value="csrf-token-placeholder">
+                                    <button type="submit" class="aorders-btn aorders-btn-delete">Xóa</button>
+                                </form>
+                                <button class="aorders-btn aorders-btn-primary" onclick="viewComment('#CM-5', 'Đã duyệt', 'Hoàng Văn E', 'Túi xách', 'Đường may chắc chắn, rất đẹp.', 5, 'Cảm ơn bạn đã tin dùng sản phẩm!', 'Admin Quản Trị 3', '2025-07-20 16:45', '2025-07-20')">Xem</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="aorders-pagination" id="pagination"></div>
+            </div>
+
+            <!-- Reply Management Box -->
+            <div class="aorders-data-card aorders-reply-box" id="reply-management-box" style="display: none; margin-top: 20px;">
+                <div class="aorders-reply-header">
+                    <h2 class="aorders-reply-title">Quản lý phản hồi</h2>
+                    <span class="aorders-reply-close" onclick="closeReplyBox()">×</span>
+                </div>
+                <div class="aorders-reply-content" id="reply-content-view">
+                    <p><strong>Mã bình luận:</strong> <span id="replyCommentId"></span></p>
+                    <p><strong>Khách hàng:</strong> <span id="replyCustomer"></span></p>
+                    <p><strong>Sản phẩm:</strong> <span id="replyProduct"></span></p>
+                    <p><strong>Nội dung:</strong> <span id="replyContent"></span></p>
+                    <p><strong>Đánh giá:</strong> <span id="replyRating"></span></p>
+                    <p><strong>Ngày gửi:</strong> <span id="replyDate"></span></p>
+                    <p><strong>Trạng thái:</strong> <span id="replyStatus"></span></p>
+                    <p><strong>Phản hồi bởi:</strong> <span id="replyAdminName">Chưa có phản hồi</span></p>
+                    <p><strong>Thời gian phản hồi:</strong> <span id="replyReplyDate">Chưa có phản hồi</span></p>
+                    <p><strong>Nội dung phản hồi:</strong> <span id="replyReplyContent">Chưa có phản hồi</span></p>
+                </div>
+                <div class="aorders-reply-content" id="reply-content-edit" style="display: none;">
+                    <form action="" method="POST" id="replyForm">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_token" value="csrf-token-placeholder">
+                        <input type="hidden" id="replyCommentIdInput" name="comment_id">
+                        <p><strong>Mã bình luận:</strong> <span id="replyCommentIdEdit"></span></p>
+                        <p><strong>Khách hàng:</strong> <span id="replyCustomerEdit"></span></p>
+                        <p><strong>Sản phẩm:</strong> <span id="replyProductEdit"></span></p>
+                        <p><strong>Nội dung:</strong> <span id="replyContentEdit"></span></p>
+                        <p><strong>Đánh giá:</strong> <span id="replyRatingEdit"></span></p>
+                        <p><strong>Ngày gửi:</strong> <span id="replyDateEdit"></span></p>
+                        <p><strong>Trạng thái:</strong> <span id="replyStatusEdit"></span></p>
+                        <label for="replyAdminReply">Phản hồi của quản trị viên:</label>
+                        <textarea id="replyAdminReply" name="admin_reply" class="aorders-form-control" rows="4" placeholder="Nhập phản hồi..."></textarea>
+                        <div class="aorders-reply-footer">
+                            <button type="submit" class="aorders-btn aorders-btn-primary">Lưu</button>
+                            <button type="button" class="aorders-btn" onclick="toggleReplyEdit(false)">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="aorders-reply-footer">
+                    <button class="aorders-btn aorders-btn-edit" onclick="toggleReplyEdit(true)">Sửa phản hồi</button>
+                    <button class="aorders-btn" onclick="closeReplyBox()">Đóng</button>
+                </div>
+            </div>
+
+            <!-- Edit Modal -->
+            <div class="aorders-modal" id="editCommentModal">
+                <div class="aorders-modal-content">
+                    <div class="aorders-modal-header">
+                        <h2 class="aorders-modal-title">Chỉnh sửa bình luận</h2>
+                        <span class="aorders-modal-close" onclick="closeEditModal()">×</span>
+                    </div>
+                    <form action="" method="POST" id="editCommentForm">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_token" value="csrf-token-placeholder">
+                        <div class="aorders-modal-body">
+                            <p><strong>Mã bình luận:</strong> <span id="modalCommentId"></span></p>
+                            <p><strong>Khách hàng:</strong> <span id="modalCustomer"></span></p>
+                            <p><strong>Sản phẩm:</strong> <span id="modalProduct"></span></p>
+                            <p><strong>Nội dung:</strong> <span id="modalContent"></span></p>
+                            <p><strong>Đánh giá:</strong> <span id="modalRating"></span></p>
+                            <p><strong>Ngày gửi:</strong> <span id="modalDate"></span></p>
+                            <p><strong>Phản hồi bởi:</strong> <span id="modalAdminName">Chưa có phản hồi</span></p>
+                            <p><strong>Thời gian phản hồi:</strong> <span id="modalReplyDate">Chưa có phản hồi</span></p>
+                            <p><strong>Nội dung phản hồi:</strong> <span id="modalReplyContent">Chưa có phản hồi</span></p>
+                            <label for="adminReply">Phản hồi của quản trị viên:</label>
+                            <textarea id="adminReply" name="admin_reply" class="aorders-form-control" rows="4" placeholder="Nhập phản hồi..."></textarea>
+                            <input type="hidden" id="commentId" name="comment_id">
+                        </div>
+                        <div class="aorders-modal-footer">
+                            <button type="submit" class="aorders-btn aorders-btn-primary">Lưu</button>
+                            <button type="button" class="aorders-btn" onclick="closeEditModal()">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Toast -->
+            <div class="aorders-toast" id="toast"></div>
+        </div>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+    // Sidebar active state handling
+    const sidebarItems = document.querySelectorAll('.adnews-sidebar-item');
+    const assetPrefix = "/";
+
+    sidebarItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidebarItems.forEach(i => i.classList.remove('adnews-active'));
+            this.classList.add('adnews-active');
+            const path = this.getAttribute('href').replace(assetPrefix, '');
+            localStorage.setItem('activeSidebarItem', path);
+            window.location.href = this.getAttribute('href');
+        });
+
+        const activePath = localStorage.getItem('activeSidebarItem');
+        if (activePath && item.getAttribute('href').replace(assetPrefix, '') === activePath) {
+            item.classList.add('adnews-active');
+        }
+    });
+
+    if (!localStorage.getItem('activeSidebarItem')) {
+        const currentPath = window.location.pathname.replace(assetPrefix, '');
+        sidebarItems.forEach(item => {
+            if (item.getAttribute('href').replace(assetPrefix, '') === currentPath) {
+                item.classList.add('adnews-active');
+            }
+        });
+    }
+
+    // Search and filter functionality
+    const searchInput = document.querySelector("#comment-search");
+    const statusFilter = document.querySelector("#status-filter");
+    const replyFilter = document.querySelector("#reply-filter");
+    const tableBody = document.querySelector("#comment-table-body");
+    let rows = tableBody.querySelectorAll("tr");
+
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const statusValue = statusFilter.value;
+        const replyValue = replyFilter.value;
+
+        rows = Array.from(tableBody.querySelectorAll("tr")).filter(row => {
+            const commentId = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
+            const customer = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+            const product = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+            const content = row.querySelector("td:nth-child(4)").textContent.toLowerCase();
+            const rating = row.querySelector("td:nth-child(5)").querySelectorAll(".fas.fa-star").length.toString();
+            const replyInfo = row.querySelector("td:nth-child(6)").textContent.toLowerCase();
+            const status = row.querySelector("td:nth-child(8) span").textContent.toLowerCase();
+
+            const matchesSearch = (
+                commentId.includes(searchTerm) ||
+                customer.includes(searchTerm) ||
+                product.includes(searchTerm) ||
+                content.includes(searchTerm) ||
+                rating.includes(searchTerm) ||
+                replyInfo.includes(searchTerm) ||
+                status.includes(searchTerm)
+            );
+
+            const matchesStatus = statusValue === "all" || status === statusValue.toLowerCase();
+            const matchesReply = replyValue === "all" ||
+                                (replyValue === "replied" && replyInfo !== "chưa trả lời") ||
+                                (replyValue === "not-replied" && replyInfo === "chưa trả lời");
+
+            return matchesSearch && matchesStatus && matchesReply;
+        });
+
+        renderPage();
+        renderPagination();
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+    replyFilter.addEventListener("change", applyFilters);
+
+    // Pagination
+    const itemsPerPage = 6;
+    let currentPage = 1;
+
+    function renderPagination() {
+        const totalPages = Math.ceil(rows.length / itemsPerPage);
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.className = "aorders-pagination-btn" + (i === currentPage ? " active" : "");
+            btn.textContent = i;
+            btn.addEventListener("click", () => {
+                currentPage = i;
+                renderPage();
+                document.querySelectorAll(".aorders-pagination-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+            });
+            pagination.appendChild(btn);
+        }
+    }
+
+    function renderPage() {
+        rows.forEach((row, index) => {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            row.style.display = index >= start && index < end ? "" : "none";
+        });
+    }
+
+    renderPagination();
+    renderPage();
+
+    // Modal handling
+    window.openEditModal = function(commentId, currentStatus, customer, product, content, rating, reply, adminName, replyDate, date) {
+        const modal = document.getElementById("editCommentModal");
+        const statusSelect = document.getElementById("commentStatus");
+        const commentIdInput = document.getElementById("commentId");
+        const replyInput = document.getElementById("adminReply");
+        const adminNameSpan = document.getElementById("modalAdminName");
+        const replyDateSpan = document.getElementById("modalReplyDate");
+        const replyContentSpan = document.getElementById("modalReplyContent");
+        const form = document.getElementById("editCommentForm");
+        document.getElementById("modalCommentId").textContent = commentId;
+        document.getElementById("modalCustomer").textContent = customer;
+        document.getElementById("modalProduct").textContent = product;
+        document.getElementById("modalContent").textContent = content;
+        document.getElementById("modalRating").textContent = rating + ' sao';
+        document.getElementById("modalDate").textContent = date;
+        commentIdInput.value = commentId.replace('#CM-', '');
+        statusSelect.value = currentStatus;
+        replyInput.value = reply || '';
+        adminNameSpan.textContent = adminName || 'Chưa có phản hồi';
+        replyDateSpan.textContent = replyDate || 'Chưa có phản hồi';
+        replyContentSpan.textContent = reply || 'Chưa có phản hồi';
+        form.action = `/admin/comments/${commentIdInput.value}`;
+        modal.classList.add("show");
+    };
+
+    window.closeEditModal = function() {
+        const modal = document.getElementById("editCommentModal");
+        modal.classList.remove("show");
+    };
+
+    // Reply Management Box handling
+    window.viewComment = function(commentId, currentStatus, customer, product, content, rating, reply, adminName, replyDate, date) {
+        const replyBox = document.getElementById("reply-management-box");
+        const viewContent = document.getElementById("reply-content-view");
+        const editContent = document.getElementById("reply-content-edit");
+        document.getElementById("replyCommentId").textContent = commentId;
+        document.getElementById("replyCustomer").textContent = customer;
+        document.getElementById("replyProduct").textContent = product;
+        document.getElementById("replyContent").textContent = content;
+        document.getElementById("replyRating").textContent = rating + ' sao';
+        document.getElementById("replyDate").textContent = date;
+        document.getElementById("replyStatus").textContent = currentStatus;
+        document.getElementById("replyAdminName").textContent = adminName || 'Chưa có phản hồi';
+        document.getElementById("replyReplyDate").textContent = replyDate || 'Chưa có phản hồi';
+        document.getElementById("replyReplyContent").textContent = reply || 'Chưa có phản hồi';
+
+        document.getElementById("replyCommentIdEdit").textContent = commentId;
+        document.getElementById("replyCustomerEdit").textContent = customer;
+        document.getElementById("replyProductEdit").textContent = product;
+        document.getElementById("replyContentEdit").textContent = content;
+        document.getElementById("replyRatingEdit").textContent = rating + ' sao';
+        document.getElementById("replyDateEdit").textContent = date;
+        document.getElementById("replyStatusEdit").textContent = currentStatus;
+        document.getElementById("replyCommentIdInput").value = commentId.replace('#CM-', '');
+        document.getElementById("replyAdminReply").value = reply || '';
+
+        const form = document.getElementById("replyForm");
+        form.action = `/admin/comments/${commentId.replace('#CM-', '')}/reply`;
+
+        viewContent.style.display = 'block';
+        editContent.style.display = 'none';
+        replyBox.style.display = 'block';
+    };
+
+    window.closeReplyBox = function() {
+        const replyBox = document.getElementById("reply-management-box");
+        replyBox.style.display = 'none';
+    };
+
+    window.toggleReplyEdit = function(showEdit) {
+        const viewContent = document.getElementById("reply-content-view");
+        const editContent = document.getElementById("reply-content-edit");
+        viewContent.style.display = showEdit ? 'none' : 'block';
+        editContent.style.display = showEdit ? 'block' : 'none';
+    };
+
+    // Toast notification handling
+    function showToast(message, type) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.className = `aorders-toast aorders-toast-${type} show`;
+        setTimeout(() => {
+            toast.className = `aorders-toast aorders-toast-${type}`;
+        }, 3000);
+    }
+
+    // Form submission handling (for demo purposes)
+    const editForm = document.getElementById("editCommentForm");
+    editForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const status = document.getElementById("commentStatus").value;
+        const reply = document.getElementById("adminReply").value;
+        showToast(`Cập nhật bình luận thành công: ${status}${reply ? ' với phản hồi' : ''}`, "success");
+        setTimeout(() => closeEditModal(), 1000);
+    });
+
+    const replyForm = document.getElementById("replyForm");
+    replyForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const reply = document.getElementById("replyAdminReply").value;
+        showToast(`Cập nhật phản hồi thành công${reply ? ': ' + reply : ''}`, "success");
+        setTimeout(() => {
+            toggleReplyEdit(false);
+            document.getElementById("replyReplyContent").textContent = reply || 'Chưa có phản hồi';
+            document.getElementById("replyAdminName").textContent = 'Admin Quản Trị (Current)'; // Simulated current admin
+            document.getElementById("replyReplyDate").textContent = '2025-07-24 15:47'; // Simulated current time
+        }, 1000);
+    });
+});</script>
+</body>
+</html>

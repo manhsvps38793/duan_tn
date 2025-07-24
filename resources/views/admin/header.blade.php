@@ -47,56 +47,32 @@
     </div>
 </div>
 <script>
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
-    // Lưu trạng thái active vào localStorage khi click
-    document.querySelectorAll('.adnews-sidebar-item').forEach(item => {
+    const sidebarItems = document.querySelectorAll('.adnews-sidebar-item');
+    const assetPrefix = "{{ asset('') }}";
+
+    sidebarItems.forEach(item => {
+        // Lưu trạng thái active vào localStorage khi click
         item.addEventListener('click', function() {
-            const path = this.getAttribute('href').replace("{{asset('')}}", '');
+            const path = this.getAttribute('href').replace(assetPrefix, '');
             localStorage.setItem('activeSidebarItem', path);
         });
 
         // Kiểm tra và thêm class active từ localStorage
         const activePath = localStorage.getItem('activeSidebarItem');
-        if (activePath && item.getAttribute('href').replace("{{asset('')}}", '') === activePath) {
+        if (activePath && item.getAttribute('href').replace(assetPrefix, '') === activePath) {
             item.classList.add('adnews-active');
         }
     });
 
-    // Thêm active class dựa trên URL hiện tại nếu không có trong localStorage
+    // Nếu không có localStorage thì active theo URL hiện tại
     if (!localStorage.getItem('activeSidebarItem')) {
-        const currentPath = window.location.pathname.replace("{{asset('')}}", '');
-=======
-    document.addEventListener('DOMContentLoaded', () => {
-        // Lưu trạng thái active vào localStorage khi click
->>>>>>> 1759d0a7d1e4b4b16de75ffa07f1b9cf1d6bbe71
-        document.querySelectorAll('.adnews-sidebar-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const path = this.getAttribute('href').replace("{{ asset('') }}", '');
-                localStorage.setItem('activeSidebarItem', path);
-            });
-
-            // Kiểm tra và thêm class active từ localStorage
-            const activePath = localStorage.getItem('activeSidebarItem');
-            if (activePath && item.getAttribute('href').replace("{{ asset('') }}", '') ===
-                activePath) {
+        const currentPath = window.location.pathname.replace(assetPrefix, '');
+        sidebarItems.forEach(item => {
+            if (item.getAttribute('href').replace(assetPrefix, '') === currentPath) {
                 item.classList.add('adnews-active');
             }
         });
-<<<<<<< HEAD
     }
 });
-=======
-
-        // Thêm active class dựa trên URL hiện tại nếu không có trong localStorage
-        if (!localStorage.getItem('activeSidebarItem')) {
-            const currentPath = window.location.pathname.replace("{{ asset('') }}", '');
-            document.querySelectorAll('.adnews-sidebar-item').forEach(item => {
-                if (item.getAttribute('href').replace("{{ asset('') }}", '') === currentPath) {
-                    item.classList.add('adnews-active');
-                }
-            });
-        }
-    });
->>>>>>> 1759d0a7d1e4b4b16de75ffa07f1b9cf1d6bbe71
 </script>

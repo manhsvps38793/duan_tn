@@ -210,7 +210,7 @@ class HomeAdminController extends Controller
             'product_id' => $request->product_id,
             'parent_id' => $request->parent_id,
             'comment' => $request->reply,
-            'rating' => null, // phản hồi không cần rating
+            'rating' => 1, // phản hồi không cần rating
         ]);
 
        return redirect()->back()->with('success', 'Phản hồi đã được gửi thành công!');

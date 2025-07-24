@@ -446,7 +446,9 @@
         </div>
 
         <div class="row">
+
             @foreach ($news as $news)
+              
                 <div class="col l-4 m-6 c-12">
                     <div class="post-item">
                         <div class="post-img">
