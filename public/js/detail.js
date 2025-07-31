@@ -57,7 +57,7 @@ function toggleQuantityButtons() {
     decreaseBtn.disabled = currentValue <= 1;
 
     // Tăng chỉ bật khi chưa đạt maxStock
-    increaseBtn.disabled = currentValue >= maxStock;
+    // increaseBtn.disabled = currentValue >= maxStock;
     // Nếu hết hàng, bạn có thể disable luôn nút thêm giỏ:
     // document.getElementById('btnAddCart').disabled = maxStock === 0;
 }
@@ -138,11 +138,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // document.getElementById('btnAddCheckout').addEventListener('click', () => {
+    //     const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
+    //     const variantId = currentVariantId; // hoặc lấy từ data-attribute
+    //     // Chuyển thẳng sang URL có query params
+    //     window.location.href = `/payment?product_variant_id=${variantId}&quantity=${quantity}`;
+    // });
+
     document.getElementById('btnAddCheckout').addEventListener('click', () => {
+        if (!currentVariantId) {
+            alert('Vui lòng chọn màu và kích thước trước khi thanh toán.');
+            return;
+        }
+        
         const quantity = parseInt(document.getElementById('quantity').value, 10) || 1;
-        const variantId = currentVariantId; // hoặc lấy từ data-attribute
-        // Chuyển thẳng sang URL có query params
-        window.location.href = `/payment?product_variant_id=${variantId}&quantity=${quantity}`;
+        const productId = document.getElementById('product-id').value;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        
+        // Gửi yêu cầu kiểm tra và thanh toán
+        fetch('/checkout-direct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({
+                product_variant_id: currentVariantId,
+                quantity: quantity,
+                product_id: productId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi xử lý thanh toán');
+        });
     });
     // document.getElementById('btnAddCheckout').addEventListener('click', () => {
 

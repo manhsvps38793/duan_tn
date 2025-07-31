@@ -30,12 +30,23 @@
         }
     </style>
     <div class="apromotions-main-content">
-        <div class="apromotions-header">
-            <div class="apromotions-user-profile">
-                <div class="apromotions-profile-avatar">QT</div>
+        <div class="aindex-header">
+            {{-- <div class="aindex-search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm sản phẩm, đơn hàng..." />
+            </div> --}}
+            <div></div>
+            <div class="aindex-user-profile">
+                <div class="aindex-notification-bell">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="aindex-profile-avatar">QT</div>
             </div>
         </div>
         <h1 class="apromotions-page-title">Quản lý khuyến mãi</h1>
+        <p class="aindex-dashboard-subtitle">
+            Tạo và quản lý các voucher của shop.
+        </p>
         <div class="apromotions-actions-container">
             <button class="apromotions-btn apromotions-btn-primary"
                 onclick="document.getElementById('createModal').style.display='flex'">
@@ -73,7 +84,8 @@
                     <tr>
                         <td>{{ $voucher->id }}</td>
                         <td>{{ $voucher->code }}</td>
-                        <td>{{ $voucher->discount_amount }} {{ $voucher->value_type == 'percent' ? '%' : 'VND' }}</td>
+                        <td>{{ number_format($voucher->discount_amount) }}
+                            {{ $voucher->value_type == 'percent' ? '%' : 'VND' }}</td>
                         <td>{{ $voucher->start_date }}</td>
                         <td>{{ $voucher->expiration_date }}</td>
                         <td>{{ $voucher->quantity }}</td>
@@ -266,7 +278,7 @@
                 return false;
             }
 
-            if (type === 'percentage' && parseFloat(discount) > 100) {
+            if (type === 'percent' && parseFloat(discount) > 100) {
                 alert('Giảm giá theo phần trăm không được vượt quá 100%');
                 return false;
             }

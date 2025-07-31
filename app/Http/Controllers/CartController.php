@@ -325,16 +325,14 @@ class CartController extends Controller
         }
 
 
-        if (empty($cartItems) && $productVariantId) {
-            $variant = product_variants::find($productVariantId);
-            if (!$variant || $variant->quantity < $quantity) {
-                return redirect()->route('cart.view')->with('error', 'Sản phẩm đã hết hàng hoặc số lượng không đủ.');
-            }
+        if (empty($cartItems) && $request->has('direct_checkout')) {
+            $variant = product_variants::find($request->product_variant_id);
 
             $cartItems = [
                 [
-                    'product_variant_id' => $productVariantId,
-                    'quantity' => $quantity,
+                    'product_variant_id' => $request->product_variant_id,
+                    'quantity' => $request->quantity,
+                    'product' => $variant->product
                 ]
             ];
         }
@@ -399,7 +397,108 @@ class CartController extends Controller
         // Chuyển hướng đến trang thanh toán
         return redirect()->route('payment.show');
     }
+    public function checkoutDirect(Request $request)
+    {
+        $validated = $request->validate([
+            'product_variant_id' => 'required|integer|exists:product_variants,id',
+            'quantity' => 'required|integer|min:1',
+            'product_id' => 'required|integer|exists:products,id',
+        ]);
 
+        $variant = product_variants::find($validated['product_variant_id']);
+
+        // Kiểm tra tồn kho chặt chẽ hơn
+        if (!$variant) {
+            return response()->json([
+                'error' => 'Biến thể sản phẩm không tồn tại'
+            ], 422);
+        }
+
+        if ($variant->quantity < $validated['quantity']) {
+            return response()->json([
+                'error' => 'Số lượng sản phẩm không đủ. Chỉ còn ' . $variant->quantity . ' sản phẩm'
+            ], 422);
+        }
+
+        // Xử lý đăng nhập/chưa đăng nhập
+        if (Auth::check()) {
+            $userId = Auth::id();
+
+            // Xóa toàn bộ giỏ hàng cũ trước khi thêm sản phẩm mới
+            Cart::where('user_id', $userId)->delete();
+
+            // Tạo cart item mới
+            $cartItem = new Cart();
+            $cartItem->user_id = $userId;
+            $cartItem->product_variant_id = $validated['product_variant_id'];
+            $cartItem->quantity = $validated['quantity'];
+            $cartItem->save();
+        } else {
+            // Xóa toàn bộ giỏ hàng trong session
+            session()->forget('cart');
+
+            // Tạo giỏ hàng mới chỉ với sản phẩm hiện tại
+            session()->put('cart', [
+                [
+                    'product_variant_id' => $validated['product_variant_id'],
+                    'quantity' => $validated['quantity']
+                ]
+            ]);
+        }
+
+        // Tạo dữ liệu thanh toán trực tiếp
+        $this->createDirectCheckoutData($variant, $validated['quantity']);
+
+        // Chuyển hướng đến trang thanh toán
+        return response()->json([
+            'redirect' => route('payment.show')
+        ]);
+    }
+
+    private function createDirectCheckoutData($variant, $quantity)
+    {
+        $cartDetails = [
+            (object) [
+                'productVariant' => $variant,
+                'quantity' => $quantity,
+                'subtotal' => $variant->product->price * $quantity,
+            ]
+        ];
+
+        $subtotal = $variant->product->price * $quantity;
+        $shippingFee = 40000;
+        $voucherDiscount = 0;
+
+        // Áp dụng voucher nếu có
+        $appliedVoucherCode = session()->get('applied_voucher');
+        if ($appliedVoucherCode) {
+            $voucher = Voucher::where('code', $appliedVoucherCode)
+                ->where('expiration_date', '>=', now())
+                ->where('start_date', '<=', now())
+                ->where('quantity', '>', 0)
+                ->first();
+
+            if ($voucher) {
+                if ($voucher->value_type == 'fixed') {
+                    $voucherDiscount = $voucher->discount_amount;
+                } elseif ($voucher->value_type == 'percent') {
+                    $voucherDiscount = $subtotal * ($voucher->discount_amount / 100);
+                }
+            }
+        }
+
+        $total = $subtotal - $voucherDiscount + $shippingFee;
+
+        // Lưu dữ liệu thanh toán vào session
+        session()->put('checkout_data', [
+            'cartDetails' => $cartDetails,
+            'subtotal' => $subtotal,
+            'voucherDiscount' => $voucherDiscount,
+            'shippingFee' => $shippingFee,
+            'total' => $total,
+            'is_direct_checkout' => true // Đánh dấu là thanh toán trực tiếp
+        ]);
+    }
 
 }
 

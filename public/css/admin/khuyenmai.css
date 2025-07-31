@@ -329,6 +329,17 @@
         padding: 0.5rem;
         font-size: 0.8rem;
       }
+      .apromotions-promotion-table .dm-actions {
+        gap: 0.5rem;
+      }
+      .apromotions-promotion-table .dm-actions button {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+      }
+      .apromotions-promotion-table .dm-action-td {
+        display: flex;
+        gap: 0.8rem;
+      }
       .apromotions-pagination {
         display: flex;
         justify-content: center;

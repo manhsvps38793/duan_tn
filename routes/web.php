@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\HomeAdminController;
 
 use App\Http\Controllers\Admin\NewAdminController;
 
 
+use App\Http\Controllers\admin\VoucherAdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\SocialLoginController;
@@ -35,8 +37,9 @@ use App\Http\Controllers\Admin\ImageAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\Admin\VoucherAdminController;
-use App\Http\Controllers\Admin\CategoryAdminController;
+use App\Http\Controllers\Admin\AdminReviewController;
+use App\Http\Controllers\Admin\AdminBaocaoController;
+
 
 Route::get('about', function () {
     return view('about');
@@ -163,6 +166,7 @@ Route::put('/cart/update/{variantId}', [CartController::class, 'updateQuantity']
 // update variant
 
 // thanh toán
+Route::post('/checkout-direct', [CartController::class, 'checkoutDirect'])->name('checkout.direct');
 Route::get('/payment', [CartController::class, 'proceedToCheckout'])->name('payment.add');
 Route::get('/showpayment', [PaymentController::class, 'showPayment'])->name('payment.show');
 Route::post('/paymentstore', [PaymentController::class, 'paymentStore'])->name('payment.store');
@@ -200,9 +204,7 @@ Route::post('/admin/reply-comment', [HomeAdminController::class, 'replyComment']
 // Route::get('/admin/', function () {
 //     return view('admin.home');
 // });
-Route::get('/admin/baocao', function () {
-    return view('admin.baocao');
-});
+
 Route::get('/admin/caidat', function () {
     return view('admin.caidat');
 });
@@ -278,7 +280,30 @@ Route::get('/admin/quanlyhinhanh', [ImageAdminController::class, 'index'])->name
 Route::post('/admin/images', [ImageAdminController::class, 'store'])->name('admin.images.store');
 Route::delete('/admin/images/destroy/{id}', [ImageAdminController::class, 'destroy'])->name('admin.images.destroy');
 Route::put('/admin/images/{id}', [ImageAdminController::class, 'update'])->name('admin.images.update');
+Route::get('/admin/khuyenmai', [VoucherAdminController::class, 'index'])->name('admin.vouchers.index');
+Route::post('/admin/vouchers', [VoucherAdminController::class, 'store'])->name('admin.vouchers.store');
+Route::delete('/admin/vouchers/{id}', [VoucherAdminController::class, 'destroy'])->name('admin.vouchers.destroy');
+Route::put('/admin/vouchers/{id}', [VoucherAdminController::class, 'update'])->name('vouchers.update');
 
+
+Route::get('/admin/khuyenmai', [VoucherAdminController::class, 'index'])->name('admin.vouchers.index');
+Route::post('/admin/vouchers', [VoucherAdminController::class, 'store'])->name('admin.vouchers.store');
+Route::delete('/admin/vouchers/{id}', [VoucherAdminController::class, 'destroy'])->name('admin.vouchers.destroy');
+Route::put('/admin/vouchers/{id}', [VoucherAdminController::class, 'update'])->name('vouchers.update');
+
+
+Route::get('/admin/danhmuc', [CategoryAdminController::class, 'index'])->name('admin.categories.index');
+Route::post('/admin/categories', [CategoryAdminController::class, 'store'])->name('admin.categories.store');
+Route::delete('/admin/categories/{id}', [CategoryAdminController::class, 'destroy'])->name('admin.categories.destroy');
+Route::put('/admin/categories/{id}', [CategoryAdminController::class, 'update'])->name('admin.categories.update');
+
+
+
+
+Route::get('/admin/danhmuc', [CategoryAdminController::class, 'index'])->name('admin.categories.index');
+Route::post('/admin/categories', [CategoryAdminController::class, 'store'])->name('admin.categories.store');
+Route::delete('/admin/categories/{id}', [CategoryAdminController::class, 'destroy'])->name('admin.categories.destroy');
+Route::put('/admin/categories/{id}', [CategoryAdminController::class, 'update'])->name('admin.categories.update');
 
 
 // product admin
@@ -335,3 +360,18 @@ Route::get('/admin/danhmuc', [CategoryAdminController::class, 'index'])->name('a
 Route::post('/admin/categories', [CategoryAdminController::class, 'store'])->name('admin.categories.store');
 Route::delete('/admin/categories/{id}', [CategoryAdminController::class, 'destroy'])->name('admin.categories.destroy');
 Route::put('/admin/categories/{id}', [CategoryAdminController::class, 'update'])->name('admin.categories.update');
+
+
+// manh
+// Route::get('/admin/comments', function () {
+//     return view('admin.comments');
+// });
+Route::get('/admin/comments', [AdminReviewController::class, 'index']);
+Route::post('/admin/reply-comments', [AdminReviewController::class, 'replyComments'])->name('reply-comments');
+Route::get('/admin/comment/delete/{id}', [AdminReviewController::class, 'destroy'])->name('admin.comment.delete');
+
+// Route::get('/admin/baocao', function () {
+//     return view('admin.baocao');
+// });
+Route::get('/admin/baocao', [AdminBaocaoController::class, 'index']);
+Route::post('/admin/reports/filter', [AdminBaocaoController::class, 'filter'])->name('admin.reports.filter');

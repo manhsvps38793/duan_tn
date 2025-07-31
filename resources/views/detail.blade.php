@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('body')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <div class="grid wide container">
         <div class="row">
             <div class="col l-1 c-12 order-1">

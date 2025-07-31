@@ -49,7 +49,7 @@
                         <div class="tt-form-group">
                             <label for="phone" class="tt-label">Số điện thoại</label>
                             <input type="tel" id="phone" name="phone" class="tt-input"
-                                value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}" {{Auth::check() ? 'disabled' : ''}} required>
+                                value="{{ old('phone', Auth::check() ? Auth::user()->phone : '') }}"  {{ Auth::check() && Auth::user()->phone ? 'disabled' : '' }} required>
                         </div>
                     </div>
 
