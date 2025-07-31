@@ -7,17 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 class reviews extends Model
 {
     public $timestamps = true;
-     protected $fillable = [
+    
+    protected $fillable = [
         'user_id',
         'product_id',
         'parent_id',
         'comment',
-        'rating', // nếu có
+        'rating',
+        'status' // added status field for moderation
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Products::class);
+    }
+
     public function replies()
     {
         return $this->hasMany(reviews::class, 'parent_id')->with('user');
@@ -27,7 +36,8 @@ class reviews extends Model
     {
         return $this->belongsTo(reviews::class, 'parent_id');
     }
-        public function children()
+
+    public function children()
     {
         return $this->hasMany(reviews::class, 'parent_id');
     }

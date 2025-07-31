@@ -604,10 +604,7 @@
                 background-color: #334155;
                 color: #fff;
             }
-                textarea, input, select {
-                    /* width:15% !important ; */
-
-                }
+                
                 button:disabled {
             opacity: 0.6;
             cursor: not-allowed;

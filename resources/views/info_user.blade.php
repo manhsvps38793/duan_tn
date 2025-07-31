@@ -74,8 +74,12 @@
                     </section>
 
                     <section class="user-info-profile-section user-info-orders-section" id="orders-section">
+                        <div class="order_title" style="padding: 10px 30px">
+                            <h2 style="" class="user-info-section-title"><i class="fas fa-shopping-bag"></i> Đơn hàng gần đây</h2>
+                        </div>
+                        <hr>
                         <div class="user-info-section-header">
-                            <h2 class="user-info-section-title"><i class="fas fa-shopping-bag"></i> Đơn hàng gần đây</h2>
+                           
                             <div class="user-info-order-filter-tags">
                                 <span class="user-info-order-filter-tag active" data-status="all">Tất cả</span>
                                 <span class="user-info-order-filter-tag" data-status="Chờ xử lý">Chờ xác nhận</span>
