@@ -110,7 +110,8 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
             'product_id' => 'nullable|integer|exists:products,id',
         ]);
-        $productVariantId = $validated['product_variant_id'];
+        $productVariantId = $validated['product_variant_id'] ?? null;
+        $quantity = $validated['quantity'];
 
         if (!$productVariantId) {
             $productId = $validated['product_id'];

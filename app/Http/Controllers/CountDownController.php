@@ -47,34 +47,34 @@ class CountDownController extends Controller
     /**
      * Reset chương trình Countdown nếu đã hết giờ
      */
-    public function resetCountdownSale()
-    {
-        $now = Carbon::now()->format('H:i');
+    // public function resetCountdownSale()
+    // {
+    //     $now = Carbon::now()->format('H:i');
 
-        $expiredCountdowns = ProductCountDown::where('status', 'active')
-            ->where('applied', true) // chỉ reset nếu đã từng áp dụng
-            ->where('end_hour', '<', $now) // đã quá giờ kết thúc
-            ->with('products')
-            ->get();
+    //     $expiredCountdowns = ProductCountDown::where('status', 'active')
+    //         ->where('applied', true) // chỉ reset nếu đã từng áp dụng
+    //         ->where('end_hour', '<', $now) // đã quá giờ kết thúc
+    //         ->with('products')
+    //         ->get();
 
-        foreach ($expiredCountdowns as $countdown) {
-            foreach ($countdown->products as $product) {
-                $productSale = floatval($product->sale);
-                $countdownSale = floatval($countdown->percent_discount);
+    //     foreach ($expiredCountdowns as $countdown) {
+    //         foreach ($countdown->products as $product) {
+    //             $productSale = floatval($product->sale);
+    //             $countdownSale = floatval($countdown->percent_discount);
 
-                $product->sale = max(0, $productSale - $countdownSale);
-                $product->save();
-            }
+    //             $product->sale = max(0, $productSale - $countdownSale);
+    //             $product->save();
+    //         }
 
-            $countdown->applied = false; // đánh dấu chưa áp dụng lại
-            // $countdown->status = 'inactive'; // có thể dùng nếu muốn dừng luôn
-            $countdown->save();
-        }
+    //         $countdown->applied = false; // đánh dấu chưa áp dụng lại
+    //         // $countdown->status = 'inactive'; // có thể dùng nếu muốn dừng luôn
+    //         $countdown->save();
+    //     }
 
-        return response()->json([
-            'success' => true,
-            'message' => '✅ Countdown đã hết giờ, giá đã reset.',
-            'reload_page' => $expiredCountdowns->count() > 0
-        ]);
-    }
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => '✅ Countdown đã hết giờ, giá đã reset.',
+    //         'reload_page' => $expiredCountdowns->count() > 0
+    //     ]);
+    // }
 }

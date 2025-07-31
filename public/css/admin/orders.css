@@ -605,7 +605,7 @@
                 color: #fff;
             }
                 textarea, input, select {
-                    width:15% !important ;
+                    /* width:15% !important ; */
 
                 }
                 button:disabled {

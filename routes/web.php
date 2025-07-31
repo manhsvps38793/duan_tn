@@ -37,8 +37,8 @@ use App\Http\Controllers\Admin\ImageAdminController;
 use App\Http\Controllers\Admin\ContactAdminController;
 use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Admin\AdminUserController;
-use App\Http\Controllers\Admin\CategoryAdminController;
-use App\Http\Controllers\admin\VoucherAdminController;
+// use App\Http\Controllers\Admin\CategoryAdminController;
+// use App\Http\Controllers\admin\VoucherAdminController;
 
 Route::get('about', function () {
     return view('about');

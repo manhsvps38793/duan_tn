@@ -125,28 +125,28 @@
                         </div>
                     </li>
                 @empty
-                @foreach ($products_sale as $product )
-                    <li class="item" style="background-color: white; border-radius: 7px;">
-                        <div class="item-img">
-                            <span class="item-giam">{{ $product->sale }}%</span>
-                            <div class="item-icon" id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i></div>
-                            <a href="{{ asset('/detail/' . $product->id) }}">
-                                <img src="{{ asset($product->images->first()->path ?? '/img/default.jpg') }}" alt="">
-                            </a>
-                        </div>
-                        <div class="item-name item-name-sale">
-                            <h3>
-                                <a href="{{ asset('/detail/' . $product->id) }}">{{ $product->name }}</a>
-                            </h3>
-                        </div>
-                        <div class="item-price item-price-sales">
-                            <span style="color: red; padding-right: 10px;">
-                                {{ number_format($product->price , 0, ',', '.') }}đ
-                            </span>
-                            <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
-                        </div>
-                    </li>
-                @endforeach
+                    @foreach ($products_sale as $product)
+                        <li class="item" style="background-color: white; border-radius: 7px;">
+                            <div class="item-img">
+                                <span class="item-giam">{{ $product->sale }}%</span>
+                                <div class="item-icon" id="addToCartBtn"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <a href="{{ asset('/detail/' . $product->id) }}">
+                                    <img src="{{ asset($product->images->first()->path ?? '/img/default.jpg') }}" alt="">
+                                </a>
+                            </div>
+                            <div class="item-name item-name-sale">
+                                <h3>
+                                    <a href="{{ asset('/detail/' . $product->id) }}">{{ $product->name }}</a>
+                                </h3>
+                            </div>
+                            <div class="item-price item-price-sales">
+                                <span style="color: red; padding-right: 10px;">
+                                    {{ number_format($product->price, 0, ',', '.') }}đ
+                                </span>
+                                <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
+                            </div>
+                        </li>
+                    @endforeach
                 @endforelse
             </ul>
         </div>
@@ -219,9 +219,9 @@
                 @endforeach
             </ul>
         </div>
-     </section>
+    </section>
 
-     <!-- san pham nổi bật -->
+    <!-- san pham nổi bật -->
     <section class="product-new product-popular">
         <div style="padding: 0px 7px;">
             <h2 class="section-title">Sản phẩm bán chạy</h2>
@@ -256,7 +256,7 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($products_bestseller->price , 0, ',', '.') }}đ
+                                        {{ number_format($products_bestseller->price, 0, ',', '.') }}đ
                                     </span>
                                     <span><del>{{ number_format($products_bestseller->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
@@ -304,7 +304,7 @@
                                 </div>
                                 <div class="item-price">
                                     <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($products_is_featured->price , 0, ',', '.') }}đ
+                                        {{ number_format($products_is_featured->price, 0, ',', '.') }}đ
                                     </span>
                                     <span><del>{{ number_format($products_is_featured->original_price, 0, ',', '.') }}đ</del></span>
                                 </div>
@@ -323,7 +323,7 @@
                 <h2 class="section-title" style="text-align: center">Sản phẩm mới</h2>
 
             </div>
-            <div class="tab-header" >
+            <div class="tab-header">
                 {{-- load hết danh mục ra đây --}}
                 <ul class="tabs" style="justify-content: center">
 
@@ -333,53 +333,56 @@
                         </li>
                     @endforeach
                 </ul>
-                {{-- <hr style="max-width: 60% auto"> --}}
+                {{--
+                <hr style="max-width: 60% auto"> --}}
             </div>
 
             <div class="tab-content">
                 @foreach ($product_new as $index => $category)
-                <div id="tab{{ $loop->iteration }}" class="tab-item {{ $index == 0 ? 'active' : '' }}">
-                    <div class="breard" style="display: flex; justify-content:space-between; align-item: center; padding: 20px 0;">
-                        <h3 style="text-align: center;">Các thiết kế mới được M A G cập nhật liên tục và đa dạng mẫu mã</h3>
-                        <a class="see-all" href="/products?category[]={{ $category->id }}" style="color: black; text-decoration: none;">
-                            Xem tất cả <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                    {{-- load dssp --}}
-                    <div class="row product-list-n-d">
-                        @forelse ($category->products as $product)
-                            <div class="col l-3 m-6 c-6">
-                                <div class="item">
-                                <div class="item-img">
-                                    <span class="item-giam">-{{ $product->sale }}%</span>
-                                    <div class="item-icon">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </div>
+                    <div id="tab{{ $loop->iteration }}" class="tab-item {{ $index == 0 ? 'active' : '' }}">
+                        <div class="breard"
+                            style="display: flex; justify-content:space-between; align-item: center; padding: 20px 0;">
+                            <h3 style="text-align: center;">Các thiết kế mới được M A G cập nhật liên tục và đa dạng mẫu mã</h3>
+                            <a class="see-all" href="/products?category[]={{ $category->id }}"
+                                style="color: black; text-decoration: none;">
+                                Xem tất cả <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {{-- load dssp --}}
+                        <div class="row product-list-n-d">
+                            @forelse ($category->products as $product)
+                                <div class="col l-3 m-6 c-6">
+                                    <div class="item">
+                                        <div class="item-img">
+                                            <span class="item-giam">-{{ $product->sale }}%</span>
+                                            <div class="item-icon">
+                                                <i class="fa-solid fa-cart-shopping"></i>
+                                            </div>
 
-                                    <a href="{{asset('/detail/'. $product->id)}}">
-                                        <img src="{{ asset($product->images->first()->path) }}" alt="{{ $product->name }}">
-                                    </a>
+                                            <a href="{{asset('/detail/' . $product->id)}}">
+                                                <img src="{{ asset($product->images->first()->path) }}" alt="{{ $product->name }}">
+                                            </a>
+                                        </div>
+                                        <div class="item-name">
+                                            <h3>
+                                                <a href="{{asset('/detail/' . $product->id)}}">
+                                                    {{ $product->name }}
+                                                </a>
+                                            </h3>
+                                        </div>
+                                        <div class="item-price">
+                                            <span style="color: red;padding-right: 10px;">
+                                                {{ number_format($product->price, 0, ',', '.') }}đ
+                                            </span>
+                                            <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="item-name">
-                                    <h3>
-                                        <a href="{{asset('/detail/'. $product->id)}}">
-                                            {{ $product->name }}
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div class="item-price">
-                                    <span style="color: red;padding-right: 10px;">
-                                        {{ number_format($product->price , 0, ',', '.') }}đ
-                                    </span>
-                                    <span><del>{{ number_format($product->original_price, 0, ',', '.') }}đ</del></span>
-                                </div>
-                            </div>
-                            </div>
-                        @empty
-                            <p style="padding: 10px;">Chưa có sản phẩm</p>
-                        @endforelse
+                            @empty
+                                <p style="padding: 10px;">Chưa có sản phẩm</p>
+                            @endforelse
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -425,7 +428,8 @@
                             <h2 class="text">Tận hưởng ưu đãi mua sắm hằng ngày</h2>
 
                             <div style="display: flex; align-item:center; justify-content: center; gap: 10px  ">
-                                <input class="input-email" style="width: 300px; height: 41px; padding: 10px; border: none;" type="text" placeholder="Nhập email nhận ưu đãi ">
+                                <input class="input-email" style="width: 300px; height: 41px; padding: 10px; border: none;"
+                                    type="text" placeholder="Nhập email nhận ưu đãi ">
                                 <button class="btn-log">Gửi</button>
                             </div>
 
@@ -470,7 +474,7 @@
         </div>
     </div>
 
-
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Lấy tất cả các biểu tượng giỏ hàng
