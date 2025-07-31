@@ -20,7 +20,7 @@
             <button class="adnews-tab-btn" data-tab="adnews-stats">Thống kê</button>
             <button class="adnews-tab-btn" data-tab="adnews-chat">Chat tạo tin tức</button>
 
-            <button class="adnews-tab-btn" data-tab="adnews-settings">Cài đặt tin tức</button>
+            <button class="adnews-tab-btn" data-tab="adnews-settings">Quản lý danh mục</button>
         </div>
         <div class="adnews-tab-content adnews-active" id="adnews-list">
             <div class="adnews-actions">
@@ -128,7 +128,8 @@
                                     {{-- <td>{{$new->created_at}}</td> --}}
                                     <td>{{$new->posted_date}}</td>
                                     <td>{{$new->updated_at}}</td>
-                                    <td><span class="adnews-status-badge" data-id="{{ $new->id }}">{{ $new->status }}</span></td>
+                                    <td><span class="adnews-status-badge" data-id="{{ $new->id }}">{{ $new->status }}</span>
+                                    </td>
                                     <td>
                                         <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Xem trước"
                                             onclick="adnewsPreviewNews({{$new->id}})">Xem</button>
@@ -137,11 +138,12 @@
                                         <button class="adnews-btn adnews-btn-outline adnews-tooltip" data-tooltip="Xóa"
                                             onclick="adnewsDeleteNews({{$new->id}})">Xóa</button>
 
-                                        
+
 
 
                                         <button class="adnews-btn adnews-btn-toggle adnews-tooltip""
-                                            onclick="adnewsTogglePublish({{ $new->id }}, '{{ $new->status }}')">
+                                                            onclick=" adnewsTogglePublish({{ $new->id }}, '{{ $new->status }}'
+                                            )">
                                             {{ $new->status == "Đã xuất bản" ? "Hủy" : "Xuất bản" }}
                                         </button>
 
@@ -301,45 +303,84 @@
 
         {{-- setting --}}
         <div class="adnews-tab-content" id="adnews-settings">
+                           <form action="{{route('admin.new.addCategory')}}" method="get">
+
             <div class="adnews-form-group">
-                <label>Số bài mỗi trang <i class="fas fa-list-ol"></i></label>
-                <select id="adnews-postsPerPage">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                </select>
-            </div>
-            <div class="adnews-form-group adnews-checkbox-group">
-                <label><input type="checkbox" checked> Cho phép bình luận</label>
-                <label><input type="checkbox"> Tự động duyệt bình luận</label>
-            </div>
-            <div class="adnews-form-group">
-                <label>Thêm danh mục mới <i class="fas fa-plus"></i></label>
-                <input type="text" id="adnews-newCategory" placeholder="Nhập tên danh mục">
-                <button class="adnews-btn adnews-btn-primary" onclick="adnewsAddCategory()">Thêm</button>
-            </div>
-            <div class="adnews-category-list">
-                <div class="adnews-category-item">
-                    <span>Khuyến mãi</span>
-                    <button class="adnews-btn adnews-btn-outline" onclick="adnewsDeleteCategory('Khuyến mãi')">Xóa</button>
-                </div>
-                <div class="adnews-category-item">
-                    <span>Bộ sưu tập</span>
-                    <button class="adnews-btn adnews-btn-outline" onclick="adnewsDeleteCategory('Bộ sưu tập')">Xóa</button>
-                </div>
-                <div class="adnews-category-item">
-                    <span>Tin tức chung</span>
-                    <button class="adnews-btn adnews-btn-outline"
-                        onclick="adnewsDeleteCategory('Tin tức chung')">Xóa</button>
-                </div>
+                    <label>Thêm danh mục mới <i class="fas fa-plus"></i></label>
+                    <input type="text" name="name" id="adnews-newCategory" placeholder="Nhập tên danh mục">
+              
             </div>
             <div class="adnews-form-actions">
                 <button class="adnews-btn adnews-btn-primary adnews-tooltip" data-tooltip="Lưu cài đặt"
                     onclick="adnewsSaveSettings()">Lưu</button>
-                <button class="adnews-btn adnews-btn-secondary adnews-tooltip" data-tooltip="Hủy"
-                    onclick="adnewsCancelSettings()">Hủy</button>
+            </div>
+             </form>
+
+            <div class="adnews-data-card">
+                <div class="adnews-table-container">
+                    <table class="adnews-data-table">
+                        <thead>
+                            <tr>
+                                <th>Danh mục</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($categories as $category)
+                                <tr>
+                                    <td style="display: flex; justify-content: space-between;">{{$category->name}}
+                                            <div style="display: flex; gap: .5rem;">
+                                                <button 
+                                                class="adnews-btn adnews-btn-secondary adnews-tooltip" 
+                                                data-tooltip="Sửa danh mục"
+                                                onclick="openEditCategoryModal({{ $category->id }}, '{{ addslashes($category->name) }}')"
+                                                >
+                                                Sửa
+                                            </button>
+                                            <form action="{{ route('admin.new.deletecat', $category->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này không?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="adnews-btn adnews-btn-secondary adnews-tooltip">Xóa</button>
+                                            </form>
+                                            </div>
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+
+
+        {{-- update edit categories --}}
+        <div class="adnews-modal" id="editCategoryModal" style="display: none; position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
+            <div class="adnews-modal-content" style="background: #fff; padding: 1.5rem; border-radius: 0.5rem; width: 400px;">
+                <h3 class="adnews-page-title">Chỉnh sửa danh mục</h3>
+                <form id="editCategoryForm" action="{{ route('admin.news.edit', $category->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                    @csrf
+                    @method('PUT')
+                    <input type="text" name="name" id="editCategoryName" placeholder="Tên danh mục" required
+                            class="adnews-form-input" />
+                    
+                    <div style="display: flex; justify-content: flex-end; gap: .5rem;">
+                        <button type="button" class="adnews-btn adnews-btn-outline" onclick="closeEditCategoryModal()">Hủy</button>
+                        <button type="submit" class="adnews-btn adnews-btn-primary">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
 
 
 
@@ -748,7 +789,29 @@
             // });
 
         </script>
+    <script>
+        function openEditCategoryModal(id, name) {
+            const modal = document.getElementById('editCategoryModal');
+            const form  = document.getElementById('editCategoryForm');
+            const input = document.getElementById('editCategoryName');
 
+            form.action = `/admin/news/editcat/${id}`;    // hoặc route('admin.news.update', id) nếu render trong Blade
+            input.value  = name;
+
+            modal.style.display = 'flex';
+            }
+
+            // Đóng modal
+            function closeEditCategoryModal() {
+            document.getElementById('editCategoryModal').style.display = 'none';
+            }
+
+            // Đảm bảo click ngoài modal cũng đóng (tuỳ chọn)
+            window.addEventListener('click', function(e) {
+            const modal = document.getElementById('editCategoryModal');
+            if (e.target === modal) closeEditCategoryModal();
+            });
+    </script>
 
         <script>
 
@@ -828,10 +891,10 @@
 
 
                         const Output = `
-                                                                        <div class="story-title">${title}</div>
-                                                                         <img src="${imageUrl}" alt="Hình ảnh" style="max-width: 100%; height: auto; margin-bottom: 20px;">
-                                                                         >${content}
-                                                                    `;
+                                                                                <div class="story-title">${title}</div>
+                                                                                 <img src="${imageUrl}" alt="Hình ảnh" style="max-width: 100%; height: auto; margin-bottom: 20px;">
+                                                                                 >${content}
+                                                                            `;
 
                         // storyImg.innerHTML = imgOutput
                         storyOutput.innerHTML = Output;

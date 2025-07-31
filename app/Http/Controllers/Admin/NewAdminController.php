@@ -246,4 +246,53 @@ class NewAdminController extends Controller
             ],
         ]);
     }
+
+    public function addCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = NewCategory::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->back()->with('success', 'Danh mục đã được tạo thành công.');
+    }
+    public function updateCategory(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = NewCategory::find($id);
+
+        if (!$category) {
+            return redirect()->back()->with('error', 'Danh mục không tồn tại.');
+        }
+
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect()->back()->with('success', 'Danh mục đã được cập nhật thành công.');
+    }
+
+    public function deleteCategory($id)
+    {
+        $category = NewCategory::find($id);
+
+        if (!$category) {
+            return redirect()->back()->with('error', 'Danh mục không tồn tại.');
+        }
+
+        // Kiểm tra xem danh mục có tin tức nào không
+        if ($category->news()->count() > 0) {
+            return redirect()->back()->with('error', 'Không thể xóa danh mục có tin tức.');
+        }
+
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Danh mục đã được xóa thành công.');
+    }
+
 }

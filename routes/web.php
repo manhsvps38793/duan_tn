@@ -239,7 +239,7 @@ Route::get('/admin/quanlytintuc', function () {
 });
 
 
-
+// admin news
 Route::get('/admin/news', [NewAdminController::class, 'index'])->name('admin.new.index');
 Route::post('/api/upload-image', [NewAdminController::class, 'ImageUpload'])->name('upload.image');
 Route::post('/admin/news/add', [NewAdminController::class, 'store'])->name('admin.new.add');
@@ -247,6 +247,11 @@ Route::get('/admin/news/edit/{id}', [NewAdminController::class, 'edit'])->name('
 Route::put('/admin/news/update/{id}', [NewAdminController::class, 'update'])->name('admin.new.update');
 Route::delete('/admin/news/delete/{id}', [NewAdminController::class, 'destroy'])->name('admin.new.delete');
 Route::patch('/api/news/{id}/status', [NewAdminController::class, 'updateStatus']);
+
+// admin category news
+Route::put('/admin/news/editcat/{id}', [NewAdminController::class, 'updateCategory'])->name('admin.news.edit');
+Route::get('/admin/news/add-category', [NewAdminController::class, 'addCategory'])->name('admin.new.addCategory');
+Route::delete('/admin/news/deletecat/{id}', [NewAdminController::class, 'deleteCategory'])->name('admin.new.deletecat');
 
 //admin diep
 
